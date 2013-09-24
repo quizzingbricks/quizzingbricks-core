@@ -1,0 +1,3 @@
+message RpcError {
+    required string message = 1
+}

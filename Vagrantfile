@@ -25,6 +25,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #http://nitron-vagrant.s3-website-us-east-1.amazonaws.com/vagrant_ubuntu_12.04.3_amd64_virtualbox.box
     dev.vm.synced_folder ".", "/vagrant/"
     dev.vm.network :private_network, :ip => "10.10.10.25"
+
+    dev.vm.provision :shell, :path => "bootstrap-dev.sh"
+
+    #dev.vm.customize ["modifyvm", :id, "--memory", 1024]
   end
 
   #config.vm.define "coreos-3" do |coreos|
