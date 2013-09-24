@@ -35,9 +35,9 @@ class NinciusService(object):
         if self.protocol_mapper:
             self.protocol_map = self.protocol_mapper
 
-        self.expose_methods()
+        self._expose_methods()
 
-    def expose_methods(self):
+    def _expose_methods(self):
         methods = [method for method in dir(self) if callable(getattr(self, method)) 
             and hasattr(getattr(self, method), "exposed")]
         

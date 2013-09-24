@@ -55,3 +55,6 @@ project/plugins/project/
 # IntelliJ IDEA
 .idea
 .idea_modules
+
+# Vagrant
+.vagrant/
