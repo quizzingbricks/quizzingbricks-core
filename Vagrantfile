@@ -28,8 +28,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     dev.vm.provision :shell, :path => "bootstrap-dev.sh"
 
-    #dev.vm.customize ["modifyvm", :id, "--memory", 1024]
+    dev.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
   end
+
+
 
   #config.vm.define "coreos-3" do |coreos|
   #  coreos.vm.box = "coreos-72"
