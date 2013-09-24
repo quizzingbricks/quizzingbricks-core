@@ -74,6 +74,9 @@ sudo make && sudo make install
 # reset
 cd ~
 
+# postgres bindings
+sudo apt-get install -y libpq-dev
+
 # JVM/Scala
 # =========
 
