@@ -108,3 +108,8 @@ wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
 sudo python get-pip.py
 
 sudo apt-get install -y python-dev
+
+# setup some files for docker
+cd ~
+
+# docker run -p 5432 jpetazzo/pgsql /init YourSecretPassword
