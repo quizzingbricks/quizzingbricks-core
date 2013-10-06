@@ -1,0 +1,30 @@
+// users messages and structs
+
+// structs
+
+message User {
+    required int32 id = 1;
+    required string email = 2;
+    required string username = 3;
+    // hashed password, do we need to pass it around or only handle it internally in the user service?
+}
+
+// messages
+
+message LoginRequest {
+    required string email = 1;
+    required string password = 2;
+}
+
+// or return the user?
+message LoginResponse {
+    required int32 userId = 1;
+}
+
+message GetUserRequest {
+    required int32 userId = 1;
+}
+
+message GetUserResponse {
+    required User user = 1;
+}

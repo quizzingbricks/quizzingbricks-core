@@ -50,6 +50,9 @@ sudo apt-get install -y lxc-docker
 sudo apt-get update # TODO: remove this
 sudo apt-get install -y libtool autoconf automake uuid-dev build-essential g++ make
 
+# required by bcrypt that require cffi
+sudo apt-get install libffi-dev
+
 # protocol buffers (compiler)
 wget https://protobuf.googlecode.com/files/protobuf-2.5.0.tar.gz
 tar xzvf protobuf-2.5.0.tar.gz

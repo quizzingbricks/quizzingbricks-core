@@ -19,7 +19,8 @@ def expose(name=None):
         return functools.wraps(func)(_decorator)
     return _expose
 
-class NinciusService(object):
+
+class NunciusService(object):
     name = None # implemented in subclass
 
     def __init__(self, uri):
