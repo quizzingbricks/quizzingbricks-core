@@ -7,3 +7,4 @@ pyzmq
 redis
 bcrypt
 protobuf
+gunicorn

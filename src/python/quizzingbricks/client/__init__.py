@@ -5,7 +5,7 @@
 from contextlib import contextmanager
 import json
 
-import zmq
+import zmq.green as zmq
 from quizzingbricks.common.protocol import *
 from quizzingbricks.common.protocol import protocol_inverse_mapper, protocol_mapper
 from quizzingbricks.client.exceptions import TimeoutError
