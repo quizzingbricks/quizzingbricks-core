@@ -3,17 +3,23 @@
     Copyright (C) QuizzingBricks
 """
 
-from quizzingbricks.client.users import UserClient
+from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.common.protocol import LoginRequest
 
 def main():
-    lr = LoginRequest()
-    lr.email = "a"
-    lr.password = "b"
-    uc = UserClient("tcp://*:5551")
-    response = uc.authenticate(lr, timeout=5000) # timeout on 5 seconds
+    uc = UserServiceClient("tcp://*:5551")
 
-    print response.__class__.__name__, response.userId
+    lr = LoginRequest()
+    lr.email = "demo@qb.se"
+    lr.password = "demo"
+    response = uc.authenticate(lr, timeout=5000) # timeout on 5 seconds
+    print response.__class__.__name__
+
+    lr2 = LoginRequest()
+    lr2.email = "fail@fail.se"
+    lr2.password = "fail"
+    response2 = uc.authenticate(lr2, timeout=5000)
+    print response2.__class__.__name__
 
 if __name__ == "__main__":
     main()

@@ -11,6 +11,7 @@ from quizzingbricks.users.models import User
 from quizzingbricks.common.protocol import (
     protocol_mapper as p_mapper,
     protocol_inverse_mapper,
+    RpcError,
     User as ProtoUser,
     LoginRequest,
     LoginResponse,
@@ -22,10 +23,13 @@ class UserService(NunciusService):
 
     @expose("authenticate")
     def authenticate_by_password(self, request):
-        rep = LoginResponse()
-        rep.userId = 123456
-
-        return rep
+        if request.email == "demo@qb.se" and request.password == "demo":
+            rep = LoginResponse()
+            rep.userId = 123456
+            return rep
+        error = RpcError()
+        error.message = "Incorrect e-mail or password"
+        return error
 
     @expose("authenticate_by_token")
     def authenticate_by_token(self, request):

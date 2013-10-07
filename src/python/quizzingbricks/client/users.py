@@ -4,7 +4,7 @@
 """
 from quizzingbricks.client import BaseClient
 
-class UserClient(BaseClient):
+class UserServiceClient(BaseClient):
     def authenticate(self, request, timeout=None):
         with self.rpc_call("authenticate", request, timeout) as response:
             return response
