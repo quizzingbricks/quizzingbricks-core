@@ -76,3 +76,6 @@ class NunciusService(object):
             # TODO: don't assume we always have a message instance
             self._socket.send(str(self._inverse_protocol_map[response.__class__.__name__]), zmq.SNDMORE)
             self._socket.send(response.SerializeToString())
+
+            # TODO: we may implement some error handling here but need to investigate
+            #   which method and what to wrap inside the try-except block

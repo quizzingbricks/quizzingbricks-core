@@ -31,4 +31,5 @@ class User(Base):
     password = synonym("_password", descriptor=property(_get_password, _set_password))
 
     def check_password(self, password):
-        return bcrypt.hashpw(password, self._password) == self._password
+        password = password.encode("utf-8")
+        return bcrypt.hashpw(password, self.password.encode("utf-8")) == self.password.encode("utf-8")
