@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='users.proto',
   package='',
-  serialized_pb='\n\x0busers.proto\"3\n\x04User\x12\n\n\x02id\x18\x01 \x02(\x05\x12\r\n\x05\x65mail\x18\x02 \x02(\t\x12\x10\n\x08username\x18\x03 \x02(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"\x1f\n\rLoginResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\" \n\x0eGetUserRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"&\n\x0fGetUserResponse\x12\x13\n\x04user\x18\x01 \x02(\x0b\x32\x05.User')
+  serialized_pb='\n\x0busers.proto\"3\n\x04User\x12\n\n\x02id\x18\x01 \x02(\x05\x12\r\n\x05\x65mail\x18\x02 \x02(\t\x12\x10\n\x08username\x18\x03 \x02(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"\x1f\n\rLoginResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"6\n\x13RegistrationRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"&\n\x14RegistrationResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\" \n\x0eGetUserRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"&\n\x0fGetUserResponse\x12\x13\n\x04user\x18\x01 \x02(\x0b\x32\x05.User')
 
 
 
@@ -123,6 +123,69 @@ _LOGINRESPONSE = _descriptor.Descriptor(
 )
 
 
+_REGISTRATIONREQUEST = _descriptor.Descriptor(
+  name='RegistrationRequest',
+  full_name='RegistrationRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='email', full_name='RegistrationRequest.email', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='password', full_name='RegistrationRequest.password', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=150,
+  serialized_end=204,
+)
+
+
+_REGISTRATIONRESPONSE = _descriptor.Descriptor(
+  name='RegistrationResponse',
+  full_name='RegistrationResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='RegistrationResponse.userId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=206,
+  serialized_end=244,
+)
+
+
 _GETUSERREQUEST = _descriptor.Descriptor(
   name='GetUserRequest',
   full_name='GetUserRequest',
@@ -146,8 +209,8 @@ _GETUSERREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=150,
-  serialized_end=182,
+  serialized_start=246,
+  serialized_end=278,
 )
 
 
@@ -174,14 +237,16 @@ _GETUSERRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=184,
-  serialized_end=222,
+  serialized_start=280,
+  serialized_end=318,
 )
 
 _GETUSERRESPONSE.fields_by_name['user'].message_type = _USER
 DESCRIPTOR.message_types_by_name['User'] = _USER
 DESCRIPTOR.message_types_by_name['LoginRequest'] = _LOGINREQUEST
 DESCRIPTOR.message_types_by_name['LoginResponse'] = _LOGINRESPONSE
+DESCRIPTOR.message_types_by_name['RegistrationRequest'] = _REGISTRATIONREQUEST
+DESCRIPTOR.message_types_by_name['RegistrationResponse'] = _REGISTRATIONRESPONSE
 DESCRIPTOR.message_types_by_name['GetUserRequest'] = _GETUSERREQUEST
 DESCRIPTOR.message_types_by_name['GetUserResponse'] = _GETUSERRESPONSE
 
@@ -202,6 +267,18 @@ class LoginResponse(_message.Message):
   DESCRIPTOR = _LOGINRESPONSE
 
   # @@protoc_insertion_point(class_scope:LoginResponse)
+
+class RegistrationRequest(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _REGISTRATIONREQUEST
+
+  # @@protoc_insertion_point(class_scope:RegistrationRequest)
+
+class RegistrationResponse(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _REGISTRATIONRESPONSE
+
+  # @@protoc_insertion_point(class_scope:RegistrationResponse)
 
 class GetUserRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType

@@ -6,6 +6,7 @@
 import sqlalchemy as sa
 
 from quizzingbricks.nuncius import NunciusService, expose
+from quizzingbricks.common.db import session
 from quizzingbricks.users.models import User
 
 from quizzingbricks.common.protocol import (
@@ -15,6 +16,8 @@ from quizzingbricks.common.protocol import (
     User as ProtoUser,
     LoginRequest,
     LoginResponse,
+    RegistrationRequest,
+    RegistrationResponse
 )
 
 class UserService(NunciusService):
@@ -33,4 +36,27 @@ class UserService(NunciusService):
 
     @expose("authenticate_by_token")
     def authenticate_by_token(self, request):
+        pass
+
+    @expose("create_user")
+    def create_user(self, request):
+        if not isinstance(request, RegistrationRequest):
+            error = RpcError()
+            error.message = "Wrong message type, expecting RegistrationRequest"
+            return error
+        # TODO: add more logic before insert the user to db
+        user = User(
+            email = request.email,
+            password = request.password
+        )
+        session.add(user)
+        session.commit()
+
+        rep = RegistrationResponse()
+        rep.userId = user.id
+
+        return rep
+
+    @expose("get_user")
+    def get_user_by_id(self):
         pass

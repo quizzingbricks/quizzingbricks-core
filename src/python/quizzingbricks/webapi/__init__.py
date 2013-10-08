@@ -7,7 +7,9 @@ from flask import Flask, jsonify, request, g
 
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
-from quizzingbricks.common.protocol import LoginRequest, LoginResponse
+from quizzingbricks.common.protocol import (
+    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse
+)
 
 app = Flask(__name__)
 app.secret_key = "dev-key-123"
@@ -58,3 +60,16 @@ def login():
         return api_error(response.message) # TODO: check that the response is a RpcError
     except TimeoutError as e:
         return api_error("Service not available", 500) # ???
+
+@app.route("/api/users/", methods=["GET"]) # change to post
+def create_user():
+    email = "hello@hello.se"
+    password = "something"
+
+    req = RegistrationRequest()
+    req.email = email
+    req.password = password
+
+    rep = userservice.create_user(req)
+
+    return rep.userId
