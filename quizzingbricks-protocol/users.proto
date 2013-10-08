@@ -21,6 +21,15 @@ message LoginResponse {
     required int32 userId = 1;
 }
 
+message RegistrationRequest {
+    required string email = 1;
+    required string password = 2;
+}
+
+message RegistrationResponse {
+    required int32 userId = 1;
+}
+
 message GetUserRequest {
     required int32 userId = 1;
 }

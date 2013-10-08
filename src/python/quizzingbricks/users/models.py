@@ -22,6 +22,7 @@ class User(Base):
                            nullable=False)
 
     def _set_password(self, password):
+        password = password.encode("utf-8")
         self._password = bcrypt.hashpw(password, bcrypt.gensalt())
 
     def _get_password(self):
