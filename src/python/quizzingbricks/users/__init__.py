@@ -30,9 +30,7 @@ class UserService(NunciusService):
             rep = LoginResponse()
             rep.userId = 123456
             return rep
-        error = RpcError()
-        error.message = "Incorrect e-mail or password"
-        return error
+        return RpcError(message = "Incorrect e-mail or password")
 
     @expose("authenticate_by_token")
     def authenticate_by_token(self, request):
@@ -41,9 +39,7 @@ class UserService(NunciusService):
     @expose("create_user")
     def create_user(self, request):
         if not isinstance(request, RegistrationRequest):
-            error = RpcError()
-            error.message = "Wrong message type, expecting RegistrationRequest"
-            return error
+            return RpcError(message = "Wrong message type, expecting RegistrationRequest")
         # TODO: add more logic before insert the user to db
         user = User(
             email = request.email,
@@ -52,10 +48,7 @@ class UserService(NunciusService):
         session.add(user)
         session.commit()
 
-        rep = RegistrationResponse()
-        rep.userId = user.id
-
-        return rep
+        return RegistrationResponse(userId=user.id)
 
     @expose("get_user")
     def get_user_by_id(self):
