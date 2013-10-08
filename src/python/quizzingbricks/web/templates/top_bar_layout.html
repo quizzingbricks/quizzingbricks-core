@@ -77,7 +77,7 @@
              {% if not session.logged_in %}
               <form action="{{ url_for('login') }}" class="form-inline"  method=post>
                 <div class="form-group">
-                  <input class="form-control" type=text placeholder="Username" name=username>
+                  <input class="form-control" type=text placeholder="E-mail" name=email>
                 </div>
                 <div class="form-group">
                   <input type=password class="form-control" placeholder="Password" name=password>
@@ -88,23 +88,21 @@
                     <input type="checkbox"> <font color=White>Remember me <font>     saving if we want to use later 
                   </label>
                 </div> -->
-                <button  class="btn btn-success" type=submit value=Login >Login </button>
-                 
+                <button  class="btn btn-success" type=submit value=Login >Login </button> 
               </form> 
-
+              <div>
+                  <a href="/register_user">Register user</a> 
+               </div> 
               {% else %}
-              <!--  <form action="{{ url_for('logout') }}"  >
+               <form action="{{ url_for('logout') }}"  >
                   <button  class="btn btn-default" type=submit  >Logout </button>  
-                </form> -->
+                </form> 
               {% endif %}
                 <!--<form action="{{ url_for('register_user') }}" >
                   <button   class="btn btn-default"  > Register</button> 
                 </form> -->
                 
-                <div>
 
-                  <a href="/register_user">Register user</a> 
-               </div> 
            </ul> 
         
         </div><!--/.nav-collapse -->

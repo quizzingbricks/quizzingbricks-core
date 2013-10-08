@@ -1,11 +1,19 @@
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, jsonify
 
+from quizzingbricks.client.exceptions import TimeoutError
+from quizzingbricks.client.users import UserServiceClient
+from quizzingbricks.common.protocol import (
+    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse
+)
+
 #configuration
 
 USERNAME = 'admin'
 PASSWORD = 'pass'
 SECRET_KEY = 'development key'
+
+userservice = UserServiceClient("tcp://*:5551")
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -59,22 +67,29 @@ def register_user ():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
+        responce = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
+        if (isinstance(responce, LoginResponse)):
+            session['userId'] = str(responce.userId)
             session['logged_in'] = True
+        else:
+            error=responce.message
+ #       if request.form['username'] != app.config['USERNAME']:
+ #           error = 'Invalid username'
+ #       elif request.form['password'] != app.config['PASSWORD']:
+ #           error = 'Invalid password'
+ #       else:
+ #           
 #            session['username'] = request.form['username']
 
-            flash('You were logged in')
-            return redirect(url_for('index'))
+  #          flash('You were logged in')
+   #         return redirect(url_for('index'))
     return render_template('index.html', error=error)
 
 @app.route('/logout')
 def logout():
 
     session.pop('logged_in', None)
+    session.pop('userId', None)
     #session.pop('username', None)
     #session.pop('player_color', None)
     #session.pop('modified', None)
