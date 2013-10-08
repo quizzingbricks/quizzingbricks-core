@@ -28,6 +28,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     dev.vm.provision :shell, :path => "bootstrap-dev.sh"
 
+    dev.vm.network :forwarded_port, guest: 5000, host: 5000 # web-client
+    dev.vm.network :forwarded_port, guest: 8100, host: 8100 # web-api
+
     dev.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
