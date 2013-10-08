@@ -4,10 +4,13 @@
 """
 
 from quizzingbricks.client.users import UserServiceClient
-from quizzingbricks.common.protocol import LoginRequest
+from quizzingbricks.common.protocol import LoginRequest, RegistrationRequest
 
 def main():
     uc = UserServiceClient("tcp://*:5551")
+
+    rr = uc.create_user(RegistrationRequest(email="demo@qb.se", password="demo"), timeout=5000)
+    print rr.__class__.__name__
 
     lr = LoginRequest()
     lr.email = "demo@qb.se"
