@@ -1,0 +1,21 @@
+git add .
+git commit -m <"message">
+git push origin master
+
+flask:
+sudo pip install Flask
+
+pygames:	(removed again keeping info for now though)
+sudo apt-get install python-pygame (ubuntu)
+other platforms see: http://inventwithpython.com/pygame/chapter1.html
+
+Added requirements.txt file
+
+
+https://devcenter.heroku.com/articles/python-pip	(guide)
+pip install -r requirements.txt
+to install all the dependencies in the requirements.txt file
+
+kolla active if endpoint för side/top bar
+jinja2 includes
+http://jinja.pocoo.org/docs/templates/#template-inheritance
