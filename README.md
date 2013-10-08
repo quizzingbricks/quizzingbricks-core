@@ -9,11 +9,13 @@ Manual
 Setup Vagrant
 -------------
 $ vagrant up dev
+
 $ vagrant ssh dev
 
 Temp: create sqlite db
 ----------------------
 $ cd /vagrant/src/python
+
 $ python bootstrap-db.py
 
 
@@ -22,6 +24,7 @@ How to run backend services
 User service
 ~~~~~~~~~~~~
 $ cd /vagrant/src/python
+
 $ python userservice-bootstrap.py &
 
 Note: & attach the process to background, use jobs to list all current jobs

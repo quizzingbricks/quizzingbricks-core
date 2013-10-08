@@ -39,7 +39,7 @@ def set_current_user():
     g.user_id = None
 
 
-@app.route("/api/login/", methods=["POST"])
+@app.route("/api/users/login/", methods=["POST"])
 def login():
     username = request.form.get("username", None)
     password = request.form.get("password", None)
