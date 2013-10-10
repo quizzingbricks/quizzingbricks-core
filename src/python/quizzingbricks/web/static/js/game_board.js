@@ -1,17 +1,15 @@
 var selected_token;
 
-var BOARD_HEIGHT = 8
-var BOARD_WIDTH  = 8 
+var BOARD_HEIGHT = 10
+var BOARD_WIDTH  = 10
 
 var TOKEN = {
-    BLACK  : {value: 0, string: "Black"},
-    WHITE  : {value: 1, string: "White"},
-    RED    : {value: 2, string: "Red"},
-    YELLOW : {value: 3, string: "Yellow"},
-    BLUE   : {value: 4, string: "Blue"},
-    GREEN  : {value: 5, string: "Green"},
-    PINK   : {value: 6, string: "Pink"},
-    TEAL   : {value: 7, string: "Teal"}
+    EMPTY  : {value: 0, string: "Empty"},
+    RED    : {value: 1, string: "Red"},
+    YELLOW : {value: 2, string: "Yellow"},
+    BLUE   : {value: 3, string: "Blue"},
+    GREEN  : {value: 4, string: "Green"}
+
 }  
 
 function selectToken(token){
@@ -28,9 +26,9 @@ function selectToken(token){
 function create_token(token) {
 
     token_img = document.createElement("img");
-    token_img.setAttribute("height", "56");
-    token_img.setAttribute("width", "56");
-    token_img.setAttribute("src", "static/img/" + token.string + "_Token.png");
+    token_img.setAttribute("height", "64");
+    token_img.setAttribute("width", "64");
+    token_img.setAttribute("src", "static/img/BoardCell_" + token.string + ".png");
     
     return token_img        
 }
@@ -46,6 +44,7 @@ function addTokens(x,y) {
     
     if (board[x][y] == null && selected_token != null) {
         board[x][y] = selected_token;
+
         board_element.appendChild(create_token(selected_token));
         
         $.post($SCRIPT_ROOT + '/game_board', { x: x, y: y },
