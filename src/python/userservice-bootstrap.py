@@ -3,7 +3,7 @@
     Copyright (C) Quizzing Bricks
 """
 
-from quizzingbricks.users import UserService
+from quizzingbricks.services.users import UserService
 
 if __name__ == "__main__":
     print "UserService started"

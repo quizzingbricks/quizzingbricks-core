@@ -7,7 +7,7 @@ import sqlalchemy as sa
 
 from quizzingbricks.nuncius import NunciusService, expose
 from quizzingbricks.common.db import session
-from quizzingbricks.users.models import User
+from quizzingbricks.services.users.models import User
 
 from quizzingbricks.common.protocol import (
     protocol_mapper as p_mapper,
@@ -22,6 +22,16 @@ from quizzingbricks.common.protocol import (
 
 # TODO: add the type-checking in a decorator or directly in expose?
 
+from contextlib import contextmanager
+
+@contextmanager
+def db(session):
+    try:
+        yield session
+    finally:
+        print "closed session"
+        session.close()
+
 class UserService(NunciusService):
     name = "userservice"
     protocol_mapper = p_mapper
@@ -30,9 +40,10 @@ class UserService(NunciusService):
     def authenticate_by_password(self, request):
         if not isinstance(request, LoginRequest):
             return RpcError(message="Wrong message type, expecting LoginRequest")
-        user = User.query.filter(User.email==request.email).first()
-        if user and user.check_password(request.password):
-            return LoginResponse(userId=user.id)
+        with db(session):
+            user = User.query.filter(User.email==request.email).first()
+            if user and user.check_password(request.password):
+                return LoginResponse(userId=user.id)
         return RpcError(message="Incorrect e-mail or password") # TODO: better method to handle error msgs?
         #if request.email == "demo@qb.se" and request.password == "demo":
         #    rep = LoginResponse()
