@@ -10,27 +10,34 @@
         <p class="lead"> Where the magic happens! :D
          <div class="choose_player">
           Choose Player:
-          <img src="/static/img/Black_Token.png" onclick='selectToken(TOKEN.BLACK)'/>
+      <!--    <img src="/static/img/Black_Token.png" onclick='selectToken(TOKEN.BLACK)'/>
           <img src="/static/img/White_Token.png" onclick='selectToken(TOKEN.WHITE)'/>
           <img src="/static/img/Red_Token.png" onclick='selectToken(TOKEN.RED)'/>
            <img src="/static/img/Yellow_Token.png" onclick='selectToken(TOKEN.YELLOW)'/>
           <img src="/static/img/Blue_Token.png" onclick='selectToken(TOKEN.BLUE)'/>
           <img src="/static/img/Green_Token.png" onclick='selectToken(TOKEN.GREEN)'/>
            <img src="/static/img/Pink_Token.png" onclick='selectToken(TOKEN.PINK)'/>
-          <img src="/static/img/Teal_Token.png" onclick='selectToken(TOKEN.TEAL)'/>
+          <img src="/static/img/Teal_Token.png" onclick='selectToken(TOKEN.TEAL)'/> -->
+
+          <img src="/static/img/BoardCell_Blue.png" onclick='selectToken(TOKEN.BLUE)' width="64" />
+          <img src="/static/img/BoardCell_Green.png" onclick='selectToken(TOKEN.GREEN)' width="64" />
+          <img src="/static/img/BoardCell_Yellow.png" onclick='selectToken(TOKEN.YELLOW)'width="64" />
+          <img src="/static/img/BoardCell_Red.png" onclick='selectToken(TOKEN.RED)' width="64" />
     
           <br>Current Player = <b id='player_color'> Choose player! </b>
         </div>
         <div id="board">
           <div id ="square_div">
-            {% set hor_scale = 64.8 %}
-            {% set ver_scale = 64.4 %}
-            {% for x in range(0, 8) %}
-              {% for y in range(0, 8) %}
+            {% set hor_scale = 64.0 %}
+            {% set ver_scale = 64.0 %}
+            {% for x in range(0, 10) %}
+              {% for y in range(0, 10) %}
                 {% set LEFT = ((x)*hor_scale) %}
                 {% set TOP = (y)*ver_scale %}  
                 <!-- BEGIN square -->
-                <div id="square_{{x}}_{{y}}" onclick='addTokens({{x}},{{y}})' class="square" style="left: {{LEFT}}px; top: {{TOP}}px;">
+                <div id="square_{{x}}_{{y}}" onload='init_square(square_{{x}}_{{y}})' onclick='addTokens({{x}},{{y}})' class="square" style="left: {{LEFT}}px; top: {{TOP}}px;" >
+
+                      <!--<image src="/static/img/BoardCell_Empty.png" width= '{{hor_scale}}' height='{{ver_scale}}'> -->
                 <!--{{x}}.{{y}}--></div>
                 <!-- END square -->
                 {% endfor %}

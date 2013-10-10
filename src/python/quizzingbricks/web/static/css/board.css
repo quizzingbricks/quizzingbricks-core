@@ -1,9 +1,9 @@
 #board {
-   width: 536px;
-   height: 528px;
+   width: 50%;
+   height: auto;
    margin:0 auto;
    padding-top: 8px;									/*paddin to line up squares veritically (TODO: fix so this is in the same block) */	
-   background-image: url('/static/img/Board.jpg');
+  /* background-image: url('/static/img/Board.jpg'); */
 }
 
 #square_div {
@@ -13,11 +13,13 @@
 }
 
 .square {
-    width: 62px;
-    height: 62px;
-    color: black;
+    width: 64px;
+    height: 64px;
+   /* color: black; */
     position: absolute;
-    /*background-color: red; */   
+    background-image: url('/static/img/BoardCell_Empty.png');
+    background-size: cover;
+   /* background-color: red; */    
 }
 
 .token {
