@@ -38,11 +38,13 @@ def set_current_user():
     #g.user_id = -1
     g.user_id = None
 
+from quizzingbricks.services.users.models import User
+from quizzingbricks.common.db import session
 
-@app.route("/api/users/login/", methods=["POST"])
+@app.route("/api/users/login/", methods=["GET"])
 def login():
-    username = request.form.get("username", None)
-    password = request.form.get("password", None)
+    username = "demo@demo.se"#request.form.get("username", None)
+    password = "demo.2"#request.form.get("password", None)
 
     if None in (username, password):
         return api_error("Username or password is missing, check your data", 1) # TODO: define a error code list
@@ -52,12 +54,17 @@ def login():
     login_req.password = "demo"
 
     try:
-        response = userservice.authenticate(login_req, timeout=3000) # timeout after 3 seconds
+        #response = userservice.authenticate(login_req) # timeout after 3 seconds
 
         #handle response.userId
-        if isinstance(response, LoginResponse):
-            return "token#%s" % response.userId # TODO: just a temporary thing, implement something real...
-        return api_error(response.message) # TODO: check that the response is a RpcError
+        #if isinstance(response, LoginResponse):
+        #    return "token#%s" % response.userId # TODO: just a temporary thing, implement something real...
+        #return api_error(response.message) # TODO: check that the response is a RpcError
+        user = User.query.filter(User.email==login_req.email).first()
+        session.close()
+        if user and user.check_password(login_req.password):
+            return "_token#%s" % user.id
+        return api_error("Wrong password", 501)
     except TimeoutError as e:
         return api_error("Service not available", 500) # ???
 

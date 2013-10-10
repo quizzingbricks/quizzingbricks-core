@@ -112,6 +112,22 @@ sudo python get-pip.py
 
 sudo apt-get install -y python-dev
 
+cd ~
+
+sudo docker run -d -p 5432:5432 -e POSTGRESQL_USER=qb -e POSTGRESQL_PASS=qb123 orchardup/postgresql
+
+
+
+#https://www.digitalocean.com/community/articles/how-to-install-and-use-postgresql-on-ubuntu-12-04
+
+#sudo apt-get install postgresql postgresql-contrib
+
+#sudo -i
+
+#su - postgres
+
+#createuser (not really)
+
 # setup some files for docker
 cd ~
 
