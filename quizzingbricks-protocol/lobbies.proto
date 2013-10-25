@@ -1,0 +1,13 @@
+
+
+// messages
+
+message CreateLobbyRequest {
+    required int32 userId =1;
+    required int32 gameType = 2;
+}
+
+// lobby id
+message CreateLobbyResponse {
+    required int32 lobbyId = 1;
+}

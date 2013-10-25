@@ -3,8 +3,9 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
+from quizzingbricks.client.lobby import LobbyServiceClient
 from quizzingbricks.common.protocol import (
-    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse
+    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , CreateLobbyRequest, CreateLobbyResponse
 )
 
 #configuration
@@ -14,6 +15,8 @@ PASSWORD = 'pass'
 SECRET_KEY = 'development key'
 
 userservice = UserServiceClient("tcp://*:5551")
+lobbyservice = LobbyServiceClient("tcp://*:5552")
+
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -50,12 +53,17 @@ def get_friends():
         friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
         return render_template('create_game.html',friends_list=friends_list)
 
+
+
 @app.route('/create_game',methods=['GET', 'POST'])
 def create_game():
     print "test"
     friends = []
     test = []  
 
+    responce = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=4))
+    if (isinstance(responce, CreateLobbyResponse)):
+        print responce
 
     if request.method == 'POST':
         f = request.form

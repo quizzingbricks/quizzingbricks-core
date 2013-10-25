@@ -8,6 +8,7 @@ export PY_DST_DIR=src/python/quizzingbricks/common/protocol/
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/base.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/users.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/protocol.proto
+protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/lobbies.proto
 
 # java
 # TODO...

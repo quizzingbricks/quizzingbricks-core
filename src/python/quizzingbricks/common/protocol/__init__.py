@@ -7,6 +7,7 @@
 from protocol_pb2 import *
 from base_pb2 import *
 from users_pb2 import *
+from lobbies_pb2 import *
 
 protocol_mapper = {
     1: RpcError,
@@ -14,6 +15,8 @@ protocol_mapper = {
     3: LoginResponse,
     4: RegistrationRequest,
     5: RegistrationResponse,
+    6: CreateLobbyRequest,
+    7: CreateLobbyResponse
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}
