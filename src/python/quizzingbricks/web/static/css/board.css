@@ -1,0 +1,32 @@
+#board {
+   width: 50%;
+   height: auto;
+   margin:0 auto;
+   padding-top: 8px;									/*paddin to line up squares veritically (TODO: fix so this is in the same block) */	
+  /* background-image: url('/static/img/Board.jpg'); */
+}
+
+#square_div {
+	position: relative;
+	margin-left: 10px;									/*margin to line up the squares horisontally */
+
+}
+
+.square {
+    width: 64px;
+    height: 64px;
+   /* color: black; */
+    position: absolute;
+    background-image: url('/static/img/BoardCell_Empty.png');
+    background-size: cover;
+   /* background-color: red; */    
+}
+
+.token {
+    width: 56px;
+    height: 56px;
+  /*  position: absolute; */
+    background-image: url('/static/img/Tokens.png');
+}
+.tokencolor_ffffff { background-position: 0px 0px;   }
+.tokencolor_000000 { background-position: -56px 0px;   }

@@ -1,0 +1,25 @@
+#navbar_container {
+  max-width:1920px;
+  /*padding-left:475px;*/
+ 
+}
+
+/*#top_div {
+	max-height: 70px;
+}*/
+
+
+#alert_div {
+	/*margin-right:250px; 
+	margin-left:250px; */
+	/*float:center; */
+}
+
+
+body {
+  padding-top: 70px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}

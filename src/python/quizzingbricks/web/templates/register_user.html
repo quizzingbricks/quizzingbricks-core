@@ -1,0 +1,44 @@
+{% extends "top_bar_layout.html" %}
+{% set active_page = "index" %}
+{% block body %} 
+
+<link href="static/css/bootstrap-responsive.css" rel="stylesheet">
+
+<div class="container">
+	<form action="{{ url_for('register_user') }}" class="form-horizontal" id="registration" method='post' >
+		<fieldset>
+			<legend>Registration Form</legend>
+			<div class="control-group">
+				<label class="control-label">Username:</label>
+				<div class="controls">
+					<input type="text" id="username" name="username" required>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Password:</label>
+				<div class="controls">
+					<input type="password" id="password" name="password1" required>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Re-enter Password:</label>
+				<div class="controls">
+					<input type="password" id="password" name="password2" required>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Email</label>
+				<div class="controls">
+					<input type="email" id="email" name="email" required>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"></label>
+				<div class="controls">
+					<button type="submit" class="btn btn-success" >Submit</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+{% endblock %}
