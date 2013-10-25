@@ -6,10 +6,11 @@
      <div class="container">
 
       <div class="starter-template">
-        <h1>Game board</h1>
+        <h1>Test board</h1>
         <p class="lead"> Where the magic happens! :D
          <div class="choose_player">
           Choose Player:
+       <!--
           <img src="/static/img/Black_Token.png" onclick='selectToken(TOKEN.BLACK)'/>
           <img src="/static/img/White_Token.png" onclick='selectToken(TOKEN.WHITE)'/>
           <img src="/static/img/Red_Token.png" onclick='selectToken(TOKEN.RED)'/>
@@ -18,8 +19,34 @@
           <img src="/static/img/Green_Token.png" onclick='selectToken(TOKEN.GREEN)'/>
            <img src="/static/img/Pink_Token.png" onclick='selectToken(TOKEN.PINK)'/>
           <img src="/static/img/Teal_Token.png" onclick='selectToken(TOKEN.TEAL)'/>
-    
+          -->
+            <img src="/static/img/BoardCell_Blue.png" onclick='selectToken(TOKEN.BLUE)' width="64" />
+            <img src="/static/img/BoardCell_Green.png" onclick='selectToken(TOKEN.GREEN)' width="64" />
+            <img src="/static/img/BoardCell_Yellow.png" onclick='selectToken(TOKEN.YELLOW)'width="64" />
+            <img src="/static/img/BoardCell_Red.png" onclick='selectToken(TOKEN.RED)' width="64" />
+
+
           <br>Current Player = <b id='player_color'> Choose player! </b>
+
+          {% if friends %}
+            <div class="container">
+            <strong> Players: </strong> 
+            {% for friend in friends%}    
+              <br>  {{friend}} 
+            {% endfor %}                                             
+            </div> 
+          {% endif %}
+
+
+          {% if test %}
+            <div class="container">
+            <strong> Players: </strong> 
+            {% for t in test%}    
+              <br>  {{t}} 
+            {% endfor %}                                             
+            </div> 
+          {% endif %}
+
         </div>
         <div id="board">
           <div id ="square_div">
@@ -37,13 +64,14 @@
               {% endfor %}
           </div>
         </div>
-        <div id="result">
-          
-        </div>
+       
       </div>
     </div><!-- /.container -->
 
-
+    <div class="container">
+      <div id="result">
+          
+    </div>
 
 
 

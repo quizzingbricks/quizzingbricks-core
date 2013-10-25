@@ -30,9 +30,44 @@ def about():
 def contact():	
 	return render_template('contact.html')
 
-@app.route('/create_game')
-def create_game():  
-    return render_template('create_game.html')
+@app.route('/get_friends',methods=['GET', 'POST'])
+def get_friends():
+    friends_list = None
+    if request.method == 'POST':
+        test_friend_1 = "Anton"
+        test_friend_2 = "David"
+        test_friend_3 = "Linus"
+        test_friend_4 = "William" 
+        test_friend_5 = "Niklas"
+        friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
+        return render_template('create_game.html',friends_list=friends_list)
+    else:
+        test_friend_1 = "Anton"
+        test_friend_2 = "David"
+        test_friend_3 = "Linus"
+        test_friend_4 = "William" 
+        test_friend_5 = "Niklas"
+        friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
+        return render_template('create_game.html',friends_list=friends_list)
+
+@app.route('/create_game',methods=['GET', 'POST'])
+def create_game():
+    print "test"
+    friends = []
+    test = []  
+
+
+    if request.method == 'POST':
+        f = request.form
+        for key in f.keys():
+            for value in f.getlist(key):
+                print key,":",value
+                if not value ==''  :
+                    friends=friends+[value]
+        print friends
+        return render_template('test_board.html',friends=friends,test=test)
+    else:
+        return render_template('create_game.html',friends=friends,test=test)
 
 @app.route('/active_games')
 def active_games():  
@@ -110,6 +145,8 @@ def logout():
     print "inside logout"
     flash('You were logged out')
     return redirect(url_for('index'))
+
+
 
 @app.route('/game_board', methods=["POST"])
 def tile_placement():
