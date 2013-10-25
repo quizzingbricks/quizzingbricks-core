@@ -7,17 +7,52 @@
       <div class="starter-template">
         <h1>Want to create a game? lol owned not implemented yet.</h1>
 
+
+
         Invite Friends
         <br>
-         <input type=text placeholder="Friend 1" name=friend_1> <br>
-         <input type=text placeholder="Friend 2" name=friend_2> <br>
-         <input type=text placeholder="Friend 3" name=friend_3> <br>
-         <input type=text placeholder="Friend 4" name=friend_4> <br>
+       <!-- <form action = "{{ url_for('create_game') }}" method=post>
+            <input list="friends_list" type=text placeholder="Friend 1" name=friend_1 autocomplete="off"> <br>
+            <input list="friends_list" type=text placeholder="Friend 2" name=friend_2 autocomplete="off"> <br>
+            <input list="friends_list" type=text placeholder="Friend 3" name=friend_3 autocomplete="off"> <br>
+            <input list="friends_list" type=text placeholder="Friend 4" name=friend_4 autocomplete="off"> <br>
+            <datalist id="friends_list">
+                {% if friends_list %}
+                    {% for friend in friends_list %}
+                        <option value="{{ friend }}">
+                    {% endfor %}
+                {% endif%}
+            </datalist> 
+            <button type=submit >Start game </button>
+        </form> -->
 
-         <button>Start game </button>
+        <form action = "{{ url_for('create_game') }}" method=post>
+           
+                {% if friends_list %}
+                    {% set i = 1 %}
+                    {% for friend in friends_list %}
+                      {{friend}}  <input type="checkbox" name=friend_{{i}} value='{{friend}}' ><br>
+                       {% set i = i+1%} 
+                    {% endfor %}
+                {% endif%} 
+            <button type=submit >Start game 2</button>
+        </form>
+
+
+        <form action = "{{ url_for('get_friends') }}" method=post>
+            <button type=submit >Get friends </button>
+        </form>
+       
         <p class="lead">
       </div>
 
+       {% if friends %}
+      <div class="container">
+        {% for friend in friends%}    
+          {{friend}} <br>
+        {% endfor %}                                             
+      </div> 
+    {% endif %}
       
 
     </div><!-- /.container -->
