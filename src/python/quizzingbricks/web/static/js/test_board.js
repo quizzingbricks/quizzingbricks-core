@@ -30,7 +30,7 @@ function create_token(token) {
     token_img = document.createElement("img");
     token_img.setAttribute("height", "64");
     token_img.setAttribute("width", "64");
-    token_img.setAttribute("src", "static/img/BoardCell_" + token.string + ".png");
+    token_img.setAttribute("src", "/static/img/BoardCell_" + token.string + ".png");
     
     return token_img        
 }

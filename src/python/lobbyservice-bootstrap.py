@@ -6,7 +6,7 @@
 from quizzingbricks.services.lobby import LobbyService
 
 if __name__ == "__main__":
-    print "UserService started"
+    print "LobbyService started"
     print "-" * 19
     print "Ctrl^C to interrupt"
     service = LobbyService("tcp://*:5552")

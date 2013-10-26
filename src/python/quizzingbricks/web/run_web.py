@@ -1,6 +1,8 @@
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, jsonify
 
+import sys, traceback
+
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.lobby import LobbyServiceClient
@@ -33,37 +35,45 @@ def about():
 def contact():	
 	return render_template('contact.html')
 
-@app.route('/get_friends',methods=['GET', 'POST'])
-def get_friends():
-    friends_list = None
-    if request.method == 'POST':
-        test_friend_1 = "Anton"
-        test_friend_2 = "David"
-        test_friend_3 = "Linus"
-        test_friend_4 = "William" 
-        test_friend_5 = "Niklas"
-        friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
-        return render_template('create_game.html',friends_list=friends_list)
-    else:
-        test_friend_1 = "Anton"
-        test_friend_2 = "David"
-        test_friend_3 = "Linus"
-        test_friend_4 = "William" 
-        test_friend_5 = "Niklas"
-        friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
-        return render_template('create_game.html',friends_list=friends_list)
-
-
-
-@app.route('/create_game',methods=['GET', 'POST'])
-def create_game():
-    print "test"
-    friends = []
-    test = []  
-
-    responce = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=4))
+@app.route('/get_friends/<int:game_type>',methods=['GET'])
+def get_friends_2p(game_type):
+    print "get_friends test 2p"
+    print game_type
+    lobby_id = None
+    responce = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=game_type))
     if (isinstance(responce, CreateLobbyResponse)):
         print responce
+        lobby_id = responce.lobbyId
+
+    friends_list = None
+    test_friend_1 = "Anton"
+    test_friend_2 = "David"
+    test_friend_3 = "Linus"
+    test_friend_4 = "William" 
+    test_friend_5 = "Niklas"
+    friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
+    return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+    
+
+    # try:
+    #     return render_template('create_game.html',friends_list=friends_list,game_type=game_type)
+    # except:
+    #     print "Exception in user code:"
+    #     print '-'*60
+    #     traceback.print_exc(file=sys.stdout)
+    #     print '-'*60
+    
+
+
+
+
+
+
+@app.route('/create_game/<int:game_type>',methods=['GET', 'POST'])
+def create_game(game_type):
+    friends = []  
+
+
 
     if request.method == 'POST':
         f = request.form
@@ -73,9 +83,11 @@ def create_game():
                 if not value ==''  :
                     friends=friends+[value]
         print friends
-        return render_template('test_board.html',friends=friends,test=test)
+        return render_template('test_board.html',friends=friends)
     else:
-        return render_template('create_game.html',friends=friends,test=test)
+        return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
+
+
 
 @app.route('/active_games')
 def active_games():  
