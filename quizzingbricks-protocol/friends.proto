@@ -1,0 +1,12 @@
+
+
+// messages
+
+message GetFriendsRequest {
+    required int32 userId =1;
+}
+
+// friends list
+message GetFriendsResponse {
+    required list<string> friends_list = 1;
+}

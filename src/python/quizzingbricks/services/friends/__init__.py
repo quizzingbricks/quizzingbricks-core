@@ -7,14 +7,14 @@ import sqlalchemy as sa
 
 from quizzingbricks.nuncius import NunciusService, expose
 from quizzingbricks.common.db import session
-from quizzingbricks.services.lobby.models import Lobby # .servives.lobby
+from quizzingbricks.services.friends.models import FriendsList
 
 from quizzingbricks.common.protocol import (
     protocol_mapper as p_mapper,
     protocol_inverse_mapper,
     RpcError,
-    CreateLobbyRequest,
-    CreateLobbyResponse
+    GetFriendsRequest,
+    GetFriendsResponse
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -29,18 +29,25 @@ def db(session):
         print "closed session"
         session.close()
 
-class LobbyService(NunciusService):
-    name = "lobbyservice"
+class FriendService(NunciusService):
+    name = "friendservice"
     protocol_mapper = p_mapper
 
-    @expose("get_Lobby_Id")
-    def get_Lobby_Id(self, request):
-        if (request.gameType == 4):
-            return CreateLobbyResponse(lobbyId=123456)
-        if (request.gameType == 2):
-            return CreateLobbyResponse(lobbyId=654321)
-        else:
-            return CreateLobbyResponse(lobbyId=123321)
+    @expose("get_Friends_List")
+    def get_Friends_List(self, request):
+        test_friend_1 = "Anton"
+        test_friend_2 = "David"
+        test_friend_3 = "Linus"
+        test_friend_4 = "William" 
+        test_friend_5 = "Niklas"
+        test_friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
+        return GetFriendsResponse(friends_list=test_friends_list)
+        # if (request.gameType == 4):
+        #     return CreateLobbyResponse(lobbyId=123456)
+        # if (request.gameType == 2):
+        #     return CreateLobbyResponse(lobbyId=654321)
+        # else:
+        #     return CreateLobbyResponse(lobbyId=123321)
 
     
 
