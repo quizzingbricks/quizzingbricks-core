@@ -6,8 +6,10 @@ import sys, traceback
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.lobby import LobbyServiceClient
+from quizzingbricks.client.friends import FriendServiceClient
 from quizzingbricks.common.protocol import (
-    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , CreateLobbyRequest, CreateLobbyResponse
+    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , \
+     CreateLobbyRequest, CreateLobbyResponse, GetFriendsRequest, GetFriendsResponse   
 )
 
 #configuration
@@ -18,6 +20,7 @@ SECRET_KEY = 'development key'
 
 userservice = UserServiceClient("tcp://*:5551")
 lobbyservice = LobbyServiceClient("tcp://*:5552")
+friendservice = FriendServiceClient("tcp://*:5553")
 
 
 app = Flask(__name__)
@@ -40,19 +43,20 @@ def get_friends_2p(game_type):
     print "get_friends test 2p"
     print game_type
     lobby_id = None
-    responce = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=game_type))
-    if (isinstance(responce, CreateLobbyResponse)):
-        print responce
-        lobby_id = responce.lobbyId
+    friends_list = []
+    response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=game_type))
+    if (isinstance(response, CreateLobbyResponse)):
+        print response
+        lobby_id = response.lobbyId
 
-    friends_list = None
-    test_friend_1 = "Anton"
-    test_friend_2 = "David"
-    test_friend_3 = "Linus"
-    test_friend_4 = "William" 
-    test_friend_5 = "Niklas"
-    friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
-    return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+    friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))
+    if (isinstance(friends_response,GetFriendsResponse)):
+        print friends_response
+        for friend in friends_response.friends_list:
+            print friend
+            friends_list=friends_list+ [friend]
+        return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+
     
 
     # try:

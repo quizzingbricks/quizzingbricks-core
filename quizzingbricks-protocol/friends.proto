@@ -8,5 +8,5 @@ message GetFriendsRequest {
 
 // friends list
 message GetFriendsResponse {
-    required list<string> friends_list = 1;
+    repeated string friends_list = 1;
 }
