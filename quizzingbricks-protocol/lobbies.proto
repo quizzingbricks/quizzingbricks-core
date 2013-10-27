@@ -12,11 +12,3 @@ message CreateLobbyResponse {
     required int32 lobbyId = 1;
 }
 
-//message GetLobbyMembersRequest {
-//    required int32 lobbyId = 1;
-//    required int32 gameType = 2;
-//}
-
-//message GetLobbyMembersResponse {
-//    required list<int32> lobbyMembers = 1;
-//}
