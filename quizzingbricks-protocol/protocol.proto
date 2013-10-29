@@ -5,3 +5,4 @@ option java_package = "com.quizzingbricks.common.protocol";
 import "base.proto";
 import "users.proto";
 import "lobbies.proto";
+import "games.proto";

@@ -10,6 +10,8 @@ protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/users.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/protocol.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/lobbies.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/friends.proto
+protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/games.proto
+
 
 # java
 # TODO...

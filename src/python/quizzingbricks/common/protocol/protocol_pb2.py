@@ -11,12 +11,13 @@ from google.protobuf import descriptor_pb2
 import base_pb2
 import users_pb2
 import lobbies_pb2
+import games_pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='protocol.proto',
   package='protocol',
-  serialized_pb='\n\x0eprotocol.proto\x12\x08protocol\x1a\nbase.proto\x1a\x0busers.proto\x1a\rlobbies.protoB$\n\"com.quizzingbricks.common.protocol')
+  serialized_pb='\n\x0eprotocol.proto\x12\x08protocol\x1a\nbase.proto\x1a\x0busers.proto\x1a\rlobbies.proto\x1a\x0bgames.protoB$\n\"com.quizzingbricks.common.protocol')
 
 
 
