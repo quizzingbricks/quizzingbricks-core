@@ -3,8 +3,8 @@ import akka.util.ByteString
 object MessageTranslator
 {
     val GAMEINFOREQUEST = 1
-    val GAMEINFOREPLY = 2
-    val CREATEGAME = 3
+    val GAMEINFOREPLY = 11
+    val CREATEGAME = 10
     val PLAYERMOVE = 4
     val FAILURE = 5
     
@@ -46,7 +46,7 @@ object MessageTranslator
             case GameInfoRequest (id: Int) =>
                 var gameInfoRequestBuilder = Gameprotocol.GameInfoRequest.newBuilder()
                 gameInfoRequestBuilder.setId(id)
-                (1, Gameprotocol.GameInfoRequest.newBuilder().setId(id).build())
+                (GAMEINFOREQUEST, Gameprotocol.GameInfoRequest.newBuilder().setId(id).build())
             case GameInfoReply (id: Int, players: Array[Int], board: Array[Int]) =>
                 var gameInfoReplyBuilder = Gameprotocol.GameInfoReply.newBuilder()
                 gameInfoReplyBuilder = gameInfoReplyBuilder.setId(id)
@@ -54,17 +54,17 @@ object MessageTranslator
                     gameInfoReplyBuilder = gameInfoReplyBuilder.addBoard(b)
                 for(p <- players)
                     gameInfoReplyBuilder = gameInfoReplyBuilder.addPlayers(p)
-                (2, gameInfoReplyBuilder.build())
+                (GAMEINFOREPLY, gameInfoReplyBuilder.build())
             case CreateGame (players: Array[Int]) =>
                 var createGameBuilder = Gameprotocol.CreateGame.newBuilder()
                 for (p <- players)
                     createGameBuilder = createGameBuilder.addPlayers(p)
-                (3, createGameBuilder.build())
+                (CREATEGAME, createGameBuilder.build())
                 
             case PlayerMove (gameId: Int, playerId: Int, x: Int, y: Int) =>
-                (4, Gameprotocol.PlayerMove.newBuilder().setGameId(gameId).setPlayerId(playerId).setX(x).setY(y).build())
+                (PLAYERMOVE, Gameprotocol.PlayerMove.newBuilder().setGameId(gameId).setPlayerId(playerId).setX(x).setY(y).build())
             case Failure (what: String) =>
-                (5, Gameprotocol.Failure.newBuilder().setWhat(what).build())
+                (FAILURE, Gameprotocol.Failure.newBuilder().setWhat(what).build())
         }
         ret match { case (x: Int, y: com.google.protobuf.GeneratedMessage) => (x, ByteString(y.toByteArray())) }
     }

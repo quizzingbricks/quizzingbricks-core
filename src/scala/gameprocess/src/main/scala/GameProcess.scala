@@ -35,7 +35,7 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
         case m: ZMQMessage =>
             assert(m.frames.length == 4) // backend hash id | 0 | protocol id | protocol message
             senderId = m.frames(0)
-            val id = m.frames(2).asByteBuffer.get
+            val id = m.frames(2).decodeString("UTF-8").toInt
             val msgByteString = m.frames(3)
             var msg = MessageTranslator.translate(id, msgByteString)
 
@@ -43,7 +43,7 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
             gameCache ! msg
         case m: Message =>
             val (i, b) = MessageTranslator.translate(m)
-            socket ! ZMQMessage(senderId, ByteString(), ByteString(i), b)
+            socket ! ZMQMessage(senderId, ByteString(), ByteString(i.toString), b)
             println("BrokerWorker #" + n + " got back a message and passed it on: " + m)
     }
 }

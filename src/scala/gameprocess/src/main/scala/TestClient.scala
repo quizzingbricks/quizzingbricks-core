@@ -34,12 +34,13 @@ object TestClient
       val n = readLine.toInt
       println("Arguments: ")
       var (x, msg) = MessageTranslator.translate(makeMessageFromString(n, readLine))
-      socket.send(Array[Byte](x.toByte), ZMQ.SNDMORE)
+      println("id: " + x.toString())
+      socket.send(x.toString().getBytes, ZMQ.SNDMORE)
       socket.send(msg.toArray, 0)
       println("Sent, waiting for reply...")
       val replyId = socket.recv(0)
       val reply = socket.recv(0)
-      val rep = MessageTranslator.translate(replyId(0), ByteString(reply))
+      val rep = MessageTranslator.translate(replyId.foldLeft("")((str, n) => str + n.toChar).toInt , ByteString(reply))
       //val msg2 = MessageTranslator.translate(rep)
       println("Reply received: " + rep)
       readLine
