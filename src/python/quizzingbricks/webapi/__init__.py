@@ -80,3 +80,7 @@ def create_user():
     rep = userservice.create_user(req)
 
     return rep.userId
+
+@app.route("/api/game/<int:gameid>/play/move", methods=["POST"])
+def place_brick(gameid):
+    return "tbd"

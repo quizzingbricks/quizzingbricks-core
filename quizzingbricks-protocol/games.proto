@@ -5,7 +5,7 @@ message GameInfoRequest
    required int32 id = 1;
 }
 
-message GameInfoReply
+message GameInfoResponse
 {
    required int32 id = 1;
    repeated int32 players = 2;
@@ -25,7 +25,8 @@ message PlayerMove
    required int32 y = 4;
 }
 
-message Failure
+message GameError
 {
-   required string what = 1;
+   required string description = 1;
+   optional GameInfoResponse gameinforeply = 2;
 }

@@ -22,7 +22,10 @@ protocol_mapper = {
     8: GetFriendsRequest,
     9: GetFriendsResponse,
     10: CreateGame,
-    11: GameInfoReply
+    11: GameInfoRequest,
+    12: GameInfoResponse,
+    13: PlayerMove, 
+    14: GameError
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}

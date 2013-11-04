@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='games.proto',
   package='',
-  serialized_pb='\n\x0bgames.proto\"\x1d\n\x0fGameInfoRequest\x12\n\n\x02id\x18\x01 \x02(\x05\";\n\rGameInfoReply\x12\n\n\x02id\x18\x01 \x02(\x05\x12\x0f\n\x07players\x18\x02 \x03(\x05\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"\x1d\n\nCreateGame\x12\x0f\n\x07players\x18\x01 \x03(\x05\"D\n\nPlayerMove\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x10\n\x08playerId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"\x17\n\x07\x46\x61ilure\x12\x0c\n\x04what\x18\x01 \x02(\tB\x0e\x42\x0cGameprotocol')
+  serialized_pb='\n\x0bgames.proto\"\x1d\n\x0fGameInfoRequest\x12\n\n\x02id\x18\x01 \x02(\x05\">\n\x10GameInfoResponse\x12\n\n\x02id\x18\x01 \x02(\x05\x12\x0f\n\x07players\x18\x02 \x03(\x05\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"\x1d\n\nCreateGame\x12\x0f\n\x07players\x18\x01 \x03(\x05\"D\n\nPlayerMove\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x10\n\x08playerId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"J\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12(\n\rgameinforeply\x18\x02 \x01(\x0b\x32\x11.GameInfoResponseB\x0e\x42\x0cGameprotocol')
 
 
 
@@ -46,29 +46,29 @@ _GAMEINFOREQUEST = _descriptor.Descriptor(
 )
 
 
-_GAMEINFOREPLY = _descriptor.Descriptor(
-  name='GameInfoReply',
-  full_name='GameInfoReply',
+_GAMEINFORESPONSE = _descriptor.Descriptor(
+  name='GameInfoResponse',
+  full_name='GameInfoResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='GameInfoReply.id', index=0,
+      name='id', full_name='GameInfoResponse.id', index=0,
       number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='players', full_name='GameInfoReply.players', index=1,
+      name='players', full_name='GameInfoResponse.players', index=1,
       number=2, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='board', full_name='GameInfoReply.board', index=2,
+      name='board', full_name='GameInfoResponse.board', index=2,
       number=3, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -84,7 +84,7 @@ _GAMEINFOREPLY = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=46,
-  serialized_end=105,
+  serialized_end=108,
 )
 
 
@@ -111,8 +111,8 @@ _CREATEGAME = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=107,
-  serialized_end=136,
+  serialized_start=110,
+  serialized_end=139,
 )
 
 
@@ -160,22 +160,29 @@ _PLAYERMOVE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=138,
-  serialized_end=206,
+  serialized_start=141,
+  serialized_end=209,
 )
 
 
-_FAILURE = _descriptor.Descriptor(
-  name='Failure',
-  full_name='Failure',
+_GAMEERROR = _descriptor.Descriptor(
+  name='GameError',
+  full_name='GameError',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='what', full_name='Failure.what', index=0,
+      name='description', full_name='GameError.description', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='gameinforeply', full_name='GameError.gameinforeply', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -188,15 +195,16 @@ _FAILURE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=208,
-  serialized_end=231,
+  serialized_start=211,
+  serialized_end=285,
 )
 
+_GAMEERROR.fields_by_name['gameinforeply'].message_type = _GAMEINFORESPONSE
 DESCRIPTOR.message_types_by_name['GameInfoRequest'] = _GAMEINFOREQUEST
-DESCRIPTOR.message_types_by_name['GameInfoReply'] = _GAMEINFOREPLY
+DESCRIPTOR.message_types_by_name['GameInfoResponse'] = _GAMEINFORESPONSE
 DESCRIPTOR.message_types_by_name['CreateGame'] = _CREATEGAME
 DESCRIPTOR.message_types_by_name['PlayerMove'] = _PLAYERMOVE
-DESCRIPTOR.message_types_by_name['Failure'] = _FAILURE
+DESCRIPTOR.message_types_by_name['GameError'] = _GAMEERROR
 
 class GameInfoRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -204,11 +212,11 @@ class GameInfoRequest(_message.Message):
 
   # @@protoc_insertion_point(class_scope:GameInfoRequest)
 
-class GameInfoReply(_message.Message):
+class GameInfoResponse(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _GAMEINFOREPLY
+  DESCRIPTOR = _GAMEINFORESPONSE
 
-  # @@protoc_insertion_point(class_scope:GameInfoReply)
+  # @@protoc_insertion_point(class_scope:GameInfoResponse)
 
 class CreateGame(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -222,11 +230,11 @@ class PlayerMove(_message.Message):
 
   # @@protoc_insertion_point(class_scope:PlayerMove)
 
-class Failure(_message.Message):
+class GameError(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _FAILURE
+  DESCRIPTOR = _GAMEERROR
 
-  # @@protoc_insertion_point(class_scope:Failure)
+  # @@protoc_insertion_point(class_scope:GameError)
 
 
 DESCRIPTOR.has_options = True

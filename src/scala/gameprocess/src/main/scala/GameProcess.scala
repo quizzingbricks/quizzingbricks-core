@@ -63,14 +63,14 @@ class Game (id: Int, players: Array[Int]) extends Actor
     {
         case GameInfoRequest(idReq) => 
             assert(idReq == id)
-            sender ! GameInfoReply(id, players, board)
+            sender ! GameInfoResponse(id, players, board)
         case PlayerMove(_, player, x, y) =>
             if (! (players contains player))
-                sender ! Failure("Moving player not in game")
+                sender ! GameError("Moving player not in game", GameInfoResponse(id, players, board))
             else
             {
                 board(y*8+x) = player
-                sender ! GameInfoReply(id, players, board)
+                sender ! GameInfoResponse(id, players, board)
             }
     }
 }
@@ -92,7 +92,7 @@ class GameCache extends Actor
             val game = hashMap.get(x.id)
             game match
             {
-                case None => sender ! Failure("Game not found!")
+                case None => sender ! GameError("Game " + x.id + " not found!", null)
                 case Some(g) => g forward x 
             }
     }
