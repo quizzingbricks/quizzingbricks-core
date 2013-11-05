@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='friends.proto',
   package='',
-  serialized_pb='\n\rfriends.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"*\n\x12GetFriendsResponse\x12\x14\n\x0c\x66riends_list\x18\x01 \x03(\t')
+  serialized_pb='\n\rfriends.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"*\n\x12GetFriendsResponse\x12\x14\n\x0c\x66riends_list\x18\x01 \x03(\t\"(\n\x10\x41\x64\x64\x46riendRequest\x12\x14\n\x0c\x66riend_email\x18\x01 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\"+\n\x13RemoveFriendRequest\x12\x14\n\x0c\x66riend_email\x18\x01 \x02(\t\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
 
 
 
@@ -73,8 +73,124 @@ _GETFRIENDSRESPONSE = _descriptor.Descriptor(
   serialized_end=96,
 )
 
+
+_ADDFRIENDREQUEST = _descriptor.Descriptor(
+  name='AddFriendRequest',
+  full_name='AddFriendRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='friend_email', full_name='AddFriendRequest.friend_email', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=98,
+  serialized_end=138,
+)
+
+
+_ADDFRIENDRESPONSE = _descriptor.Descriptor(
+  name='AddFriendResponse',
+  full_name='AddFriendResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='friend_added', full_name='AddFriendResponse.friend_added', index=0,
+      number=1, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=140,
+  serialized_end=181,
+)
+
+
+_REMOVEFRIENDREQUEST = _descriptor.Descriptor(
+  name='RemoveFriendRequest',
+  full_name='RemoveFriendRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='friend_email', full_name='RemoveFriendRequest.friend_email', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=183,
+  serialized_end=226,
+)
+
+
+_REMOVEFRIENDRESPONSE = _descriptor.Descriptor(
+  name='RemoveFriendResponse',
+  full_name='RemoveFriendResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='friend_removed', full_name='RemoveFriendResponse.friend_removed', index=0,
+      number=1, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=228,
+  serialized_end=274,
+)
+
 DESCRIPTOR.message_types_by_name['GetFriendsRequest'] = _GETFRIENDSREQUEST
 DESCRIPTOR.message_types_by_name['GetFriendsResponse'] = _GETFRIENDSRESPONSE
+DESCRIPTOR.message_types_by_name['AddFriendRequest'] = _ADDFRIENDREQUEST
+DESCRIPTOR.message_types_by_name['AddFriendResponse'] = _ADDFRIENDRESPONSE
+DESCRIPTOR.message_types_by_name['RemoveFriendRequest'] = _REMOVEFRIENDREQUEST
+DESCRIPTOR.message_types_by_name['RemoveFriendResponse'] = _REMOVEFRIENDRESPONSE
 
 class GetFriendsRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -87,6 +203,30 @@ class GetFriendsResponse(_message.Message):
   DESCRIPTOR = _GETFRIENDSRESPONSE
 
   # @@protoc_insertion_point(class_scope:GetFriendsResponse)
+
+class AddFriendRequest(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _ADDFRIENDREQUEST
+
+  # @@protoc_insertion_point(class_scope:AddFriendRequest)
+
+class AddFriendResponse(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _ADDFRIENDRESPONSE
+
+  # @@protoc_insertion_point(class_scope:AddFriendResponse)
+
+class RemoveFriendRequest(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _REMOVEFRIENDREQUEST
+
+  # @@protoc_insertion_point(class_scope:RemoveFriendRequest)
+
+class RemoveFriendResponse(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _REMOVEFRIENDRESPONSE
+
+  # @@protoc_insertion_point(class_scope:RemoveFriendResponse)
 
 
 # @@protoc_insertion_point(module_scope)

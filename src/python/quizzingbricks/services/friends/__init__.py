@@ -14,7 +14,12 @@ from quizzingbricks.common.protocol import (
     protocol_inverse_mapper,
     RpcError,
     GetFriendsRequest,
-    GetFriendsResponse
+    GetFriendsResponse,
+    AddFriendRequest,
+    AddFriendResponse,
+    RemoveFriendRequest,
+    RemoveFriendResponse
+
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -33,13 +38,31 @@ class FriendService(NunciusService):
     name = "friendservice"
     protocol_mapper = p_mapper
 
+    @expose("add_Friend")
+    def add_Friend(self, request):
+        print "in add_Friend"
+        # Query database to make sure friend is a user and if it is add it to friends list
+        if(True):   #switch to query test
+            return AddFriendResponse(friend_added=True)
+        else:
+            return AddFriendResponse(friend_added=False)
+
+    @expose("remove_Friend")
+    def remove_Friend(self, request):
+        print "in remove_friend"
+        # Query database to make sure friend is a user and if it is add it to friends list
+        if(True):   #switch to query test
+            return RemoveFriendResponse(friend_removed=True)
+        else:
+            return RemoveFriendResponse(friend_removed=False)
+
     @expose("get_Friends_List")
     def get_Friends_List(self, request):
-        test_friend_1 = "Anton"
-        test_friend_2 = "David"
-        test_friend_3 = "Linus"
-        test_friend_4 = "William" 
-        test_friend_5 = "Niklas"
+        test_friend_1 = "Anton@test.se"
+        test_friend_2 = "David@test.se"
+        test_friend_3 = "Linus@test.se"
+        test_friend_4 = "William@test.se" 
+        test_friend_5 = "Niklas@test.se"
         test_friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
         return GetFriendsResponse(friends_list=test_friends_list)
         # if (request.gameType == 4):

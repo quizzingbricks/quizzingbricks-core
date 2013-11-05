@@ -1,0 +1,58 @@
+{% extends "top_bar_layout.html" %}
+
+
+
+
+{% block body %} 
+
+
+
+
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>List with them friends</h1>
+
+
+        Your Friends:
+        <br>
+
+
+        <form action = "{{ url_for('remove_friend') }}" method=post>
+           
+                {% if friends_list %}
+                    {% set i = 1 %}
+                    {% for friend in friends_list %}
+                      {{friend}}  <input type="radio" name=friend value='{{friend}}' ><br>
+                       {% set i = i+1%} 
+                    {% endfor %}
+                {% endif%} 
+            <button type=submit id="remove_submit" onclick='isAnswered()'  name=remove_friend >Remove Selected Friend</button>
+        </form>
+
+
+
+        <form action="{{ url_for('add_friend') }}" class="form-inline"  method=post>
+              <div class="form-group">
+                <input class="form-control" id=email  type=email name="friend_email" placeholder="E-mail" >
+
+              <button  class="btn btn-default" type=submit >Add Friend </button> 
+            </form> 
+      
+       
+        <p class="lead">
+      </div>
+
+      
+
+    </div><!-- /.container -->
+
+
+
+
+
+{% endblock %}
+
+
+
