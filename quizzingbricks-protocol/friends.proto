@@ -10,3 +10,19 @@ message GetFriendsRequest {
 message GetFriendsResponse {
     repeated string friends_list = 1;
 }
+
+message AddFriendRequest {
+	required string friend_email = 1;
+}
+
+message AddFriendResponse {
+	required bool friend_added = 1;
+}
+
+message RemoveFriendRequest {
+	required string friend_email = 1;
+}
+
+message RemoveFriendResponse {
+	required bool friend_removed = 1;
+}

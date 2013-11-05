@@ -25,7 +25,11 @@ protocol_mapper = {
     11: GameInfoRequest,
     12: GameInfoResponse,
     13: PlayerMove, 
-    14: GameError
+    14: GameError,
+    15: AddFriendRequest,
+    16: AddFriendResponse,
+    17: RemoveFriendRequest,
+    18: RemoveFriendResponse
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}
