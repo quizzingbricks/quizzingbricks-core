@@ -1,0 +1,33 @@
+option java_outer_classname = "Gameprotocol";
+
+message GameInfoRequest
+{
+   required int32 id = 1;
+}
+
+message GameInfoResponse
+{
+   required int32 id = 1;
+   repeated int32 players = 2;
+   repeated int32 board = 3;
+}
+
+message CreateGame
+{
+   repeated int32 players = 1;
+}
+
+message PlayerMove
+{
+   required int32 gameId = 1;
+   required int32 userId = 2;
+   required int32 x = 3;
+   required int32 y = 4;
+}
+
+message GameError
+{
+   required string description = 1;
+   required int32 code = 2;
+   optional GameInfoResponse gameinforeply = 3;
+}
