@@ -34,10 +34,10 @@ object MessageTranslator
             case GAMEERROR =>
                 val fail = Gameprotocol.GameError.newBuilder().mergeFrom ( msgByteString.toArray ).build()
                 val info = fail.getGameinforeply()
-                GameError(fail.getDescription(), GameInfoResponse(info.getId(), scalaListToArray(info.getPlayersList()), scalaListToArray(info.getBoardList())))
+                GameError(fail.getDescription(), fail.getCode(), GameInfoResponse(info.getId(), scalaListToArray(info.getPlayersList()), scalaListToArray(info.getBoardList())))
             case PLAYERMOVE =>
                 val info = Gameprotocol.PlayerMove.newBuilder().mergeFrom ( msgByteString.toArray ).build()
-                PlayerMove(info.getGameId(), info.getPlayerId(), info.getX(), info.getY())
+                PlayerMove(info.getGameId(), info.getUserId(), info.getX(), info.getY())
         }
     }
     
@@ -62,13 +62,13 @@ object MessageTranslator
                     createGameBuilder = createGameBuilder.addPlayers(p)
                 (CREATEGAME, createGameBuilder.build())
                 
-            case PlayerMove (gameId: Int, playerId: Int, x: Int, y: Int) =>
-                (PLAYERMOVE, Gameprotocol.PlayerMove.newBuilder().setGameId(gameId).setPlayerId(playerId).setX(x).setY(y).build())
-            case GameError (what: String, null) =>
-                var builder = Gameprotocol.GameError.newBuilder().setDescription(what)
+            case PlayerMove (gameId: Int, userId: Int, x: Int, y: Int) =>
+                (PLAYERMOVE, Gameprotocol.PlayerMove.newBuilder().setGameId(gameId).setUserId(userId).setX(x).setY(y).build())
+            case GameError (what: String, code: Int, null) =>
+                var builder = Gameprotocol.GameError.newBuilder().setDescription(what).setCode(code)
                 (GAMEERROR, builder.build())                
-            case GameError (what: String, info: GameInfoResponse) =>
-                var builder = Gameprotocol.GameError.newBuilder().setDescription(what)
+            case GameError (what: String, code: Int, info: GameInfoResponse) =>
+                var builder = Gameprotocol.GameError.newBuilder().setDescription(what).setCode(code)
                 var gameInfo : Gameprotocol.GameInfoResponse = null
 
                 var gameInfoReplyBuilder = Gameprotocol.GameInfoResponse.newBuilder()

@@ -37,19 +37,19 @@ case class CreateGame (players: Array[Int]) extends GameRequestMessage
     }
 }
 
-case class GameError (description: String, reply: GameInfoResponse) extends ReplyMessage
+case class GameError (description: String, code: Int, reply: GameInfoResponse) extends ReplyMessage
 {
     override def toString() =
     {
-        "GameError {what: " + description + ", gameinforeply: " + (if(reply == null) "none" else reply) + "}"
+        "GameError {what: " + description + ", code: " + code + ", gameinforeply: " + (if(reply == null) "none" else reply) + "}"
     }
 }
 
-case class PlayerMove (gameId: Int, playerId: Int, x: Int, y: Int) extends GameRequestMessage
+case class PlayerMove (gameId: Int, userId: Int, x: Int, y: Int) extends GameRequestMessage
 {
     id = gameId
     override def toString() =
     {
-        "PlayerMove {id: " + gameId + ", playerId: " + playerId + ", x: " + x + ", y: " + y + "}"
+        "PlayerMove {id: " + gameId + ", userId: " + userId + ", x: " + x + ", y: " + y + "}"
     }
 }

@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='games.proto',
   package='',
-  serialized_pb='\n\x0bgames.proto\"\x1d\n\x0fGameInfoRequest\x12\n\n\x02id\x18\x01 \x02(\x05\">\n\x10GameInfoResponse\x12\n\n\x02id\x18\x01 \x02(\x05\x12\x0f\n\x07players\x18\x02 \x03(\x05\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"\x1d\n\nCreateGame\x12\x0f\n\x07players\x18\x01 \x03(\x05\"D\n\nPlayerMove\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x10\n\x08playerId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"J\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12(\n\rgameinforeply\x18\x02 \x01(\x0b\x32\x11.GameInfoResponseB\x0e\x42\x0cGameprotocol')
+  serialized_pb='\n\x0bgames.proto\"\x1d\n\x0fGameInfoRequest\x12\n\n\x02id\x18\x01 \x02(\x05\">\n\x10GameInfoResponse\x12\n\n\x02id\x18\x01 \x02(\x05\x12\x0f\n\x07players\x18\x02 \x03(\x05\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"\x1d\n\nCreateGame\x12\x0f\n\x07players\x18\x01 \x03(\x05\"B\n\nPlayerMove\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"X\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12\x0c\n\x04\x63ode\x18\x02 \x02(\x05\x12(\n\rgameinforeply\x18\x03 \x01(\x0b\x32\x11.GameInfoResponseB\x0e\x42\x0cGameprotocol')
 
 
 
@@ -131,7 +131,7 @@ _PLAYERMOVE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='playerId', full_name='PlayerMove.playerId', index=1,
+      name='userId', full_name='PlayerMove.userId', index=1,
       number=2, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -161,7 +161,7 @@ _PLAYERMOVE = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=141,
-  serialized_end=209,
+  serialized_end=207,
 )
 
 
@@ -180,8 +180,15 @@ _GAMEERROR = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='gameinforeply', full_name='GameError.gameinforeply', index=1,
-      number=2, type=11, cpp_type=10, label=1,
+      name='code', full_name='GameError.code', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='gameinforeply', full_name='GameError.gameinforeply', index=2,
+      number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -195,8 +202,8 @@ _GAMEERROR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=211,
-  serialized_end=285,
+  serialized_start=209,
+  serialized_end=297,
 )
 
 _GAMEERROR.fields_by_name['gameinforeply'].message_type = _GAMEINFORESPONSE
