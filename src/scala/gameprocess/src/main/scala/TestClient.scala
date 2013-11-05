@@ -30,11 +30,10 @@ object TestClient
    
     while( true )
     {
-      println("Choose message type:\n1: GameInfoRequest (id)\n2:CreateGame (players)\n3:PlayerMove (gameid player x y)")
+      println("Choose message type:\n1: GameInfoRequest (id)\n2: CreateGame (players)\n3: PlayerMove (gameid player x y)")
       val n = readLine.toInt
       println("Arguments: ")
       var (x, msg) = MessageTranslator.translate(makeMessageFromString(n, readLine))
-      println("id: " + x.toString())
       socket.send(x.toString().getBytes, ZMQ.SNDMORE)
       socket.send(msg.toArray, 0)
       println("Sent, waiting for reply...")

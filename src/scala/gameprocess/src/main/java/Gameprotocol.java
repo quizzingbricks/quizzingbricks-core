@@ -410,7 +410,7 @@ public final class Gameprotocol {
     // @@protoc_insertion_point(class_scope:GameInfoRequest)
   }
 
-  public interface GameInfoReplyOrBuilder
+  public interface GameInfoResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // required int32 id = 1;
@@ -452,24 +452,24 @@ public final class Gameprotocol {
     int getBoard(int index);
   }
   /**
-   * Protobuf type {@code GameInfoReply}
+   * Protobuf type {@code GameInfoResponse}
    */
-  public static final class GameInfoReply extends
+  public static final class GameInfoResponse extends
       com.google.protobuf.GeneratedMessage
-      implements GameInfoReplyOrBuilder {
-    // Use GameInfoReply.newBuilder() to construct.
-    private GameInfoReply(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements GameInfoResponseOrBuilder {
+    // Use GameInfoResponse.newBuilder() to construct.
+    private GameInfoResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private GameInfoReply(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private GameInfoResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final GameInfoReply defaultInstance;
-    public static GameInfoReply getDefaultInstance() {
+    private static final GameInfoResponse defaultInstance;
+    public static GameInfoResponse getDefaultInstance() {
       return defaultInstance;
     }
 
-    public GameInfoReply getDefaultInstanceForType() {
+    public GameInfoResponse getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -479,7 +479,7 @@ public final class Gameprotocol {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private GameInfoReply(
+    private GameInfoResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -569,28 +569,28 @@ public final class Gameprotocol {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return Gameprotocol.internal_static_GameInfoReply_descriptor;
+      return Gameprotocol.internal_static_GameInfoResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return Gameprotocol.internal_static_GameInfoReply_fieldAccessorTable
+      return Gameprotocol.internal_static_GameInfoResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              Gameprotocol.GameInfoReply.class, Gameprotocol.GameInfoReply.Builder.class);
+              Gameprotocol.GameInfoResponse.class, Gameprotocol.GameInfoResponse.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<GameInfoReply> PARSER =
-        new com.google.protobuf.AbstractParser<GameInfoReply>() {
-      public GameInfoReply parsePartialFrom(
+    public static com.google.protobuf.Parser<GameInfoResponse> PARSER =
+        new com.google.protobuf.AbstractParser<GameInfoResponse>() {
+      public GameInfoResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GameInfoReply(input, extensionRegistry);
+        return new GameInfoResponse(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<GameInfoReply> getParserForType() {
+    public com.google.protobuf.Parser<GameInfoResponse> getParserForType() {
       return PARSER;
     }
 
@@ -730,53 +730,53 @@ public final class Gameprotocol {
       return super.writeReplace();
     }
 
-    public static Gameprotocol.GameInfoReply parseFrom(
+    public static Gameprotocol.GameInfoResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(
+    public static Gameprotocol.GameInfoResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(byte[] data)
+    public static Gameprotocol.GameInfoResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(
+    public static Gameprotocol.GameInfoResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(java.io.InputStream input)
+    public static Gameprotocol.GameInfoResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(
+    public static Gameprotocol.GameInfoResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static Gameprotocol.GameInfoReply parseDelimitedFrom(java.io.InputStream input)
+    public static Gameprotocol.GameInfoResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static Gameprotocol.GameInfoReply parseDelimitedFrom(
+    public static Gameprotocol.GameInfoResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(
+    public static Gameprotocol.GameInfoResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static Gameprotocol.GameInfoReply parseFrom(
+    public static Gameprotocol.GameInfoResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -785,7 +785,7 @@ public final class Gameprotocol {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(Gameprotocol.GameInfoReply prototype) {
+    public static Builder newBuilder(Gameprotocol.GameInfoResponse prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -797,24 +797,24 @@ public final class Gameprotocol {
       return builder;
     }
     /**
-     * Protobuf type {@code GameInfoReply}
+     * Protobuf type {@code GameInfoResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements Gameprotocol.GameInfoReplyOrBuilder {
+       implements Gameprotocol.GameInfoResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return Gameprotocol.internal_static_GameInfoReply_descriptor;
+        return Gameprotocol.internal_static_GameInfoResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return Gameprotocol.internal_static_GameInfoReply_fieldAccessorTable
+        return Gameprotocol.internal_static_GameInfoResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                Gameprotocol.GameInfoReply.class, Gameprotocol.GameInfoReply.Builder.class);
+                Gameprotocol.GameInfoResponse.class, Gameprotocol.GameInfoResponse.Builder.class);
       }
 
-      // Construct using Gameprotocol.GameInfoReply.newBuilder()
+      // Construct using Gameprotocol.GameInfoResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -849,23 +849,23 @@ public final class Gameprotocol {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return Gameprotocol.internal_static_GameInfoReply_descriptor;
+        return Gameprotocol.internal_static_GameInfoResponse_descriptor;
       }
 
-      public Gameprotocol.GameInfoReply getDefaultInstanceForType() {
-        return Gameprotocol.GameInfoReply.getDefaultInstance();
+      public Gameprotocol.GameInfoResponse getDefaultInstanceForType() {
+        return Gameprotocol.GameInfoResponse.getDefaultInstance();
       }
 
-      public Gameprotocol.GameInfoReply build() {
-        Gameprotocol.GameInfoReply result = buildPartial();
+      public Gameprotocol.GameInfoResponse build() {
+        Gameprotocol.GameInfoResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public Gameprotocol.GameInfoReply buildPartial() {
-        Gameprotocol.GameInfoReply result = new Gameprotocol.GameInfoReply(this);
+      public Gameprotocol.GameInfoResponse buildPartial() {
+        Gameprotocol.GameInfoResponse result = new Gameprotocol.GameInfoResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -888,16 +888,16 @@ public final class Gameprotocol {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof Gameprotocol.GameInfoReply) {
-          return mergeFrom((Gameprotocol.GameInfoReply)other);
+        if (other instanceof Gameprotocol.GameInfoResponse) {
+          return mergeFrom((Gameprotocol.GameInfoResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(Gameprotocol.GameInfoReply other) {
-        if (other == Gameprotocol.GameInfoReply.getDefaultInstance()) return this;
+      public Builder mergeFrom(Gameprotocol.GameInfoResponse other) {
+        if (other == Gameprotocol.GameInfoResponse.getDefaultInstance()) return this;
         if (other.hasId()) {
           setId(other.getId());
         }
@@ -937,11 +937,11 @@ public final class Gameprotocol {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        Gameprotocol.GameInfoReply parsedMessage = null;
+        Gameprotocol.GameInfoResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (Gameprotocol.GameInfoReply) e.getUnfinishedMessage();
+          parsedMessage = (Gameprotocol.GameInfoResponse) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1117,15 +1117,15 @@ public final class Gameprotocol {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:GameInfoReply)
+      // @@protoc_insertion_point(builder_scope:GameInfoResponse)
     }
 
     static {
-      defaultInstance = new GameInfoReply(true);
+      defaultInstance = new GameInfoResponse(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:GameInfoReply)
+    // @@protoc_insertion_point(class_scope:GameInfoResponse)
   }
 
   public interface CreateGameOrBuilder
@@ -1610,15 +1610,15 @@ public final class Gameprotocol {
      */
     int getGameId();
 
-    // required int32 playerId = 2;
+    // required int32 userId = 2;
     /**
-     * <code>required int32 playerId = 2;</code>
+     * <code>required int32 userId = 2;</code>
      */
-    boolean hasPlayerId();
+    boolean hasUserId();
     /**
-     * <code>required int32 playerId = 2;</code>
+     * <code>required int32 userId = 2;</code>
      */
-    int getPlayerId();
+    int getUserId();
 
     // required int32 x = 3;
     /**
@@ -1698,7 +1698,7 @@ public final class Gameprotocol {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              playerId_ = input.readInt32();
+              userId_ = input.readInt32();
               break;
             }
             case 24: {
@@ -1767,20 +1767,20 @@ public final class Gameprotocol {
       return gameId_;
     }
 
-    // required int32 playerId = 2;
-    public static final int PLAYERID_FIELD_NUMBER = 2;
-    private int playerId_;
+    // required int32 userId = 2;
+    public static final int USERID_FIELD_NUMBER = 2;
+    private int userId_;
     /**
-     * <code>required int32 playerId = 2;</code>
+     * <code>required int32 userId = 2;</code>
      */
-    public boolean hasPlayerId() {
+    public boolean hasUserId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 playerId = 2;</code>
+     * <code>required int32 userId = 2;</code>
      */
-    public int getPlayerId() {
-      return playerId_;
+    public int getUserId() {
+      return userId_;
     }
 
     // required int32 x = 3;
@@ -1817,7 +1817,7 @@ public final class Gameprotocol {
 
     private void initFields() {
       gameId_ = 0;
-      playerId_ = 0;
+      userId_ = 0;
       x_ = 0;
       y_ = 0;
     }
@@ -1830,7 +1830,7 @@ public final class Gameprotocol {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasPlayerId()) {
+      if (!hasUserId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1853,7 +1853,7 @@ public final class Gameprotocol {
         output.writeInt32(1, gameId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, playerId_);
+        output.writeInt32(2, userId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, x_);
@@ -1876,7 +1876,7 @@ public final class Gameprotocol {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, playerId_);
+          .computeInt32Size(2, userId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2004,7 +2004,7 @@ public final class Gameprotocol {
         super.clear();
         gameId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        playerId_ = 0;
+        userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         x_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2045,7 +2045,7 @@ public final class Gameprotocol {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.playerId_ = playerId_;
+        result.userId_ = userId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -2073,8 +2073,8 @@ public final class Gameprotocol {
         if (other.hasGameId()) {
           setGameId(other.getGameId());
         }
-        if (other.hasPlayerId()) {
-          setPlayerId(other.getPlayerId());
+        if (other.hasUserId()) {
+          setUserId(other.getUserId());
         }
         if (other.hasX()) {
           setX(other.getX());
@@ -2091,7 +2091,7 @@ public final class Gameprotocol {
           
           return false;
         }
-        if (!hasPlayerId()) {
+        if (!hasUserId()) {
           
           return false;
         }
@@ -2158,35 +2158,35 @@ public final class Gameprotocol {
         return this;
       }
 
-      // required int32 playerId = 2;
-      private int playerId_ ;
+      // required int32 userId = 2;
+      private int userId_ ;
       /**
-       * <code>required int32 playerId = 2;</code>
+       * <code>required int32 userId = 2;</code>
        */
-      public boolean hasPlayerId() {
+      public boolean hasUserId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 playerId = 2;</code>
+       * <code>required int32 userId = 2;</code>
        */
-      public int getPlayerId() {
-        return playerId_;
+      public int getUserId() {
+        return userId_;
       }
       /**
-       * <code>required int32 playerId = 2;</code>
+       * <code>required int32 userId = 2;</code>
        */
-      public Builder setPlayerId(int value) {
+      public Builder setUserId(int value) {
         bitField0_ |= 0x00000002;
-        playerId_ = value;
+        userId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 playerId = 2;</code>
+       * <code>required int32 userId = 2;</code>
        */
-      public Builder clearPlayerId() {
+      public Builder clearUserId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        playerId_ = 0;
+        userId_ = 0;
         onChanged();
         return this;
       }
@@ -2268,43 +2268,67 @@ public final class Gameprotocol {
     // @@protoc_insertion_point(class_scope:PlayerMove)
   }
 
-  public interface FailureOrBuilder
+  public interface GameErrorOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string what = 1;
+    // required string description = 1;
     /**
-     * <code>required string what = 1;</code>
+     * <code>required string description = 1;</code>
      */
-    boolean hasWhat();
+    boolean hasDescription();
     /**
-     * <code>required string what = 1;</code>
+     * <code>required string description = 1;</code>
      */
-    java.lang.String getWhat();
+    java.lang.String getDescription();
     /**
-     * <code>required string what = 1;</code>
+     * <code>required string description = 1;</code>
      */
     com.google.protobuf.ByteString
-        getWhatBytes();
+        getDescriptionBytes();
+
+    // required int32 code = 2;
+    /**
+     * <code>required int32 code = 2;</code>
+     */
+    boolean hasCode();
+    /**
+     * <code>required int32 code = 2;</code>
+     */
+    int getCode();
+
+    // optional .GameInfoResponse gameinforeply = 3;
+    /**
+     * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+     */
+    boolean hasGameinforeply();
+    /**
+     * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+     */
+    Gameprotocol.GameInfoResponse getGameinforeply();
+    /**
+     * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+     */
+    Gameprotocol.GameInfoResponseOrBuilder getGameinforeplyOrBuilder();
   }
   /**
-   * Protobuf type {@code Failure}
+   * Protobuf type {@code GameError}
    */
-  public static final class Failure extends
+  public static final class GameError extends
       com.google.protobuf.GeneratedMessage
-      implements FailureOrBuilder {
-    // Use Failure.newBuilder() to construct.
-    private Failure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements GameErrorOrBuilder {
+    // Use GameError.newBuilder() to construct.
+    private GameError(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private Failure(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private GameError(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final Failure defaultInstance;
-    public static Failure getDefaultInstance() {
+    private static final GameError defaultInstance;
+    public static GameError getDefaultInstance() {
       return defaultInstance;
     }
 
-    public Failure getDefaultInstanceForType() {
+    public GameError getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -2314,7 +2338,7 @@ public final class Gameprotocol {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private Failure(
+    private GameError(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2339,7 +2363,25 @@ public final class Gameprotocol {
             }
             case 10: {
               bitField0_ |= 0x00000001;
-              what_ = input.readBytes();
+              description_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              code_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              Gameprotocol.GameInfoResponse.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = gameinforeply_.toBuilder();
+              }
+              gameinforeply_ = input.readMessage(Gameprotocol.GameInfoResponse.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(gameinforeply_);
+                gameinforeply_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -2356,46 +2398,46 @@ public final class Gameprotocol {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return Gameprotocol.internal_static_Failure_descriptor;
+      return Gameprotocol.internal_static_GameError_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return Gameprotocol.internal_static_Failure_fieldAccessorTable
+      return Gameprotocol.internal_static_GameError_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              Gameprotocol.Failure.class, Gameprotocol.Failure.Builder.class);
+              Gameprotocol.GameError.class, Gameprotocol.GameError.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<Failure> PARSER =
-        new com.google.protobuf.AbstractParser<Failure>() {
-      public Failure parsePartialFrom(
+    public static com.google.protobuf.Parser<GameError> PARSER =
+        new com.google.protobuf.AbstractParser<GameError>() {
+      public GameError parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Failure(input, extensionRegistry);
+        return new GameError(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Failure> getParserForType() {
+    public com.google.protobuf.Parser<GameError> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required string what = 1;
-    public static final int WHAT_FIELD_NUMBER = 1;
-    private java.lang.Object what_;
+    // required string description = 1;
+    public static final int DESCRIPTION_FIELD_NUMBER = 1;
+    private java.lang.Object description_;
     /**
-     * <code>required string what = 1;</code>
+     * <code>required string description = 1;</code>
      */
-    public boolean hasWhat() {
+    public boolean hasDescription() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string what = 1;</code>
+     * <code>required string description = 1;</code>
      */
-    public java.lang.String getWhat() {
-      java.lang.Object ref = what_;
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -2403,39 +2445,89 @@ public final class Gameprotocol {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          what_ = s;
+          description_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string what = 1;</code>
+     * <code>required string description = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getWhatBytes() {
-      java.lang.Object ref = what_;
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        what_ = b;
+        description_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
+    // required int32 code = 2;
+    public static final int CODE_FIELD_NUMBER = 2;
+    private int code_;
+    /**
+     * <code>required int32 code = 2;</code>
+     */
+    public boolean hasCode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 code = 2;</code>
+     */
+    public int getCode() {
+      return code_;
+    }
+
+    // optional .GameInfoResponse gameinforeply = 3;
+    public static final int GAMEINFOREPLY_FIELD_NUMBER = 3;
+    private Gameprotocol.GameInfoResponse gameinforeply_;
+    /**
+     * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+     */
+    public boolean hasGameinforeply() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+     */
+    public Gameprotocol.GameInfoResponse getGameinforeply() {
+      return gameinforeply_;
+    }
+    /**
+     * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+     */
+    public Gameprotocol.GameInfoResponseOrBuilder getGameinforeplyOrBuilder() {
+      return gameinforeply_;
+    }
+
     private void initFields() {
-      what_ = "";
+      description_ = "";
+      code_ = 0;
+      gameinforeply_ = Gameprotocol.GameInfoResponse.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasWhat()) {
+      if (!hasDescription()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (!hasCode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (hasGameinforeply()) {
+        if (!getGameinforeply().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -2445,7 +2537,13 @@ public final class Gameprotocol {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getWhatBytes());
+        output.writeBytes(1, getDescriptionBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, code_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, gameinforeply_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2458,7 +2556,15 @@ public final class Gameprotocol {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getWhatBytes());
+          .computeBytesSize(1, getDescriptionBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, code_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, gameinforeply_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2472,53 +2578,53 @@ public final class Gameprotocol {
       return super.writeReplace();
     }
 
-    public static Gameprotocol.Failure parseFrom(
+    public static Gameprotocol.GameError parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static Gameprotocol.Failure parseFrom(
+    public static Gameprotocol.GameError parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static Gameprotocol.Failure parseFrom(byte[] data)
+    public static Gameprotocol.GameError parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static Gameprotocol.Failure parseFrom(
+    public static Gameprotocol.GameError parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static Gameprotocol.Failure parseFrom(java.io.InputStream input)
+    public static Gameprotocol.GameError parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static Gameprotocol.Failure parseFrom(
+    public static Gameprotocol.GameError parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static Gameprotocol.Failure parseDelimitedFrom(java.io.InputStream input)
+    public static Gameprotocol.GameError parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static Gameprotocol.Failure parseDelimitedFrom(
+    public static Gameprotocol.GameError parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static Gameprotocol.Failure parseFrom(
+    public static Gameprotocol.GameError parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static Gameprotocol.Failure parseFrom(
+    public static Gameprotocol.GameError parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2527,7 +2633,7 @@ public final class Gameprotocol {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(Gameprotocol.Failure prototype) {
+    public static Builder newBuilder(Gameprotocol.GameError prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -2539,24 +2645,24 @@ public final class Gameprotocol {
       return builder;
     }
     /**
-     * Protobuf type {@code Failure}
+     * Protobuf type {@code GameError}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements Gameprotocol.FailureOrBuilder {
+       implements Gameprotocol.GameErrorOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return Gameprotocol.internal_static_Failure_descriptor;
+        return Gameprotocol.internal_static_GameError_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return Gameprotocol.internal_static_Failure_fieldAccessorTable
+        return Gameprotocol.internal_static_GameError_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                Gameprotocol.Failure.class, Gameprotocol.Failure.Builder.class);
+                Gameprotocol.GameError.class, Gameprotocol.GameError.Builder.class);
       }
 
-      // Construct using Gameprotocol.Failure.newBuilder()
+      // Construct using Gameprotocol.GameError.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2568,6 +2674,7 @@ public final class Gameprotocol {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getGameinforeplyFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2576,8 +2683,16 @@ public final class Gameprotocol {
 
       public Builder clear() {
         super.clear();
-        what_ = "";
+        description_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        code_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (gameinforeplyBuilder_ == null) {
+          gameinforeply_ = Gameprotocol.GameInfoResponse.getDefaultInstance();
+        } else {
+          gameinforeplyBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -2587,58 +2702,86 @@ public final class Gameprotocol {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return Gameprotocol.internal_static_Failure_descriptor;
+        return Gameprotocol.internal_static_GameError_descriptor;
       }
 
-      public Gameprotocol.Failure getDefaultInstanceForType() {
-        return Gameprotocol.Failure.getDefaultInstance();
+      public Gameprotocol.GameError getDefaultInstanceForType() {
+        return Gameprotocol.GameError.getDefaultInstance();
       }
 
-      public Gameprotocol.Failure build() {
-        Gameprotocol.Failure result = buildPartial();
+      public Gameprotocol.GameError build() {
+        Gameprotocol.GameError result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public Gameprotocol.Failure buildPartial() {
-        Gameprotocol.Failure result = new Gameprotocol.Failure(this);
+      public Gameprotocol.GameError buildPartial() {
+        Gameprotocol.GameError result = new Gameprotocol.GameError(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.what_ = what_;
+        result.description_ = description_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.code_ = code_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (gameinforeplyBuilder_ == null) {
+          result.gameinforeply_ = gameinforeply_;
+        } else {
+          result.gameinforeply_ = gameinforeplyBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof Gameprotocol.Failure) {
-          return mergeFrom((Gameprotocol.Failure)other);
+        if (other instanceof Gameprotocol.GameError) {
+          return mergeFrom((Gameprotocol.GameError)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(Gameprotocol.Failure other) {
-        if (other == Gameprotocol.Failure.getDefaultInstance()) return this;
-        if (other.hasWhat()) {
+      public Builder mergeFrom(Gameprotocol.GameError other) {
+        if (other == Gameprotocol.GameError.getDefaultInstance()) return this;
+        if (other.hasDescription()) {
           bitField0_ |= 0x00000001;
-          what_ = other.what_;
+          description_ = other.description_;
           onChanged();
+        }
+        if (other.hasCode()) {
+          setCode(other.getCode());
+        }
+        if (other.hasGameinforeply()) {
+          mergeGameinforeply(other.getGameinforeply());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasWhat()) {
+        if (!hasDescription()) {
           
           return false;
+        }
+        if (!hasCode()) {
+          
+          return false;
+        }
+        if (hasGameinforeply()) {
+          if (!getGameinforeply().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2647,11 +2790,11 @@ public final class Gameprotocol {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        Gameprotocol.Failure parsedMessage = null;
+        Gameprotocol.GameError parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (Gameprotocol.Failure) e.getUnfinishedMessage();
+          parsedMessage = (Gameprotocol.GameError) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2662,89 +2805,239 @@ public final class Gameprotocol {
       }
       private int bitField0_;
 
-      // required string what = 1;
-      private java.lang.Object what_ = "";
+      // required string description = 1;
+      private java.lang.Object description_ = "";
       /**
-       * <code>required string what = 1;</code>
+       * <code>required string description = 1;</code>
        */
-      public boolean hasWhat() {
+      public boolean hasDescription() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string what = 1;</code>
+       * <code>required string description = 1;</code>
        */
-      public java.lang.String getWhat() {
-        java.lang.Object ref = what_;
+      public java.lang.String getDescription() {
+        java.lang.Object ref = description_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          what_ = s;
+          description_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>required string what = 1;</code>
+       * <code>required string description = 1;</code>
        */
       public com.google.protobuf.ByteString
-          getWhatBytes() {
-        java.lang.Object ref = what_;
+          getDescriptionBytes() {
+        java.lang.Object ref = description_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          what_ = b;
+          description_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string what = 1;</code>
+       * <code>required string description = 1;</code>
        */
-      public Builder setWhat(
+      public Builder setDescription(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000001;
-        what_ = value;
+        description_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string what = 1;</code>
+       * <code>required string description = 1;</code>
        */
-      public Builder clearWhat() {
+      public Builder clearDescription() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        what_ = getDefaultInstance().getWhat();
+        description_ = getDefaultInstance().getDescription();
         onChanged();
         return this;
       }
       /**
-       * <code>required string what = 1;</code>
+       * <code>required string description = 1;</code>
        */
-      public Builder setWhatBytes(
+      public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000001;
-        what_ = value;
+        description_ = value;
         onChanged();
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:Failure)
+      // required int32 code = 2;
+      private int code_ ;
+      /**
+       * <code>required int32 code = 2;</code>
+       */
+      public boolean hasCode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 code = 2;</code>
+       */
+      public int getCode() {
+        return code_;
+      }
+      /**
+       * <code>required int32 code = 2;</code>
+       */
+      public Builder setCode(int value) {
+        bitField0_ |= 0x00000002;
+        code_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 code = 2;</code>
+       */
+      public Builder clearCode() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        code_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional .GameInfoResponse gameinforeply = 3;
+      private Gameprotocol.GameInfoResponse gameinforeply_ = Gameprotocol.GameInfoResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          Gameprotocol.GameInfoResponse, Gameprotocol.GameInfoResponse.Builder, Gameprotocol.GameInfoResponseOrBuilder> gameinforeplyBuilder_;
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public boolean hasGameinforeply() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Gameprotocol.GameInfoResponse getGameinforeply() {
+        if (gameinforeplyBuilder_ == null) {
+          return gameinforeply_;
+        } else {
+          return gameinforeplyBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Builder setGameinforeply(Gameprotocol.GameInfoResponse value) {
+        if (gameinforeplyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          gameinforeply_ = value;
+          onChanged();
+        } else {
+          gameinforeplyBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Builder setGameinforeply(
+          Gameprotocol.GameInfoResponse.Builder builderForValue) {
+        if (gameinforeplyBuilder_ == null) {
+          gameinforeply_ = builderForValue.build();
+          onChanged();
+        } else {
+          gameinforeplyBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Builder mergeGameinforeply(Gameprotocol.GameInfoResponse value) {
+        if (gameinforeplyBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              gameinforeply_ != Gameprotocol.GameInfoResponse.getDefaultInstance()) {
+            gameinforeply_ =
+              Gameprotocol.GameInfoResponse.newBuilder(gameinforeply_).mergeFrom(value).buildPartial();
+          } else {
+            gameinforeply_ = value;
+          }
+          onChanged();
+        } else {
+          gameinforeplyBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Builder clearGameinforeply() {
+        if (gameinforeplyBuilder_ == null) {
+          gameinforeply_ = Gameprotocol.GameInfoResponse.getDefaultInstance();
+          onChanged();
+        } else {
+          gameinforeplyBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Gameprotocol.GameInfoResponse.Builder getGameinforeplyBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getGameinforeplyFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      public Gameprotocol.GameInfoResponseOrBuilder getGameinforeplyOrBuilder() {
+        if (gameinforeplyBuilder_ != null) {
+          return gameinforeplyBuilder_.getMessageOrBuilder();
+        } else {
+          return gameinforeply_;
+        }
+      }
+      /**
+       * <code>optional .GameInfoResponse gameinforeply = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          Gameprotocol.GameInfoResponse, Gameprotocol.GameInfoResponse.Builder, Gameprotocol.GameInfoResponseOrBuilder> 
+          getGameinforeplyFieldBuilder() {
+        if (gameinforeplyBuilder_ == null) {
+          gameinforeplyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              Gameprotocol.GameInfoResponse, Gameprotocol.GameInfoResponse.Builder, Gameprotocol.GameInfoResponseOrBuilder>(
+                  gameinforeply_,
+                  getParentForChildren(),
+                  isClean());
+          gameinforeply_ = null;
+        }
+        return gameinforeplyBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GameError)
     }
 
     static {
-      defaultInstance = new Failure(true);
+      defaultInstance = new GameError(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:Failure)
+    // @@protoc_insertion_point(class_scope:GameError)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -2753,10 +3046,10 @@ public final class Gameprotocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GameInfoRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_GameInfoReply_descriptor;
+    internal_static_GameInfoResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_GameInfoReply_fieldAccessorTable;
+      internal_static_GameInfoResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_CreateGame_descriptor;
   private static
@@ -2768,10 +3061,10 @@ public final class Gameprotocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_PlayerMove_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_Failure_descriptor;
+    internal_static_GameError_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Failure_fieldAccessorTable;
+      internal_static_GameError_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2782,12 +3075,13 @@ public final class Gameprotocol {
   static {
     java.lang.String[] descriptorData = {
       "\n\013games.proto\"\035\n\017GameInfoRequest\022\n\n\002id\030\001" +
-      " \002(\005\";\n\rGameInfoReply\022\n\n\002id\030\001 \002(\005\022\017\n\007pla" +
-      "yers\030\002 \003(\005\022\r\n\005board\030\003 \003(\005\"\035\n\nCreateGame\022" +
-      "\017\n\007players\030\001 \003(\005\"D\n\nPlayerMove\022\016\n\006gameId" +
-      "\030\001 \002(\005\022\020\n\010playerId\030\002 \002(\005\022\t\n\001x\030\003 \002(\005\022\t\n\001y" +
-      "\030\004 \002(\005\"\027\n\007Failure\022\014\n\004what\030\001 \002(\tB\016B\014Gamep" +
-      "rotocol"
+      " \002(\005\">\n\020GameInfoResponse\022\n\n\002id\030\001 \002(\005\022\017\n\007" +
+      "players\030\002 \003(\005\022\r\n\005board\030\003 \003(\005\"\035\n\nCreateGa" +
+      "me\022\017\n\007players\030\001 \003(\005\"B\n\nPlayerMove\022\016\n\006gam" +
+      "eId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\005\022\t\n\001x\030\003 \002(\005\022\t\n\001" +
+      "y\030\004 \002(\005\"X\n\tGameError\022\023\n\013description\030\001 \002(" +
+      "\t\022\014\n\004code\030\002 \002(\005\022(\n\rgameinforeply\030\003 \001(\0132\021" +
+      ".GameInfoResponseB\016B\014Gameprotocol"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2800,11 +3094,11 @@ public final class Gameprotocol {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GameInfoRequest_descriptor,
               new java.lang.String[] { "Id", });
-          internal_static_GameInfoReply_descriptor =
+          internal_static_GameInfoResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_GameInfoReply_fieldAccessorTable = new
+          internal_static_GameInfoResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_GameInfoReply_descriptor,
+              internal_static_GameInfoResponse_descriptor,
               new java.lang.String[] { "Id", "Players", "Board", });
           internal_static_CreateGame_descriptor =
             getDescriptor().getMessageTypes().get(2);
@@ -2817,13 +3111,13 @@ public final class Gameprotocol {
           internal_static_PlayerMove_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_PlayerMove_descriptor,
-              new java.lang.String[] { "GameId", "PlayerId", "X", "Y", });
-          internal_static_Failure_descriptor =
+              new java.lang.String[] { "GameId", "UserId", "X", "Y", });
+          internal_static_GameError_descriptor =
             getDescriptor().getMessageTypes().get(4);
-          internal_static_Failure_fieldAccessorTable = new
+          internal_static_GameError_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_Failure_descriptor,
-              new java.lang.String[] { "What", });
+              internal_static_GameError_descriptor,
+              new java.lang.String[] { "Description", "Code", "Gameinforeply", });
           return null;
         }
       };

@@ -20,12 +20,12 @@ case class GameInfoRequest (theid: Int) extends GameRequestMessage
     }
 }
 
-case class GameInfoReply (theid: Int, players: Array[Int], board: Array[Int]) extends GameRequestMessage
+case class GameInfoResponse (theid: Int, players: Array[Int], board: Array[Int]) extends GameRequestMessage
 {
     id = theid
     override def toString() =
     {
-        "GameInfoReply {id: " + id + ", players: (" + players.mkString(", ") + "), board: (" + board.mkString(", ") + ")}" 
+        "GameInfoResponse {id: " + id + ", players: (" + players.mkString(", ") + "), board: (" + board.mkString(", ") + ")}" 
     }
 }
 
@@ -37,19 +37,19 @@ case class CreateGame (players: Array[Int]) extends GameRequestMessage
     }
 }
 
-case class Failure (what: String) extends ReplyMessage
+case class GameError (description: String, code: Int, reply: GameInfoResponse) extends ReplyMessage
 {
     override def toString() =
     {
-        "Failure {what: " + what + "}"
+        "GameError {what: " + description + ", code: " + code + ", gameinforeply: " + (if(reply == null) "none" else reply) + "}"
     }
 }
 
-case class PlayerMove (gameId: Int, playerId: Int, x: Int, y: Int) extends GameRequestMessage
+case class PlayerMove (gameId: Int, userId: Int, x: Int, y: Int) extends GameRequestMessage
 {
     id = gameId
     override def toString() =
     {
-        "PlayerMove {id: " + gameId + ", playerId: " + playerId + ", x: " + x + ", y: " + y + "}"
+        "PlayerMove {id: " + gameId + ", userId: " + userId + ", x: " + x + ", y: " + y + "}"
     }
 }

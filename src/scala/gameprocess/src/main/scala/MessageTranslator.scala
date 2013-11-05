@@ -2,11 +2,11 @@ import akka.util.ByteString
 
 object MessageTranslator
 {
-    val GAMEINFOREQUEST = 1
-    val GAMEINFOREPLY = 11
+    val GAMEINFOREQUEST = 11
+    val GAMEINFORESPONSE = 12
     val CREATEGAME = 10
-    val PLAYERMOVE = 4
-    val FAILURE = 5
+    val PLAYERMOVE = 13
+    val GAMEERROR = 14
     
     def scalaListToArray (l: java.util.List[Integer]): Array[Int] =
     {
@@ -25,18 +25,19 @@ object MessageTranslator
             case GAMEINFOREQUEST =>
                 val info = Gameprotocol.GameInfoRequest.newBuilder().mergeFrom( msgByteString.toArray ).build()
                 GameInfoRequest(info.getId())
-            case GAMEINFOREPLY =>
-                val info = Gameprotocol.GameInfoReply.newBuilder().mergeFrom ( msgByteString.toArray ).build()
-                GameInfoReply(info.getId(), scalaListToArray(info.getPlayersList()), scalaListToArray(info.getBoardList()))
+            case GAMEINFORESPONSE =>
+                val info = Gameprotocol.GameInfoResponse.newBuilder().mergeFrom ( msgByteString.toArray ).build()
+                GameInfoResponse(info.getId(), scalaListToArray(info.getPlayersList()), scalaListToArray(info.getBoardList()))
             case CREATEGAME =>
                 val createGame = Gameprotocol.CreateGame.newBuilder().mergeFrom ( msgByteString.toArray ).build()
                 CreateGame(scalaListToArray(createGame.getPlayersList()))
-            case FAILURE =>
-                val fail = Gameprotocol.Failure.newBuilder().mergeFrom ( msgByteString.toArray ).build()
-                Failure(fail.getWhat())
+            case GAMEERROR =>
+                val fail = Gameprotocol.GameError.newBuilder().mergeFrom ( msgByteString.toArray ).build()
+                val info = fail.getGameinforeply()
+                GameError(fail.getDescription(), fail.getCode(), GameInfoResponse(info.getId(), scalaListToArray(info.getPlayersList()), scalaListToArray(info.getBoardList())))
             case PLAYERMOVE =>
                 val info = Gameprotocol.PlayerMove.newBuilder().mergeFrom ( msgByteString.toArray ).build()
-                PlayerMove(info.getGameId(), info.getPlayerId(), info.getX(), info.getY())
+                PlayerMove(info.getGameId(), info.getUserId(), info.getX(), info.getY())
         }
     }
     
@@ -47,24 +48,39 @@ object MessageTranslator
                 var gameInfoRequestBuilder = Gameprotocol.GameInfoRequest.newBuilder()
                 gameInfoRequestBuilder.setId(id)
                 (GAMEINFOREQUEST, Gameprotocol.GameInfoRequest.newBuilder().setId(id).build())
-            case GameInfoReply (id: Int, players: Array[Int], board: Array[Int]) =>
-                var gameInfoReplyBuilder = Gameprotocol.GameInfoReply.newBuilder()
+            case GameInfoResponse (id: Int, players: Array[Int], board: Array[Int]) =>
+                var gameInfoReplyBuilder = Gameprotocol.GameInfoResponse.newBuilder()
                 gameInfoReplyBuilder = gameInfoReplyBuilder.setId(id)
                 for(b <- board)
                     gameInfoReplyBuilder = gameInfoReplyBuilder.addBoard(b)
                 for(p <- players)
                     gameInfoReplyBuilder = gameInfoReplyBuilder.addPlayers(p)
-                (GAMEINFOREPLY, gameInfoReplyBuilder.build())
+                (GAMEINFORESPONSE, gameInfoReplyBuilder.build())
             case CreateGame (players: Array[Int]) =>
                 var createGameBuilder = Gameprotocol.CreateGame.newBuilder()
                 for (p <- players)
                     createGameBuilder = createGameBuilder.addPlayers(p)
                 (CREATEGAME, createGameBuilder.build())
                 
-            case PlayerMove (gameId: Int, playerId: Int, x: Int, y: Int) =>
-                (PLAYERMOVE, Gameprotocol.PlayerMove.newBuilder().setGameId(gameId).setPlayerId(playerId).setX(x).setY(y).build())
-            case Failure (what: String) =>
-                (FAILURE, Gameprotocol.Failure.newBuilder().setWhat(what).build())
+            case PlayerMove (gameId: Int, userId: Int, x: Int, y: Int) =>
+                (PLAYERMOVE, Gameprotocol.PlayerMove.newBuilder().setGameId(gameId).setUserId(userId).setX(x).setY(y).build())
+            case GameError (what: String, code: Int, null) =>
+                var builder = Gameprotocol.GameError.newBuilder().setDescription(what).setCode(code)
+                (GAMEERROR, builder.build())                
+            case GameError (what: String, code: Int, info: GameInfoResponse) =>
+                var builder = Gameprotocol.GameError.newBuilder().setDescription(what).setCode(code)
+                var gameInfo : Gameprotocol.GameInfoResponse = null
+
+                var gameInfoReplyBuilder = Gameprotocol.GameInfoResponse.newBuilder()
+                gameInfoReplyBuilder = gameInfoReplyBuilder.setId(info.id)
+                for(b <- info.board)
+                    gameInfoReplyBuilder = gameInfoReplyBuilder.addBoard(b)
+                for(p <- info.players)
+                    gameInfoReplyBuilder = gameInfoReplyBuilder.addPlayers(p)
+                gameInfo = gameInfoReplyBuilder.build()
+                builder.setGameinforeply(gameInfo)
+
+                (GAMEERROR, builder.build())
         }
         ret match { case (x: Int, y: com.google.protobuf.GeneratedMessage) => (x, ByteString(y.toByteArray())) }
     }
