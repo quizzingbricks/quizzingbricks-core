@@ -47,6 +47,18 @@ class QuizzingBricksCLI(object):
         service = LobbyService("tcp://*:%d" % port)
         service.run()
 
+    def _run_friendservice(self, port):
+        from quizzingbricks.services.lobby import LobbyService
+
+        port = port or 5553
+        msg = "FriendService started on port", port
+        print msg
+        print "-" * len(msg)
+        print "Ctrl^C to interrupt"
+        service = LobbyService("tcp://*:%d" % port)
+        service.run()
+
+
     def run(self):
         parser = argparse.ArgumentParser("quizctl", description="CLI for Quizzingbricks")
         subparsers = parser.add_subparsers(help="sub command...", dest="command")
@@ -63,6 +75,9 @@ class QuizzingBricksCLI(object):
         run_lobbyservice_parser = subparsers.add_parser("lobbyservice", help="Start the lobby service (server)")
         run_lobbyservice_parser.add_argument("-port", type=int, help="Port to use for the lobby service (default is 5552)")
 
+        run_lobbyservice_parser = subparsers.add_parser("friendservice", help="Start the friend service (server)")
+        run_lobbyservice_parser.add_argument("-port", type=int, help="Port to use for the lobby service (default is 5553)")
+
         args = parser.parse_args()
 
         if args.command == "web":
@@ -73,6 +88,8 @@ class QuizzingBricksCLI(object):
             self._run_userservice(args.port)
         elif args.command == "lobbyservice":
             self._run_lobbyservice(args.port)
+        elif args.command == "friendservice":
+            self._run_friendservice(args.port)
 
 
 if __name__ == "__main__":
