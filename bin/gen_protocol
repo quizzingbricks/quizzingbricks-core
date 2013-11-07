@@ -9,6 +9,20 @@ protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/base.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/users.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/protocol.proto
 protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/lobbies.proto
+protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/friends.proto
+protoc -I=$SRC_DIR --python_out=$PY_DST_DIR $SRC_DIR/games.proto
+
 
 # java
+export JV_DST_DIR=src/scala/gameprocess/src/main/java/
+
+protoc -I=$SRC_DIR --java_out=$JV_DST_DIR $SRC_DIR/base.proto
+protoc -I=$SRC_DIR --java_out=$JV_DST_DIR $SRC_DIR/users.proto
+#protocol.java won't find the other files so commenting this one out
+#for now since it doesn't seem critical right now
+#protoc -I=$SRC_DIR --java_out=$JV_DST_DIR $SRC_DIR/protocol.proto
+protoc -I=$SRC_DIR --java_out=$JV_DST_DIR $SRC_DIR/lobbies.proto
+protoc -I=$SRC_DIR --java_out=$JV_DST_DIR $SRC_DIR/friends.proto
+protoc -I=$SRC_DIR --java_out=$JV_DST_DIR $SRC_DIR/games.proto
+
 # TODO...

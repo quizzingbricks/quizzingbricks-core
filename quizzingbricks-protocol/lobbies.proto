@@ -11,3 +11,4 @@ message CreateLobbyRequest {
 message CreateLobbyResponse {
     required int32 lobbyId = 1;
 }
+

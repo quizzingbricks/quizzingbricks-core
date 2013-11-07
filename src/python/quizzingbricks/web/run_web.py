@@ -1,11 +1,16 @@
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, jsonify
 
+import sys, traceback
+
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.lobby import LobbyServiceClient
+from quizzingbricks.client.friends import FriendServiceClient
 from quizzingbricks.common.protocol import (
-    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , CreateLobbyRequest, CreateLobbyResponse
+    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , \
+     CreateLobbyRequest, CreateLobbyResponse, GetFriendsRequest, GetFriendsResponse, \
+     AddFriendRequest, AddFriendResponse, RemoveFriendRequest, RemoveFriendResponse   
 )
 
 #configuration
@@ -16,6 +21,7 @@ SECRET_KEY = 'development key'
 
 userservice = UserServiceClient("tcp://*:5551")
 lobbyservice = LobbyServiceClient("tcp://*:5552")
+friendservice = FriendServiceClient("tcp://*:5553")
 
 
 app = Flask(__name__)
@@ -33,38 +39,103 @@ def about():
 def contact():	
 	return render_template('contact.html')
 
-@app.route('/get_friends',methods=['GET', 'POST'])
-def get_friends():
-    friends_list = None
+@app.route('/add_friend', methods=['GET', 'POST'])
+def add_friend():
+    friends_list = []
     if request.method == 'POST':
-        test_friend_1 = "Anton"
-        test_friend_2 = "David"
-        test_friend_3 = "Linus"
-        test_friend_4 = "William" 
-        test_friend_5 = "Niklas"
-        friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
-        return render_template('create_game.html',friends_list=friends_list)
+        friend_Email = request.form['friend_email']
+        if(friend_Email!= ""):
+            add_friend_response = friendservice.add_friend(AddFriendRequest(userId =1,friend_email=friend_Email))
+            if (isinstance(add_friend_response, AddFriendResponse)):
+                #print "add response", add_friend_response
+                friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+                if (isinstance(friends_response,GetFriendsResponse)):
+                    for friend in friends_response.friends_list:
+                        friends_list=friends_list+ [friend]
+                    return render_template('friends_list.html',friends_list=friends_list)
+        else:
+            friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+            if (isinstance(friends_response,GetFriendsResponse)):
+                for friend in friends_response.friends_list:
+                    friends_list=friends_list+ [friend]
+                return render_template('friends_list.html',friends_list=friends_list, error="Must fill in email of user you want to add")   
     else:
-        test_friend_1 = "Anton"
-        test_friend_2 = "David"
-        test_friend_3 = "Linus"
-        test_friend_4 = "William" 
-        test_friend_5 = "Niklas"
-        friends_list=[test_friend_1,test_friend_2,test_friend_3,test_friend_4,test_friend_5]
-        return render_template('create_game.html',friends_list=friends_list)
+        friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+        if (isinstance(friends_response,GetFriendsResponse)):
+            for friend in friends_response.friends_list:
+                friends_list=friends_list+ [friend]
+            return render_template('friends_list.html',friends_list=friends_list)    
+
+@app.route('/remove_friend', methods=['GET', 'POST'])
+def remove_friend():
+    friends_list = []
+    if request.method == 'POST':    # removes selected friend and fetches the rest of the friendslist again if more is to be removed
+        try:
+            remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =1,friend_email=request.form['friend']))
+            if (isinstance(remove_friend_response, RemoveFriendResponse)):
+                print "remove response", remove_friend_response
+                friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+                if (isinstance(friends_response,GetFriendsResponse)):
+                    #print friends_response
+                    for friend in friends_response.friends_list:
+                        #print friend
+                        friends_list=friends_list+ [friend]
+                    return render_template('friends_list.html',friends_list=friends_list)
+        except: #no radio buttons selected
+            friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+            if (isinstance(friends_response,GetFriendsResponse)):
+                #print friends_response
+                for friend in friends_response.friends_list:
+                    #print friend
+                    friends_list=friends_list+ [friend]
+                return render_template('friends_list.html',friends_list=friends_list, error="Must select radio button")
+
+    else:
+        friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+        if (isinstance(friends_response,GetFriendsResponse)):
+            for friend in friends_response.friends_list:
+                friends_list=friends_list+ [friend]
+            return render_template('friends_list.html',friends_list=friends_list)
+
+@app.route('/get_friends/<int:game_type>',methods=['GET'])
+def get_friends_2p(game_type):
+    print "get_friends test 2p"
+    print game_type
+    lobby_id = None
+    friends_list = []
+    
+    response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=game_type))
+    if (isinstance(response, CreateLobbyResponse)):
+        print response
+        lobby_id = response.lobbyId
+
+    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+    if (isinstance(friends_response,GetFriendsResponse)):
+        print friends_response
+        for friend in friends_response.friends_list:
+            print friend
+            friends_list=friends_list+ [friend]
+        return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+
+    
+#************************ AWESOME ERROR FINDER ************************************
+    # try:
+    #     return render_template('create_game.html',friends_list=friends_list,game_type=game_type)
+    # except:
+    #     print "Exception in user code:"
+    #     print '-'*60
+    #     traceback.print_exc(file=sys.stdout)
+    #     print '-'*60
+    
 
 
 
-@app.route('/create_game',methods=['GET', 'POST'])
-def create_game():
-    print "test"
-    friends = []
-    test = []  
 
-    responce = lobbyservice.getLobbyId(CreateLobbyRequest(userId=1, gameType=4))
-    if (isinstance(responce, CreateLobbyResponse)):
-        print responce
 
+
+@app.route('/create_game/<int:game_type>',methods=['GET', 'POST'])
+def create_game(game_type):
+    friends = []  
     if request.method == 'POST':
         f = request.form
         for key in f.keys():
@@ -73,9 +144,11 @@ def create_game():
                 if not value ==''  :
                     friends=friends+[value]
         print friends
-        return render_template('test_board.html',friends=friends,test=test)
+        return render_template('test_board.html',friends=friends)
     else:
-        return render_template('create_game.html',friends=friends,test=test)
+        return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
+
+
 
 @app.route('/active_games')
 def active_games():  
@@ -105,12 +178,12 @@ def register_user():
             error = "Password not the same"
             return render_template('register_user.html',error=error)
         else:
-            responce = userservice.create_user(RegistrationRequest(email=request.form['email'], password=request.form['password1']),1000)
-            if (isinstance(responce, RegistrationResponse)):
-                error= str(responce.userId)
+            response = userservice.create_user(RegistrationRequest(email=request.form['email'], password=request.form['password1']),1000)
+            if (isinstance(response, RegistrationResponse)):
+                error= str(response.userId)
                 return render_template('index.html',error=error)
             else:
-                error= responce.message
+                error= response.message
                 return render_template('register_user.html',error=error)
     return render_template('register_user.html')
 
@@ -122,12 +195,12 @@ def register_user():
 def login():
     error = None
     if request.method == 'POST':
-        responce = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
-        if (isinstance(responce, LoginResponse)):
-            session['userId'] = str(responce.userId)
+        response = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
+        if (isinstance(response, LoginResponse)):
+            session['userId'] = str(response.userId)
             session['logged_in'] = True
         else:
-            error=responce.message
+            error=response.message
  #       if request.form['username'] != app.config['USERNAME']:
  #           error = 'Invalid username'
  #       elif request.form['password'] != app.config['PASSWORD']:

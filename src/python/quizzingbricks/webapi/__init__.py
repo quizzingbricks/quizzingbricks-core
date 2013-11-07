@@ -6,16 +6,18 @@
 from flask import Flask, jsonify, request, g
 
 from quizzingbricks.client.exceptions import TimeoutError
+from quizzingbricks.client.games import GameServiceClient
 from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.common.protocol import (
-    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse
+    LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse,
+    CreateGame, GameInfoRequest, GameInfoResponse, PlayerMove, GameError
 )
 
 app = Flask(__name__)
 app.secret_key = "dev-key-123"
 
 userservice = UserServiceClient("tcp://*:5551")
-#gameservice = GameServiceClient("tcp://*:xxxx")
+gameservice = GameServiceClient("tcp://*:1234")
 
 def api_error(message, code=0):
     """Returns a single error message"""
@@ -80,3 +82,23 @@ def create_user():
     rep = userservice.create_user(req)
 
     return rep.userId
+
+@app.route("/api/game/<int:gameid>/play/move", methods=["POST"])
+def place_brick(gameid):
+    msg = PlayerMove()
+    msg.x = request.json['x']
+    msg.y = request.json['y']
+    msg.gameId = gameid
+    # Also, fill in userid once we have the functionality to translate token to user id 
+
+    try:
+        rep = gameservice.send(msg)
+        if isinstance(rep, GameError):
+            return api_error(rep.description, rep.code)
+        else:
+            return "" # assuming this returns 200 OK
+
+        # Also, check that the token/user is valid once we have that functionality
+
+    except TimeoutError as e:
+        return api_error("Game service not available", 500)

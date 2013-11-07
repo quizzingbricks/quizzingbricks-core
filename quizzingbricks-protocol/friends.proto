@@ -1,0 +1,30 @@
+
+
+// messages
+
+message GetFriendsRequest {
+    required int32 userId =1;
+}
+
+// friends list
+message GetFriendsResponse {
+    repeated string friends_list = 1;
+}
+
+message AddFriendRequest {
+	required int32 userId =1;
+	required string friend_email = 2;
+}
+
+message AddFriendResponse {
+	required bool friend_added = 1;
+}
+
+message RemoveFriendRequest {
+	required int32 userId =1;
+	required string friend_email = 2;
+}
+
+message RemoveFriendResponse {
+	required bool friend_removed = 1;
+}
