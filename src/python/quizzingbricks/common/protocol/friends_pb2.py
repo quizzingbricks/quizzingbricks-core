@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='friends.proto',
   package='',
-  serialized_pb='\n\rfriends.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"*\n\x12GetFriendsResponse\x12\x14\n\x0c\x66riends_list\x18\x01 \x03(\t\"(\n\x10\x41\x64\x64\x46riendRequest\x12\x14\n\x0c\x66riend_email\x18\x01 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\"+\n\x13RemoveFriendRequest\x12\x14\n\x0c\x66riend_email\x18\x01 \x02(\t\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
+  serialized_pb='\n\rfriends.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"*\n\x12GetFriendsResponse\x12\x14\n\x0c\x66riends_list\x18\x01 \x03(\t\"8\n\x10\x41\x64\x64\x46riendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\";\n\x13RemoveFriendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
 
 
 
@@ -82,8 +82,15 @@ _ADDFRIENDREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='friend_email', full_name='AddFriendRequest.friend_email', index=0,
-      number=1, type=9, cpp_type=9, label=2,
+      name='userId', full_name='AddFriendRequest.userId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='friend_email', full_name='AddFriendRequest.friend_email', index=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -98,7 +105,7 @@ _ADDFRIENDREQUEST = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=98,
-  serialized_end=138,
+  serialized_end=154,
 )
 
 
@@ -125,8 +132,8 @@ _ADDFRIENDRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=140,
-  serialized_end=181,
+  serialized_start=156,
+  serialized_end=197,
 )
 
 
@@ -138,8 +145,15 @@ _REMOVEFRIENDREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='friend_email', full_name='RemoveFriendRequest.friend_email', index=0,
-      number=1, type=9, cpp_type=9, label=2,
+      name='userId', full_name='RemoveFriendRequest.userId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='friend_email', full_name='RemoveFriendRequest.friend_email', index=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -153,8 +167,8 @@ _REMOVEFRIENDREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=183,
-  serialized_end=226,
+  serialized_start=199,
+  serialized_end=258,
 )
 
 
@@ -181,8 +195,8 @@ _REMOVEFRIENDRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=228,
-  serialized_end=274,
+  serialized_start=260,
+  serialized_end=306,
 )
 
 DESCRIPTOR.message_types_by_name['GetFriendsRequest'] = _GETFRIENDSREQUEST
