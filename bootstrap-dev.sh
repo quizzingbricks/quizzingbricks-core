@@ -114,21 +114,20 @@ sudo apt-get install -y python-dev
 
 cd ~
 
-sudo docker run -d -p 5432:5432 -e POSTGRESQL_USER=qb -e POSTGRESQL_PASS=qb123 orchardup/postgresql
+# sudo docker run -d -p 5432:5432 -e POSTGRESQL_USER=qb -e POSTGRESQL_PASS=qb123 orchardup/postgresql
 
 
 
 #https://www.digitalocean.com/community/articles/how-to-install-and-use-postgresql-on-ubuntu-12-04
 
-#sudo apt-get install postgresql postgresql-contrib
+sudo apt-get install postgresql postgresql-contrib
 
-#sudo -i
+sudo -u postgres psql -c "CREATE USER qb WITH SUPERUSER;"
+sudo -u postgres psql -c "ALTER USER qb WITH PASSWORD 'qb123';"
+sudo -u postgres psql -c "CREATE DATABASE quizzingbricks_dev;"
 
-#su - postgres
-
-#createuser (not really)
+#sudo -u postgres /usr/lib/postgresql/9.1/bin/postgres --single --config-file=/etc/postgresql/9.1/main/postgresql.conf <<< "CREATE USER qb WITH SUPERUSER;"
+#sudo -u postgres /usr/lib/postgresql/9.1/bin/postgres --single --config-file=/etc/postgresql/9.1/main/postgresql.conf <<< "ALTER USER qb WITH PASSWORD 'qb123';"
 
 # setup some files for docker
 cd ~
-
-# docker run -p 5432 jpetazzo/pgsql /init YourSecretPassword
