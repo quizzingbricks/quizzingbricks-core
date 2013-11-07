@@ -38,8 +38,8 @@ class FriendService(NunciusService):
     name = "friendservice"
     protocol_mapper = p_mapper
 
-    @expose("add_Friend")
-    def add_Friend(self, request):
+    @expose("add_friend")
+    def add_friend(self, request):
         print "in add_Friend"
         # Query database to make sure friend is a user and if it is add it to friends list
         if(True):   #switch to query test
@@ -47,8 +47,8 @@ class FriendService(NunciusService):
         else:
             return AddFriendResponse(friend_added=False)
 
-    @expose("remove_Friend")
-    def remove_Friend(self, request):
+    @expose("remove_friend")
+    def remove_friend(self, request):
         print "in remove_friend"
         # Query database to make sure friend is a user and if it is add it to friends list
         if(True):   #switch to query test
@@ -56,8 +56,8 @@ class FriendService(NunciusService):
         else:
             return RemoveFriendResponse(friend_removed=False)
 
-    @expose("get_Friends_List")
-    def get_Friends_List(self, request):
+    @expose("get_friends_List")
+    def get_friends_list(self, request):
         test_friend_1 = "Anton@test.se"
         test_friend_2 = "David@test.se"
         test_friend_3 = "Linus@test.se"

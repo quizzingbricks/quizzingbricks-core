@@ -33,8 +33,8 @@ class LobbyService(NunciusService):
     name = "lobbyservice"
     protocol_mapper = p_mapper
 
-    @expose("get_Lobby_Id")
-    def get_Lobby_Id(self, request):
+    @expose("get_lobby_id")
+    def get_lobby_id(self, request):
         if (request.gameType == 4):
             return CreateLobbyResponse(lobbyId=123456)
         if (request.gameType == 2):
