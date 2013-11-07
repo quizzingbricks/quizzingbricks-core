@@ -76,7 +76,7 @@ class QuizzingBricksCLI(object):
         run_lobbyservice_parser.add_argument("-port", type=int, help="Port to use for the lobby service (default is 5552)")
 
         run_friendservice_parser = subparsers.add_parser("friendservice", help="Start the friend service (server)")
-        run_friendervice_parser.add_argument("-port", type=int, help="Port to use for the lobby service (default is 5553)")
+        run_friendservice_parser.add_argument("-port", type=int, help="Port to use for the lobby service (default is 5553)")
 
         args = parser.parse_args()
 
