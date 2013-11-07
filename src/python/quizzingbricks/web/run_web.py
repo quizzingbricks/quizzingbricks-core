@@ -45,22 +45,22 @@ def add_friend():
     if request.method == 'POST':
         friend_Email = request.form['friend_email']
         if(friend_Email!= ""):
-            add_friend_response = friendservice.add_Friend(AddFriendRequest(userId =1,friend_email=friend_Email))
+            add_friend_response = friendservice.add_friend(AddFriendRequest(userId =1,friend_email=friend_Email))
             if (isinstance(add_friend_response, AddFriendResponse)):
                 #print "add response", add_friend_response
-                friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+                friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
                 if (isinstance(friends_response,GetFriendsResponse)):
                     for friend in friends_response.friends_list:
                         friends_list=friends_list+ [friend]
                     return render_template('friends_list.html',friends_list=friends_list)
         else:
-            friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+            friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
             if (isinstance(friends_response,GetFriendsResponse)):
                 for friend in friends_response.friends_list:
                     friends_list=friends_list+ [friend]
                 return render_template('friends_list.html',friends_list=friends_list, error="Must fill in email of user you want to add")   
     else:
-        friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+        friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
         if (isinstance(friends_response,GetFriendsResponse)):
             for friend in friends_response.friends_list:
                 friends_list=friends_list+ [friend]
@@ -71,10 +71,10 @@ def remove_friend():
     friends_list = []
     if request.method == 'POST':    # removes selected friend and fetches the rest of the friendslist again if more is to be removed
         try:
-            remove_friend_response = friendservice.remove_Friend(RemoveFriendRequest(userId =1,friend_email=request.form['friend']))
+            remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =1,friend_email=request.form['friend']))
             if (isinstance(remove_friend_response, RemoveFriendResponse)):
                 print "remove response", remove_friend_response
-                friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+                friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
                 if (isinstance(friends_response,GetFriendsResponse)):
                     #print friends_response
                     for friend in friends_response.friends_list:
@@ -82,7 +82,7 @@ def remove_friend():
                         friends_list=friends_list+ [friend]
                     return render_template('friends_list.html',friends_list=friends_list)
         except: #no radio buttons selected
-            friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+            friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
             if (isinstance(friends_response,GetFriendsResponse)):
                 #print friends_response
                 for friend in friends_response.friends_list:
@@ -91,7 +91,7 @@ def remove_friend():
                 return render_template('friends_list.html',friends_list=friends_list, error="Must select radio button")
 
     else:
-        friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+        friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
         if (isinstance(friends_response,GetFriendsResponse)):
             for friend in friends_response.friends_list:
                 friends_list=friends_list+ [friend]
@@ -109,7 +109,7 @@ def get_friends_2p(game_type):
         print response
         lobby_id = response.lobbyId
 
-    friends_response = friendservice.get_Friends_list(GetFriendsRequest(userId=1))  #hard coded userId
+    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=1))  #hard coded userId
     if (isinstance(friends_response,GetFriendsResponse)):
         print friends_response
         for friend in friends_response.friends_list:
