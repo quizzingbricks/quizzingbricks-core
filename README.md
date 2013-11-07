@@ -9,28 +9,26 @@ Manual
 Setup Vagrant
 -------------
 $ vagrant up dev
-
 $ vagrant ssh dev
 
-Install python libs
--------------------
+
+Setup development environment for python
+----------------------------------------
 $ cd /vagrant/
-$ sudo pip install -r requirements.txt
+$ sudo python setup.py develop
 
-Temp: create sqlite db
-----------------------
-$ cd /vagrant/src/python
-
-$ python bootstrap-db.py
+This install required packages and make our packages available in the environment
+which means that we don't need to care about paths.
 
 
 How to run backend services
 ===========================
-User service
-------------
-$ cd /vagrant/src/python
+$ python /bin/quizctl.py [name] [-port P] &
 
-$ python userservice-bootstrap.py &
+Change name to an available service (ex: web) and optionally provide a port.
+If you want to see available services, write
+
+$ python /bin/quizctl.py -h
 
 Note: & attach the process to background, use jobs to list all current jobs
 or fg to resume to latest.
@@ -42,3 +40,19 @@ How to run webapi (flask)
 2. $ gunicorn quizzingbricks.webapi:app -b "0.0.0.0:8100" -k gevent -w 3
 
 This starts the RESTful API on port 8100.
+
+Database migrations
+===================
+We use alembic for database migrations (eg. database changes) and to create a new database migration/revision,
+use the following commando
+$ alembic revision -m "a message that describe what I am doing"
+
+Which would generate a file under the alembic folder.
+
+1. To upgrade to the latest revision/migration, use
+    $ alembic upgrade head
+
+2. To downgrade (redo, delete previous revision), use
+    $ alembic downgrade -1
+
+Example can be found in alembic/versions/3899a0e148d3_create_initial_user_.py
