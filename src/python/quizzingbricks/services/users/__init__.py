@@ -17,7 +17,9 @@ from quizzingbricks.common.protocol import (
     LoginRequest,
     LoginResponse,
     RegistrationRequest,
-    RegistrationResponse
+    RegistrationResponse,
+    GetUserRequest,
+    GetUserResponse
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -51,9 +53,6 @@ class UserService(NunciusService):
         #    return rep
         #return RpcError(message = "Incorrect e-mail or password")
 
-    @expose("authenticate_by_token")
-    def authenticate_by_token(self, request):
-        pass
 
     @expose("create_user")
     def create_user(self, request):
@@ -77,5 +76,17 @@ class UserService(NunciusService):
 
 
     @expose("get_user")
-    def get_user_by_id(self):
-        pass
+    def get_user_by_id(self, request):
+        if not isinstance(request, GetUserRequest):
+            return RpcError(message="Wrong message type, expecting GetUserRequest")
+
+        with db(session):
+            user = User.query.get(request.userId)
+            if not user:
+                return RpcError(message="No such user with id=%d" % request.userId)
+            user_message = ProtoUser(
+                id=user.id,
+                email=user.email,
+                username=user.email
+            )
+            return GetUserResponse(user=user_message)

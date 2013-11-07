@@ -12,4 +12,7 @@ class UserServiceClient(BaseClient):
     def create_user(self, request, timeout=None):
         with self.rpc_call("create_user", request, timeout) as response:
             return response
-    
+
+    def get_user(self, request, timeout=None):
+        with self.rpc_call("get_user", request, timeout) as response:
+            return response
