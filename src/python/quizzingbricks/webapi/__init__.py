@@ -82,7 +82,7 @@ def login():
 
         #handle response.userId
         if isinstance(response, LoginResponse):
-            return token_signer.dumps(response.userId)
+            return jsonify({"token": token_signer.dumps(response.userId)})
         return api_error(response.message) # TODO: check that the response is a RpcError
         #return api_error("Wrong password", 501)
     except TimeoutError as e:
