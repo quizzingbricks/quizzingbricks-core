@@ -34,7 +34,7 @@ message AcceptLobbyInviteRequest {
 }
 
 message AcceptLobbyInviteResponse {
-	required string answer = 1; // accept or deny
+	required string answer = 1; // Accept or Deny
 }
 
 //************* Invite **********************
