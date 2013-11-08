@@ -48,14 +48,14 @@ class QuizzingBricksCLI(object):
         service.run()
 
     def _run_friendservice(self, port):
-        from quizzingbricks.services.lobby import LobbyService
+        from quizzingbricks.services.friends import FriendService
 
         port = port or 5553
         msg = "FriendService started on port", port
         print msg
         print "-" * len(msg)
         print "Ctrl^C to interrupt"
-        service = LobbyService("tcp://*:%d" % port)
+        service = FriendService("tcp://*:%d" % port)
         service.run()
 
 
