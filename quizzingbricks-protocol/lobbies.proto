@@ -12,3 +12,18 @@ message CreateLobbyResponse {
     required int32 lobbyId = 1;
 }
 
+// get the current state of the lobby (accepted declined invitations etc)
+message GetLobbyStateRequest {	
+	required int32 lobbyId =1;
+}
+
+// 2 lists 1 with emails of the friends and 1 with answers corresponding to the same index in the email list
+message GetLobbyStateResponse {
+	repeated string friend_email = 1;
+	repeated string answer = 2;
+}
+
+message AcceptLobbyRequest {
+	required int32 userId = 1;
+	required int32 lobbyId = 2;
+}
