@@ -12,6 +12,8 @@ message CreateLobbyResponse {
     required int32 lobbyId = 1;
 }
 
+//*********** Lobby State ***************************
+
 // get the current state of the lobby (accepted declined invitations etc)
 message GetLobbyStateRequest {	
 	required int32 lobbyId =1;
@@ -21,9 +23,50 @@ message GetLobbyStateRequest {
 message GetLobbyStateResponse {
 	repeated string friend_email = 1;
 	repeated string answer = 2;
+	required int32 gameType = 3;			//2 or 4
 }
 
-message AcceptLobbyRequest {
+//************* Accept invite ***************
+
+message AcceptLobbyInviteRequest {
 	required int32 userId = 1;
 	required int32 lobbyId = 2;
 }
+
+message AcceptLobbyInviteResponse {
+	required string answer = 1; // accept or deny
+}
+
+//************* Invite **********************
+message InviteLobbyRequest {
+	required int32 userId = 1;
+	required int32 lobbyId = 2;
+	repeated string invite_emails = 3;
+}
+
+message InviteLobbyResponse {
+	required bool friends_invited = 1;
+}
+
+//*********** Remove Lobby *******************
+
+message RemoveLobbyRequest {
+	required int32 userId = 1;
+	required int32 lobbyId = 2;
+}
+
+message RemoveLobbyResponse {
+	required bool lobby_removed = 1;
+}
+
+//*********** StartGame **********************
+
+message StartGameRequest {
+	required int32 userId = 1;
+	required int32 lobbyId = 2;
+}
+
+message StartGameResponse {
+	required int32 gameId = 1;
+}
+

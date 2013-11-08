@@ -14,7 +14,17 @@ from quizzingbricks.common.protocol import (
     protocol_inverse_mapper,
     RpcError,
     CreateLobbyRequest,
-    CreateLobbyResponse
+    CreateLobbyResponse,
+    GetLobbyStateRequest,
+    GetLobbyStateResponse,
+    AcceptLobbyInviteRequest,
+    AcceptLobbyInviteResponse,
+    InviteLobbyRequest,
+    InviteLobbyResponse,
+    RemoveLobbyRequest,
+    RemoveLobbyResponse,
+    StartGameRequest,
+    StartGameResponse
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -42,48 +52,28 @@ class LobbyService(NunciusService):
         else:
             return CreateLobbyResponse(lobbyId=123321)
 
-    
 
-    # @expose("authenticate")
-    # def authenticate_by_password(self, request):
-    #     if not isinstance(request, LoginRequest):
-    #         return RpcError(message="Wrong message type, expecting LoginRequest")
-    #     with db(session):
-    #         user = User.query.filter(User.email==request.email).first()
-    #         if user and user.check_password(request.password):
-    #             return LoginResponse(userId=user.id)
-    #     return RpcError(message="Incorrect e-mail or password") # TODO: better method to handle error msgs?
-    #     #if request.email == "demo@qb.se" and request.password == "demo":
-    #     #    rep = LoginResponse()
-    #     #    rep.userId = 123456
-    #     #    return rep
-    #     #return RpcError(message = "Incorrect e-mail or password")
+    @expose("get_lobby_state")
+    def get_lobby_state(self, request):
+        print "get_lobby_state"
 
-    # @expose("authenticate_by_token")
-    # def authenticate_by_token(self, request):
-    #     pass
+    @expose("accept_lobby_invite")
+    def accept_lobby_invite(self, request):
+        print "accept_lobby_invite"
 
-    # @expose("create_user")
-    # def create_user(self, request):
-    #     if not isinstance(request, RegistrationRequest):
-    #         return RpcError(message = "Wrong message type, expecting RegistrationRequest")
-    #     # TODO: add more logic before insert the user to db
-    #     if None in (request.email, request.password):
-    #         return RpcError(message="Both email and password requires to be set")
-    #     try:
-    #         user = User(
-    #             email = request.email,
-    #             password = request.password
-    #         )
-    #         session.add(user)
-    #         session.commit()
+    @expose("invite_to_lobby")
+    def invite_to_lobby(self, request):
+        print "invite_to_lobby"
 
-    #         return RegistrationResponse(userId=user.id)
-    #     except Exception as e:
-    #         session.rollback()
-    #         return RpcError(message=e.message) # TODO: improve this
+    @expose("remove_lobby")
+    def remove_lobby(self, request):
+        print "remove_lobby"
+
+    @expose("start_game")
+    def start_game(self, request):
+        print "start_game"
 
 
-    # @expose("get_user")
-    # def get_user_by_id(self):
-    #     pass
+
+
+
