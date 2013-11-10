@@ -29,7 +29,11 @@ protocol_mapper = {
     15: AddFriendRequest,
     16: AddFriendResponse,
     17: RemoveFriendRequest,
-    18: RemoveFriendResponse
+    18: RemoveFriendResponse,
+    19: QuestionRequest,
+    20: QuestionResponse,
+    21: Answer,
+    22: AnswerResponse
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}

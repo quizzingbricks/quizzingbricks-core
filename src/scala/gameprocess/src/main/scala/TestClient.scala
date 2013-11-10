@@ -14,6 +14,10 @@ object TestClient
               CreateGame(args map(_.toInt))
           case 3 =>
               PlayerMove(args(0).toInt, args(1).toInt, args(2).toInt, args(3).toInt)
+          case 4 =>
+              QuestionRequest(args(0).toInt, args(1).toInt)
+          case 5 =>
+              Answer(args(0).toInt, args(1).toInt, args(2).toInt)
       }
   }
   
@@ -30,7 +34,8 @@ object TestClient
    
     while( true )
     {
-      println("Choose message type:\n1: GameInfoRequest (id)\n2: CreateGame (players)\n3: PlayerMove (gameid player x y)")
+      println("Choose message type:\n1: GameInfoRequest (id)\n2: CreateGame (players)\n" +
+      		   "3: PlayerMove (gameid player x y)\n4: QuestionRequest(gameid player) \n5: Answer(gameid player answer)")
       val n = readLine.toInt
       println("Arguments: ")
       var (x, msg) = MessageTranslator.translate(makeMessageFromString(n, readLine))
@@ -42,7 +47,6 @@ object TestClient
       val rep = MessageTranslator.translate(replyId.foldLeft("")((str, n) => str + n.toChar).toInt , ByteString(reply))
       //val msg2 = MessageTranslator.translate(rep)
       println("Reply received: " + rep)
-      readLine
     }
   }
 }

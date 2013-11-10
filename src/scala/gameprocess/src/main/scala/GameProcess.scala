@@ -5,11 +5,8 @@ import akka.zeromq._
 import akka.util.ByteString
 import org.zeromq._
 import scala.concurrent.Future
-import akka.util.Timeout
-import scala.concurrent.duration._
 import scala.collection.JavaConverters._
 import scala.collection.mutable.HashMap
-import scala.concurrent.Await
 
 class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
 {
@@ -48,33 +45,6 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
     }
 }
 
-class Game (id: Int, players: Array[Int]) extends Actor
-{
-    var board: Array[Int] = new Array(0)
-    
-    override def preStart()
-    {
-        board = new Array[Int](8*8)
-        for (i <- 0 to board.length-1)
-            board(i) = 0
-    }
-    
-    def receive =
-    {
-        case GameInfoRequest(idReq) => 
-            assert(idReq == id)
-            sender ! GameInfoResponse(id, players, board)
-        case PlayerMove(_, player, x, y) =>
-            if (! (players contains player))
-                sender ! GameError("You are not permitted to that game.", 251, GameInfoResponse(id, players, board))
-            else
-            {
-                board(y*8+x) = player
-                sender ! GameInfoResponse(id, players, board)
-            }
-    }
-}
-
 class GameCache extends Actor
 {
     var hashMap = new HashMap[Int, ActorRef]
@@ -89,7 +59,7 @@ class GameCache extends Actor
             hashMap.put(highestId, game)
             game forward GameInfoRequest(highestId)
         case x: GameRequestMessage =>
-            val game = hashMap.get(x.id)
+            val game = hashMap.get(x.gameId)
             game match
             {
                 case None => sender ! GameError("There exists no such game.", 200, null)

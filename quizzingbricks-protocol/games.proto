@@ -5,10 +5,26 @@ message GameInfoRequest
    required int32 id = 1;
 }
 
+message Question
+{
+    required string question = 1;
+    repeated string alternatives = 2;
+}
+
+message Player
+{
+   required int32 userId = 1;
+   required int32 state = 2;
+   optional int32 x = 3;
+   optional int32 y = 4;
+   optional Question question = 5;
+   optional bool answeredCorrectly = 6;
+}
+
 message GameInfoResponse
 {
    required int32 id = 1;
-   repeated int32 players = 2;
+   repeated Player players = 2;
    repeated int32 board = 3;
 }
 
@@ -30,4 +46,27 @@ message GameError
    required string description = 1;
    required int32 code = 2;
    optional GameInfoResponse gameinforeply = 3;
+}
+
+message QuestionRequest
+{
+   required int32 gameId = 1;
+   required int32 userId = 2;
+}
+
+message QuestionResponse
+{
+   required string question = 1;
+}
+
+message Answer
+{
+   required int32 gameId = 1;
+   required int32 userId = 2;
+   required int32 answer = 3;
+}
+
+message AnswerResponse
+{
+   required bool isCorrect = 1;
 }
