@@ -2638,7 +2638,7 @@ public final class Lobbies {
      * <code>required string answer = 1;</code>
      *
      * <pre>
-     * accept or deny
+     * Accept or Deny
      * </pre>
      */
     boolean hasAnswer();
@@ -2646,7 +2646,7 @@ public final class Lobbies {
      * <code>required string answer = 1;</code>
      *
      * <pre>
-     * accept or deny
+     * Accept or Deny
      * </pre>
      */
     java.lang.String getAnswer();
@@ -2654,7 +2654,7 @@ public final class Lobbies {
      * <code>required string answer = 1;</code>
      *
      * <pre>
-     * accept or deny
+     * Accept or Deny
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2763,7 +2763,7 @@ public final class Lobbies {
      * <code>required string answer = 1;</code>
      *
      * <pre>
-     * accept or deny
+     * Accept or Deny
      * </pre>
      */
     public boolean hasAnswer() {
@@ -2773,7 +2773,7 @@ public final class Lobbies {
      * <code>required string answer = 1;</code>
      *
      * <pre>
-     * accept or deny
+     * Accept or Deny
      * </pre>
      */
     public java.lang.String getAnswer() {
@@ -2794,7 +2794,7 @@ public final class Lobbies {
      * <code>required string answer = 1;</code>
      *
      * <pre>
-     * accept or deny
+     * Accept or Deny
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3054,7 +3054,7 @@ public final class Lobbies {
        * <code>required string answer = 1;</code>
        *
        * <pre>
-       * accept or deny
+       * Accept or Deny
        * </pre>
        */
       public boolean hasAnswer() {
@@ -3064,7 +3064,7 @@ public final class Lobbies {
        * <code>required string answer = 1;</code>
        *
        * <pre>
-       * accept or deny
+       * Accept or Deny
        * </pre>
        */
       public java.lang.String getAnswer() {
@@ -3082,7 +3082,7 @@ public final class Lobbies {
        * <code>required string answer = 1;</code>
        *
        * <pre>
-       * accept or deny
+       * Accept or Deny
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3102,7 +3102,7 @@ public final class Lobbies {
        * <code>required string answer = 1;</code>
        *
        * <pre>
-       * accept or deny
+       * Accept or Deny
        * </pre>
        */
       public Builder setAnswer(
@@ -3119,7 +3119,7 @@ public final class Lobbies {
        * <code>required string answer = 1;</code>
        *
        * <pre>
-       * accept or deny
+       * Accept or Deny
        * </pre>
        */
       public Builder clearAnswer() {
@@ -3132,7 +3132,7 @@ public final class Lobbies {
        * <code>required string answer = 1;</code>
        *
        * <pre>
-       * accept or deny
+       * Accept or Deny
        * </pre>
        */
       public Builder setAnswerBytes(

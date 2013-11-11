@@ -13,20 +13,48 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='games.proto',
   package='',
-  serialized_pb='\n\x0bgames.proto\"\x1d\n\x0fGameInfoRequest\x12\n\n\x02id\x18\x01 \x02(\x05\"2\n\x08Question\x12\x10\n\x08question\x18\x01 \x02(\t\x12\x14\n\x0c\x61lternatives\x18\x02 \x03(\t\"u\n\x06Player\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\r\n\x05state\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x01(\x05\x12\t\n\x01y\x18\x04 \x01(\x05\x12\x1b\n\x08question\x18\x05 \x01(\x0b\x32\t.Question\x12\x19\n\x11\x61nsweredCorrectly\x18\x06 \x01(\x08\"G\n\x10GameInfoResponse\x12\n\n\x02id\x18\x01 \x02(\x05\x12\x18\n\x07players\x18\x02 \x03(\x0b\x32\x07.Player\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"\x1d\n\nCreateGame\x12\x0f\n\x07players\x18\x01 \x03(\x05\"B\n\nPlayerMove\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"X\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12\x0c\n\x04\x63ode\x18\x02 \x02(\x05\x12(\n\rgameinforeply\x18\x03 \x01(\x0b\x32\x11.GameInfoResponse\"1\n\x0fQuestionRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\"$\n\x10QuestionResponse\x12\x10\n\x08question\x18\x01 \x02(\t\"8\n\x06\x41nswer\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x05\"#\n\x0e\x41nswerResponse\x12\x11\n\tisCorrect\x18\x01 \x02(\x08\x42\x0e\x42\x0cGameprotocol')
+  serialized_pb='\n\x0bgames.proto\"$\n\x11\x43reateGameRequest\x12\x0f\n\x07players\x18\x01 \x03(\x05\"$\n\x12\x43reateGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"!\n\x0fGameInfoRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"K\n\x10GameInfoResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x18\n\x07players\x18\x02 \x03(\x0b\x32\x07.Player\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"\x80\x01\n\x06Player\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\r\n\x05state\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x01(\x05\x12\t\n\x01y\x18\x04 \x01(\x05\x12\x10\n\x08question\x18\x05 \x01(\t\x12\x14\n\x0c\x61lternatives\x18\x06 \x03(\t\x12\x19\n\x11\x61nsweredCorrectly\x18\x07 \x01(\x08\"C\n\x0bMoveRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"\x0e\n\x0cMoveResponse\"1\n\x0fQuestionRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\":\n\x10QuestionResponse\x12\x10\n\x08question\x18\x01 \x02(\t\x12\x14\n\x0c\x61lternatives\x18\x02 \x03(\t\"?\n\rAnswerRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x05\"#\n\x0e\x41nswerResponse\x12\x11\n\tisCorrect\x18\x01 \x02(\x08\"X\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12\x0c\n\x04\x63ode\x18\x02 \x02(\x05\x12(\n\rgameinforeply\x18\x03 \x01(\x0b\x32\x11.GameInfoResponseB\x0e\x42\x0cGameprotocol')
 
 
 
 
-_GAMEINFOREQUEST = _descriptor.Descriptor(
-  name='GameInfoRequest',
-  full_name='GameInfoRequest',
+_CREATEGAMEREQUEST = _descriptor.Descriptor(
+  name='CreateGameRequest',
+  full_name='CreateGameRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='GameInfoRequest.id', index=0,
+      name='players', full_name='CreateGameRequest.players', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=15,
+  serialized_end=51,
+)
+
+
+_CREATEGAMERESPONSE = _descriptor.Descriptor(
+  name='CreateGameResponse',
+  full_name='CreateGameResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='gameId', full_name='CreateGameResponse.gameId', index=0,
       number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -41,28 +69,63 @@ _GAMEINFOREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=15,
-  serialized_end=44,
+  serialized_start=53,
+  serialized_end=89,
 )
 
 
-_QUESTION = _descriptor.Descriptor(
-  name='Question',
-  full_name='Question',
+_GAMEINFOREQUEST = _descriptor.Descriptor(
+  name='GameInfoRequest',
+  full_name='GameInfoRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='question', full_name='Question.question', index=0,
-      number=1, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=unicode("", "utf-8"),
+      name='gameId', full_name='GameInfoRequest.gameId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=91,
+  serialized_end=124,
+)
+
+
+_GAMEINFORESPONSE = _descriptor.Descriptor(
+  name='GameInfoResponse',
+  full_name='GameInfoResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='gameId', full_name='GameInfoResponse.gameId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='alternatives', full_name='Question.alternatives', index=1,
-      number=2, type=9, cpp_type=9, label=3,
+      name='players', full_name='GameInfoResponse.players', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='board', full_name='GameInfoResponse.board', index=2,
+      number=3, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -76,8 +139,8 @@ _QUESTION = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=46,
-  serialized_end=96,
+  serialized_start=126,
+  serialized_end=201,
 )
 
 
@@ -118,14 +181,21 @@ _PLAYER = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='question', full_name='Player.question', index=4,
-      number=5, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='answeredCorrectly', full_name='Player.answeredCorrectly', index=5,
-      number=6, type=8, cpp_type=7, label=1,
+      name='alternatives', full_name='Player.alternatives', index=5,
+      number=6, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='answeredCorrectly', full_name='Player.answeredCorrectly', index=6,
+      number=7, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -139,111 +209,41 @@ _PLAYER = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=98,
-  serialized_end=215,
+  serialized_start=204,
+  serialized_end=332,
 )
 
 
-_GAMEINFORESPONSE = _descriptor.Descriptor(
-  name='GameInfoResponse',
-  full_name='GameInfoResponse',
+_MOVEREQUEST = _descriptor.Descriptor(
+  name='MoveRequest',
+  full_name='MoveRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='GameInfoResponse.id', index=0,
+      name='gameId', full_name='MoveRequest.gameId', index=0,
       number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='players', full_name='GameInfoResponse.players', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='board', full_name='GameInfoResponse.board', index=2,
-      number=3, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  serialized_start=217,
-  serialized_end=288,
-)
-
-
-_CREATEGAME = _descriptor.Descriptor(
-  name='CreateGame',
-  full_name='CreateGame',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='players', full_name='CreateGame.players', index=0,
-      number=1, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  serialized_start=290,
-  serialized_end=319,
-)
-
-
-_PLAYERMOVE = _descriptor.Descriptor(
-  name='PlayerMove',
-  full_name='PlayerMove',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='gameId', full_name='PlayerMove.gameId', index=0,
-      number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='userId', full_name='PlayerMove.userId', index=1,
+      name='userId', full_name='MoveRequest.userId', index=1,
       number=2, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='x', full_name='PlayerMove.x', index=2,
+      name='x', full_name='MoveRequest.x', index=2,
       number=3, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='y', full_name='PlayerMove.y', index=3,
+      name='y', full_name='MoveRequest.y', index=3,
       number=4, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -258,8 +258,169 @@ _PLAYERMOVE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=321,
-  serialized_end=387,
+  serialized_start=334,
+  serialized_end=401,
+)
+
+
+_MOVERESPONSE = _descriptor.Descriptor(
+  name='MoveResponse',
+  full_name='MoveResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=403,
+  serialized_end=417,
+)
+
+
+_QUESTIONREQUEST = _descriptor.Descriptor(
+  name='QuestionRequest',
+  full_name='QuestionRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='gameId', full_name='QuestionRequest.gameId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='QuestionRequest.userId', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=419,
+  serialized_end=468,
+)
+
+
+_QUESTIONRESPONSE = _descriptor.Descriptor(
+  name='QuestionResponse',
+  full_name='QuestionResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='question', full_name='QuestionResponse.question', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='alternatives', full_name='QuestionResponse.alternatives', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=470,
+  serialized_end=528,
+)
+
+
+_ANSWERREQUEST = _descriptor.Descriptor(
+  name='AnswerRequest',
+  full_name='AnswerRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='gameId', full_name='AnswerRequest.gameId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='AnswerRequest.userId', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='answer', full_name='AnswerRequest.answer', index=2,
+      number=3, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=530,
+  serialized_end=593,
+)
+
+
+_ANSWERRESPONSE = _descriptor.Descriptor(
+  name='AnswerResponse',
+  full_name='AnswerResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='isCorrect', full_name='AnswerResponse.isCorrect', index=0,
+      number=1, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=595,
+  serialized_end=630,
 )
 
 
@@ -300,157 +461,36 @@ _GAMEERROR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=389,
-  serialized_end=477,
+  serialized_start=632,
+  serialized_end=720,
 )
 
-
-_QUESTIONREQUEST = _descriptor.Descriptor(
-  name='QuestionRequest',
-  full_name='QuestionRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='gameId', full_name='QuestionRequest.gameId', index=0,
-      number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='userId', full_name='QuestionRequest.userId', index=1,
-      number=2, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  serialized_start=479,
-  serialized_end=528,
-)
-
-
-_QUESTIONRESPONSE = _descriptor.Descriptor(
-  name='QuestionResponse',
-  full_name='QuestionResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='question', full_name='QuestionResponse.question', index=0,
-      number=1, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=unicode("", "utf-8"),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  serialized_start=530,
-  serialized_end=566,
-)
-
-
-_ANSWER = _descriptor.Descriptor(
-  name='Answer',
-  full_name='Answer',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='gameId', full_name='Answer.gameId', index=0,
-      number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='userId', full_name='Answer.userId', index=1,
-      number=2, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='answer', full_name='Answer.answer', index=2,
-      number=3, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  serialized_start=568,
-  serialized_end=624,
-)
-
-
-_ANSWERRESPONSE = _descriptor.Descriptor(
-  name='AnswerResponse',
-  full_name='AnswerResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='isCorrect', full_name='AnswerResponse.isCorrect', index=0,
-      number=1, type=8, cpp_type=7, label=2,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  extension_ranges=[],
-  serialized_start=626,
-  serialized_end=661,
-)
-
-_PLAYER.fields_by_name['question'].message_type = _QUESTION
 _GAMEINFORESPONSE.fields_by_name['players'].message_type = _PLAYER
 _GAMEERROR.fields_by_name['gameinforeply'].message_type = _GAMEINFORESPONSE
+DESCRIPTOR.message_types_by_name['CreateGameRequest'] = _CREATEGAMEREQUEST
+DESCRIPTOR.message_types_by_name['CreateGameResponse'] = _CREATEGAMERESPONSE
 DESCRIPTOR.message_types_by_name['GameInfoRequest'] = _GAMEINFOREQUEST
-DESCRIPTOR.message_types_by_name['Question'] = _QUESTION
-DESCRIPTOR.message_types_by_name['Player'] = _PLAYER
 DESCRIPTOR.message_types_by_name['GameInfoResponse'] = _GAMEINFORESPONSE
-DESCRIPTOR.message_types_by_name['CreateGame'] = _CREATEGAME
-DESCRIPTOR.message_types_by_name['PlayerMove'] = _PLAYERMOVE
-DESCRIPTOR.message_types_by_name['GameError'] = _GAMEERROR
+DESCRIPTOR.message_types_by_name['Player'] = _PLAYER
+DESCRIPTOR.message_types_by_name['MoveRequest'] = _MOVEREQUEST
+DESCRIPTOR.message_types_by_name['MoveResponse'] = _MOVERESPONSE
 DESCRIPTOR.message_types_by_name['QuestionRequest'] = _QUESTIONREQUEST
 DESCRIPTOR.message_types_by_name['QuestionResponse'] = _QUESTIONRESPONSE
-DESCRIPTOR.message_types_by_name['Answer'] = _ANSWER
+DESCRIPTOR.message_types_by_name['AnswerRequest'] = _ANSWERREQUEST
 DESCRIPTOR.message_types_by_name['AnswerResponse'] = _ANSWERRESPONSE
+DESCRIPTOR.message_types_by_name['GameError'] = _GAMEERROR
+
+class CreateGameRequest(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _CREATEGAMEREQUEST
+
+  # @@protoc_insertion_point(class_scope:CreateGameRequest)
+
+class CreateGameResponse(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _CREATEGAMERESPONSE
+
+  # @@protoc_insertion_point(class_scope:CreateGameResponse)
 
 class GameInfoRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -458,11 +498,11 @@ class GameInfoRequest(_message.Message):
 
   # @@protoc_insertion_point(class_scope:GameInfoRequest)
 
-class Question(_message.Message):
+class GameInfoResponse(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _QUESTION
+  DESCRIPTOR = _GAMEINFORESPONSE
 
-  # @@protoc_insertion_point(class_scope:Question)
+  # @@protoc_insertion_point(class_scope:GameInfoResponse)
 
 class Player(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -470,29 +510,17 @@ class Player(_message.Message):
 
   # @@protoc_insertion_point(class_scope:Player)
 
-class GameInfoResponse(_message.Message):
+class MoveRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _GAMEINFORESPONSE
+  DESCRIPTOR = _MOVEREQUEST
 
-  # @@protoc_insertion_point(class_scope:GameInfoResponse)
+  # @@protoc_insertion_point(class_scope:MoveRequest)
 
-class CreateGame(_message.Message):
+class MoveResponse(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _CREATEGAME
+  DESCRIPTOR = _MOVERESPONSE
 
-  # @@protoc_insertion_point(class_scope:CreateGame)
-
-class PlayerMove(_message.Message):
-  __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _PLAYERMOVE
-
-  # @@protoc_insertion_point(class_scope:PlayerMove)
-
-class GameError(_message.Message):
-  __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _GAMEERROR
-
-  # @@protoc_insertion_point(class_scope:GameError)
+  # @@protoc_insertion_point(class_scope:MoveResponse)
 
 class QuestionRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -506,17 +534,23 @@ class QuestionResponse(_message.Message):
 
   # @@protoc_insertion_point(class_scope:QuestionResponse)
 
-class Answer(_message.Message):
+class AnswerRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _ANSWER
+  DESCRIPTOR = _ANSWERREQUEST
 
-  # @@protoc_insertion_point(class_scope:Answer)
+  # @@protoc_insertion_point(class_scope:AnswerRequest)
 
 class AnswerResponse(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
   DESCRIPTOR = _ANSWERRESPONSE
 
   # @@protoc_insertion_point(class_scope:AnswerResponse)
+
+class GameError(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _GAMEERROR
+
+  # @@protoc_insertion_point(class_scope:GameError)
 
 
 DESCRIPTOR.has_options = True

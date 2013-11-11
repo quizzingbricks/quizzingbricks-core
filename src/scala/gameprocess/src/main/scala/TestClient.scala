@@ -11,13 +11,13 @@ object TestClient
           case 1 => 
               GameInfoRequest(args(0).toInt)
           case 2 =>
-              CreateGame(args map(_.toInt))
+              CreateGameRequest(args map(_.toInt))
           case 3 =>
-              PlayerMove(args(0).toInt, args(1).toInt, args(2).toInt, args(3).toInt)
+              MoveRequest(args(0).toInt, args(1).toInt, args(2).toInt, args(3).toInt)
           case 4 =>
               QuestionRequest(args(0).toInt, args(1).toInt)
           case 5 =>
-              Answer(args(0).toInt, args(1).toInt, args(2).toInt)
+              AnswerRequest(args(0).toInt, args(1).toInt, args(2).toInt)
       }
   }
   
