@@ -15,7 +15,7 @@
         <br>
 
 
-        <form action = "{{ url_for('create_game',game_type=game_type) }}" method=post>
+        <form action = "{{ url_for('lobby_invite',game_type=game_type,lobby_id=lobby_id) }}" method=post>
            
                 {% if friends_list %}
                     {% set i = 1 %}
@@ -24,23 +24,60 @@
                        {% set i = i+1%} 
                     {% endfor %}
                 {% endif%} 
-            <button type=submit >Start game 2</button>
+            <button type=submit >Invite Friends</button>
         </form>
 
 
       
        
         <p class="lead">
-      </div>
+          </div>
 
-       {% if friends %}
-      <div class="container">
-        {% for friend in friends%}    
-          {{friend}} <br>
-        {% endfor %}                                             
-      </div> 
-    {% endif %}
+        
+          <div class="container">
+          <b>Accepted: </b> <br>
+            {% for friend in accept_friends%}    
+              {{friend}} <br>
+            {% endfor %}                                             
+          </div> 
+
+          <div class="container">
+          <b>Declined: </b> <br>
+            {% for friend in deny_friends%}    
+              {{friend}} <br>
+            {% endfor %}                                             
+          </div> 
+
+          <div class="container">
+          <b>Havn't answered: </b> <br>
+            {% for friend in none_friends%}    
+              {{friend}} <br>
+            {% endfor %}                                             
+          </div> 
+        
       
+
+        <form action = "{{ url_for('lobby_state', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+          <button type=submit> Update State </button>
+        </form> 
+
+        <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+          <button type=submit> Accept invite </button>
+        </form> 
+
+        <form action = "{{ url_for('remove_lobby', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+          <button type=submit> Remove Lobby </button>
+        </form> 
+
+        <form action = "{{ url_for('start_game', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+
+        {% for friend in accept_friends %}
+           {{friend}}  <input name=friend_{{i}} value='{{friend}}' hidden ><br>
+        {% endfor %}
+
+          <button type=submit> Start Game </button>
+        </form> 
+
 
     </div><!-- /.container -->
 
