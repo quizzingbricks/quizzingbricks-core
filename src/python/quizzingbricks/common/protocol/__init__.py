@@ -41,7 +41,11 @@ protocol_mapper = {
     27: RemoveLobbyRequest,
     28: RemoveLobbyResponse,
     29: StartGameRequest,
-    30: StartGameResponse
+    30: StartGameResponse,
+    31: QuestionRequest,
+    32: QuestionResponse,
+    33: Answer,
+    34: AnswerResponse,
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}
