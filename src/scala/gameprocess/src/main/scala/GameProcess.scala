@@ -52,17 +52,18 @@ class GameCache extends Actor
     
     def receive =
     {
-        case CreateGame (players) =>
+        case CreateGameRequest (players) =>
             println("GameCache received creategame")
             highestId = highestId + 1
             val game = context.system.actorOf(Props(classOf[Game], highestId, players))
             hashMap.put(highestId, game)
-            game forward GameInfoRequest(highestId)
+            // game forward GameInfoRequest(highestId)
+            sender ! CreateGameResponse (highestId)
         case x: GameRequestMessage =>
             val game = hashMap.get(x.gameId)
             game match
             {
-                case None => sender ! GameError("There exists no such game.", 200, null)
+                case None => sender ! GameError("There exists no such game.", 200)
                 case Some(g) => g forward x 
             }
     }

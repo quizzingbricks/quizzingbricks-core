@@ -1,14 +1,25 @@
 option java_outer_classname = "Gameprotocol";
 
-message GameInfoRequest
+message CreateGameRequest
 {
-   required int32 id = 1;
+   repeated int32 players = 1;
 }
 
-message Question
+message CreateGameResponse
 {
-    required string question = 1;
-    repeated string alternatives = 2;
+   required int32 gameId = 1;
+}
+
+message GameInfoRequest
+{
+   required int32 gameId = 1;
+}
+
+message GameInfoResponse
+{
+   required int32 gameId = 1;
+   repeated Player players = 2;
+   repeated int32 board = 3;
 }
 
 message Player
@@ -17,23 +28,12 @@ message Player
    required int32 state = 2;
    optional int32 x = 3;
    optional int32 y = 4;
-   optional Question question = 5;
-   optional bool answeredCorrectly = 6;
+   optional string question = 5;
+   repeated string alternatives = 6;
+   optional bool answeredCorrectly = 7;
 }
 
-message GameInfoResponse
-{
-   required int32 id = 1;
-   repeated Player players = 2;
-   repeated int32 board = 3;
-}
-
-message CreateGame
-{
-   repeated int32 players = 1;
-}
-
-message PlayerMove
+message MoveRequest
 {
    required int32 gameId = 1;
    required int32 userId = 2;
@@ -41,11 +41,8 @@ message PlayerMove
    required int32 y = 4;
 }
 
-message GameError
+message MoveResponse
 {
-   required string description = 1;
-   required int32 code = 2;
-   optional GameInfoResponse gameinforeply = 3;
 }
 
 message QuestionRequest
@@ -53,13 +50,13 @@ message QuestionRequest
    required int32 gameId = 1;
    required int32 userId = 2;
 }
-
 message QuestionResponse
 {
-   required string question = 1;
+    required string question = 1;
+    repeated string alternatives = 2;
 }
 
-message Answer
+message AnswerRequest
 {
    required int32 gameId = 1;
    required int32 userId = 2;
@@ -69,4 +66,11 @@ message Answer
 message AnswerResponse
 {
    required bool isCorrect = 1;
+}
+
+message GameError
+{
+   required string description = 1;
+   required int32 code = 2;
+   optional GameInfoResponse gameinforeply = 3;
 }
