@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='lobbies.proto',
   package='',
-  serialized_pb='\n\rlobbies.proto\"6\n\x12\x43reateLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x10\n\x08gameType\x18\x02 \x02(\x05\"&\n\x13\x43reateLobbyResponse\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"\'\n\x14GetLobbyStateRequest\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"O\n\x15GetLobbyStateResponse\x12\x14\n\x0c\x66riend_email\x18\x01 \x03(\t\x12\x0e\n\x06\x61nswer\x18\x02 \x03(\t\x12\x10\n\x08gameType\x18\x03 \x02(\x05\";\n\x18\x41\x63\x63\x65ptLobbyInviteRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"+\n\x19\x41\x63\x63\x65ptLobbyInviteResponse\x12\x0e\n\x06\x61nswer\x18\x01 \x02(\t\"L\n\x12InviteLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\x12\x15\n\rinvite_emails\x18\x03 \x03(\t\".\n\x13InviteLobbyResponse\x12\x17\n\x0f\x66riends_invited\x18\x01 \x02(\x08\"5\n\x12RemoveLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\",\n\x13RemoveLobbyResponse\x12\x15\n\rlobby_removed\x18\x01 \x02(\x08\"3\n\x10StartGameRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"#\n\x11StartGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05')
+  serialized_pb='\n\rlobbies.proto\"6\n\x12\x43reateLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x10\n\x08gameType\x18\x02 \x02(\x05\"&\n\x13\x43reateLobbyResponse\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"%\n\x13GetLobbyListRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"G\n\x14GetLobbyListResponse\x12\x10\n\x08lobbyIds\x18\x01 \x03(\x05\x12\x0e\n\x06status\x18\x02 \x03(\t\x12\r\n\x05owner\x18\x03 \x03(\t\"\'\n\x14GetLobbyStateRequest\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"O\n\x15GetLobbyStateResponse\x12\x14\n\x0c\x66riend_email\x18\x01 \x03(\t\x12\x0e\n\x06\x61nswer\x18\x02 \x03(\t\x12\x10\n\x08gameType\x18\x03 \x02(\x05\";\n\x18\x41\x63\x63\x65ptLobbyInviteRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"+\n\x19\x41\x63\x63\x65ptLobbyInviteResponse\x12\x0e\n\x06\x61nswer\x18\x01 \x02(\t\"L\n\x12InviteLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\x12\x15\n\rinvite_emails\x18\x03 \x03(\t\".\n\x13InviteLobbyResponse\x12\x17\n\x0f\x66riends_invited\x18\x01 \x02(\x08\"5\n\x12RemoveLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\",\n\x13RemoveLobbyResponse\x12\x15\n\rlobby_removed\x18\x01 \x02(\x08\"3\n\x10StartGameRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"#\n\x11StartGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05')
 
 
 
@@ -81,6 +81,76 @@ _CREATELOBBYRESPONSE = _descriptor.Descriptor(
 )
 
 
+_GETLOBBYLISTREQUEST = _descriptor.Descriptor(
+  name='GetLobbyListRequest',
+  full_name='GetLobbyListRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='GetLobbyListRequest.userId', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=113,
+  serialized_end=150,
+)
+
+
+_GETLOBBYLISTRESPONSE = _descriptor.Descriptor(
+  name='GetLobbyListResponse',
+  full_name='GetLobbyListResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='lobbyIds', full_name='GetLobbyListResponse.lobbyIds', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='GetLobbyListResponse.status', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='owner', full_name='GetLobbyListResponse.owner', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=152,
+  serialized_end=223,
+)
+
+
 _GETLOBBYSTATEREQUEST = _descriptor.Descriptor(
   name='GetLobbyStateRequest',
   full_name='GetLobbyStateRequest',
@@ -104,8 +174,8 @@ _GETLOBBYSTATEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=113,
-  serialized_end=152,
+  serialized_start=225,
+  serialized_end=264,
 )
 
 
@@ -146,8 +216,8 @@ _GETLOBBYSTATERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=154,
-  serialized_end=233,
+  serialized_start=266,
+  serialized_end=345,
 )
 
 
@@ -181,8 +251,8 @@ _ACCEPTLOBBYINVITEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=235,
-  serialized_end=294,
+  serialized_start=347,
+  serialized_end=406,
 )
 
 
@@ -209,8 +279,8 @@ _ACCEPTLOBBYINVITERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=296,
-  serialized_end=339,
+  serialized_start=408,
+  serialized_end=451,
 )
 
 
@@ -251,8 +321,8 @@ _INVITELOBBYREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=341,
-  serialized_end=417,
+  serialized_start=453,
+  serialized_end=529,
 )
 
 
@@ -279,8 +349,8 @@ _INVITELOBBYRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=419,
-  serialized_end=465,
+  serialized_start=531,
+  serialized_end=577,
 )
 
 
@@ -314,8 +384,8 @@ _REMOVELOBBYREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=467,
-  serialized_end=520,
+  serialized_start=579,
+  serialized_end=632,
 )
 
 
@@ -342,8 +412,8 @@ _REMOVELOBBYRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=522,
-  serialized_end=566,
+  serialized_start=634,
+  serialized_end=678,
 )
 
 
@@ -377,8 +447,8 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=568,
-  serialized_end=619,
+  serialized_start=680,
+  serialized_end=731,
 )
 
 
@@ -405,12 +475,14 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=621,
-  serialized_end=656,
+  serialized_start=733,
+  serialized_end=768,
 )
 
 DESCRIPTOR.message_types_by_name['CreateLobbyRequest'] = _CREATELOBBYREQUEST
 DESCRIPTOR.message_types_by_name['CreateLobbyResponse'] = _CREATELOBBYRESPONSE
+DESCRIPTOR.message_types_by_name['GetLobbyListRequest'] = _GETLOBBYLISTREQUEST
+DESCRIPTOR.message_types_by_name['GetLobbyListResponse'] = _GETLOBBYLISTRESPONSE
 DESCRIPTOR.message_types_by_name['GetLobbyStateRequest'] = _GETLOBBYSTATEREQUEST
 DESCRIPTOR.message_types_by_name['GetLobbyStateResponse'] = _GETLOBBYSTATERESPONSE
 DESCRIPTOR.message_types_by_name['AcceptLobbyInviteRequest'] = _ACCEPTLOBBYINVITEREQUEST
@@ -433,6 +505,18 @@ class CreateLobbyResponse(_message.Message):
   DESCRIPTOR = _CREATELOBBYRESPONSE
 
   # @@protoc_insertion_point(class_scope:CreateLobbyResponse)
+
+class GetLobbyListRequest(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _GETLOBBYLISTREQUEST
+
+  # @@protoc_insertion_point(class_scope:GetLobbyListRequest)
+
+class GetLobbyListResponse(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _GETLOBBYLISTRESPONSE
+
+  # @@protoc_insertion_point(class_scope:GetLobbyListResponse)
 
 class GetLobbyStateRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType

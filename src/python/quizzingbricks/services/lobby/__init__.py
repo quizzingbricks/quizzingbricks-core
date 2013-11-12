@@ -24,7 +24,9 @@ from quizzingbricks.common.protocol import (
     RemoveLobbyRequest,
     RemoveLobbyResponse,
     StartGameRequest,
-    StartGameResponse
+    StartGameResponse,
+    GetLobbyListRequest,
+    GetLobbyListResponse
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -51,6 +53,28 @@ class LobbyService(NunciusService):
             return CreateLobbyResponse(lobbyId=654321)
         else:
             return CreateLobbyResponse(lobbyId=123321)
+
+    @expose("get_lobby_list")
+    def get_lobby_list(self, request):
+        print "get_lobby_list"
+        #input : userId=1
+        #return: lobbyIds =1, status=2 owner = 3 
+        #used to get the status for a specific user in all the lobbies that the user is part off
+        #status = Invited, Member
+        #owner = userId of lobby owner
+        test_lobby_1 = 123
+        test_lobby_2 = 456
+        test_lobby_3 = 789
+        test_lobby_list = [test_lobby_1,test_lobby_2,test_lobby_3]
+        test_lobby_1_status = "Member"
+        test_lobby_2_status = "Invited"
+        test_lobby_3_status = "Invited"
+        status_list =[test_lobby_1_status, test_lobby_2_status, test_lobby_3_status]
+        test_lobby_1_owner = "Anton@test.se"
+        test_lobby_2_owner = "David@test.se"
+        test_lobby_3_owner = "Linus@test.se"
+        owner_list = [test_lobby_1_owner, test_lobby_2_owner, test_lobby_3_owner]
+        return GetLobbyListResponse(lobbyIds=test_lobby_list, status=status_list, owner=owner_list)
 
 
     @expose("get_lobby_state")
