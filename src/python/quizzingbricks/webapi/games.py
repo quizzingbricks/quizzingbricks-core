@@ -2,6 +2,7 @@
 """
     Copyright (C) Quizzingbricks
 """
+from flask import request, jsonify, g
 
 from quizzingbricks.webapi import app, api_error, api_errors, token_required
 from quizzingbricks.client.games import GameServiceClient
