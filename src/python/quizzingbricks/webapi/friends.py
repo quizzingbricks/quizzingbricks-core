@@ -13,3 +13,7 @@ from quizzingbricks.common.protocol import (
 )
 
 friendservice = FriendServiceClient("tcp://*:5552")
+
+@app.route("/")
+def friends_():
+    pass

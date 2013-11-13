@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='base.proto',
   package='',
-  serialized_pb='\n\nbase.proto\"\x1b\n\x08RpcError\x12\x0f\n\x07message\x18\x01 \x02(\t')
+  serialized_pb='\n\nbase.proto\"/\n\x08RpcError\x12\x0f\n\x07message\x18\x01 \x02(\t\x12\x12\n\nerror_code\x18\x02 \x01(\x05')
 
 
 
@@ -32,6 +32,13 @@ _RPCERROR = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='error_code', full_name='RpcError.error_code', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -42,7 +49,7 @@ _RPCERROR = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=14,
-  serialized_end=41,
+  serialized_end=61,
 )
 
 DESCRIPTOR.message_types_by_name['RpcError'] = _RPCERROR
