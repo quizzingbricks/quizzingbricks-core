@@ -12,19 +12,19 @@ message GetFriendsResponse {
 }
 
 message AddFriendRequest {
-	required int32 userId =1;
-	required string friend_email = 2;
+    required int32 userId =1;
+    required string friend_email = 2;
 }
 
 message AddFriendResponse {
-	required bool friend_added = 1;
+    required bool friend_added = 1;
 }
 
 message RemoveFriendRequest {
-	required int32 userId =1;
-	required string friend_email = 2;
+    required int32 userId =1;
+    required string friend_email = 2;
 }
 
 message RemoveFriendResponse {
-	required bool friend_removed = 1;
+    required bool friend_removed = 1;
 }
