@@ -5,8 +5,8 @@
 from quizzingbricks.client import BaseClient
 
 class FriendServiceClient(BaseClient):
-    def get_friends_list(self, request, timeout=None):
-        with self.rpc_call("get_friends_list", request, timeout) as response:
+    def get_friends(self, request, timeout=None):
+        with self.rpc_call("get_friends", request, timeout) as response:
             return response
 
     def add_friend(self, request, timeout=None):
