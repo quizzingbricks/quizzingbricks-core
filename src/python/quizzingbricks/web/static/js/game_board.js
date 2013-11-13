@@ -4,11 +4,11 @@ var BOARD_HEIGHT = 8
 var BOARD_WIDTH  = 8
 
 var TOKEN = {
-    EMPTY  : {value: 0, string: "Empty"},
-    RED    : {value: 1, string: "Red"},
-    YELLOW : {value: 2, string: "Yellow"},
-    BLUE   : {value: 3, string: "Blue"},
-    GREEN  : {value: 4, string: "Green"}
+    EMPTY  : {value: 0, string: "Empty",    userId: 0 },
+    RED    : {value: 1, string: "Red",      userId: -1 },
+    YELLOW : {value: 2, string: "Yellow",   userId: -1 },
+    BLUE   : {value: 3, string: "Blue",     userId: -1 },
+    GREEN  : {value: 4, string: "Green",    userId: -1 }
 }  
 
 var selected_token=TOKEN.RED;
@@ -23,7 +23,31 @@ var selected_token=TOKEN.RED;
     });
   }*/
 
+function test_userId(token){
+    alert(token.userId)
+}
 
+
+function assign_colors(friends, userId) {
+    selected_token.userId = userId
+    var length = friends.length,
+    element = null;
+    teststring = ""
+    for (var i = 0; i < length; i++) {
+        element = friends[i]; 
+        teststring = teststring + element + " i: "+ i + "\n";
+        if (i==0){
+            TOKEN.YELLOW.userId = element
+        }
+        if (i==1){
+            TOKEN.BLUE.userId = element
+        }
+        if (i==2){
+            TOKEN.GREEN.userId = element
+        }
+    }
+alert(teststring);
+}
 
 
 function create_token(token) {

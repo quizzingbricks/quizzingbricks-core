@@ -244,11 +244,32 @@ def start_game(game_type,lobby_id):
         gameId = str(start_game_response).split(":")[1]
         print "gameId:", gameId
 
-
-        return render_template('game_board.html',friends=friends, gameId=gameId)
+        #TODO: fetch friends from the gameId
+        #friends = email string fetch with get_user_by_id 
+        #also give userId
+        friends = [("Linus@test.se", 21),("David@test.se", 22)]
+        return render_template('game_board.html',friends=friends, gameId=gameId, userId=session['userId'])
     else:
         return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
 
+
+@app.route('/game_info/<int:game_id>', methods=['GET','POST'])
+def game_info(game_id):
+    print "game info"
+    print game_id
+    friends = []
+    board = []
+    friend1 = ("David@test.se", 2)
+    friend2 = ("Anton@test.se", 25)
+    friends = [friend1,friend2]
+    for x in range(0,64):
+        if (x > 40):
+            board = board +[1]
+        if (x<20):
+            board = board +[2]
+        else:
+            board = board + [0]
+    return render_template('game_board.html',friends=friends, gameId=game_id, board=board, userId=session['userId'])
 
 
 @app.route('/active_games')     
@@ -256,12 +277,12 @@ def active_games():
     #TODO: fetch list of active games
     return render_template('active_games.html')
 
-@app.route('/choose_color', methods=["POST"])
-def choose_color():
-	token = request.form.get('token','None', type=str)
-	#session['player_color'] = token.upper()
-	#print session['player_color']
-	return jsonify(result=token)
+# @app.route('/choose_color', methods=["POST"])
+# def choose_color():
+# 	token = request.form.get('token','None', type=str)
+# 	#session['player_color'] = token.upper()
+# 	#print session['player_color']
+# 	return jsonify(result=token)
 
 
 
@@ -358,6 +379,7 @@ def test_tile_placement():
     #print "test after"
     #print session['logged_in']
     return jsonify(result =(x,y))
+
 
 
 
