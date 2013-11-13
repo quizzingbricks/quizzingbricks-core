@@ -10,8 +10,8 @@ from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.common.protocol import (
     LoginRequest, LoginResponse, RegistrationRequest,
-    RegistrationResponse, GetUserRequest, GetUserResponse
-)
+    RegistrationResponse, GetUserRequest, GetUserResponse,
+    RpcError)
 
 userservice = UserServiceClient("tcp://*:5551")
 
@@ -31,23 +31,40 @@ def login():
         #handle response.userId
         if isinstance(response, LoginResponse):
             return jsonify({"token": token_signer.dumps(response.userId)})
-        return api_error(response.message) # TODO: check that the response is a RpcError
+        if isinstance(response, RpcError):
+            errors = {
+                1: {"message": "Internal service error", "code": "000"},
+                5: {"message": "Wrong email or password", "code": "010"},
+            }
+
+            return api_error(**errors.get(response.error_code, {"message": "Error code not defined"}))
         #return api_error("Wrong password", 501)
     except TimeoutError as e:
         return api_error("Service not available", 500) # ???
 
 @app.route("/api/users/", methods=["POST"]) # change to post
 def create_user():
-    email = "hello@hello.se"
-    password = "something"
+    email = request.form.get("email")
+    password = request.form.get("password")
 
-    req = RegistrationRequest()
-    req.email = email
-    req.password = password
+    if not (password or email):
+        return api_error("Missing email or password", 102)
 
-    rep = userservice.create_user(req)
+    try:
+        response = userservice.create_user(RegistrationRequest(email=email, password=password), timeout=5000) # timeout after 5 sec
 
-    return rep.userId
+        if isinstance(response, RegistrationResponse):
+            return str(response.userId)
+        elif isinstance(response, RpcError):
+            errors = {
+                1: {"message": "Internal service error", "code": "000"},
+                11: {"message": "This mail is already taken", "code": "101"},
+            }
+
+            return api_error(**errors.get(response.error_code, {"message": "Error code not defined"}))
+    except TimeoutError as e:
+        return api_error("Service not available", 500)
+
 
 @app.route("/api/users/me/")
 @token_required
