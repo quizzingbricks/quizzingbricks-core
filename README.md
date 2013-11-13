@@ -45,6 +45,7 @@ Database migrations
 ===================
 We use alembic for database migrations (eg. database changes) and to create a new database migration/revision,
 use the following commando
+
 $ alembic revision -m "a message that describe what I am doing"
 
 Which would generate a file under the alembic folder.

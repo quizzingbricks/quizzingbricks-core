@@ -70,10 +70,18 @@ class FriendService(NunciusService):
                 session.rollback()
                 return RemoveFriendResponse(friend_removed=False)
 
-    @expose("get_friends_list")
-    def get_friends_list(self, request):
+    @expose("get_friends")
+    def get_friends(self, request):
         with db(session):
-            friends = Friendship()
+            # NOTE: this fetch all friendships in the db
+            # and is a "select N+1", change to something like this:
+            # Friendship.query.filter(Friendship.user_id==request.userId) # fetch all friends by user
+            # User.query.filter(User.id.in_(the above ids)) # fetch all users that matches the friendship ids
+            # ... but can also be solved by a join.
+            #
+            # TODO: We may also decide if the user fetching should be done
+            # by the user service which means that the friendservice calls the userservice over zmq via the client api
+            # as planned earlier, but the responsible for this decide.
             friends = Friendship.query.filter()
             friend_list = []
             for friend in friends:

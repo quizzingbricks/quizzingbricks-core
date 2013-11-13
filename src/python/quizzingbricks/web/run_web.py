@@ -354,12 +354,12 @@ def test_tile_placement():
 
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0',debug=True)
 #    app.run(debug=True)
 
 def get_friends_list():
     friends_list=[]
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
+    friends_response = friendservice.get_friends(GetFriendsRequest(userId=session['userId']))  #hard coded userId
     if (isinstance(friends_response,GetFriendsResponse)):
         for friend in friends_response.friends_list:
             friends_list=friends_list+ [friend]
