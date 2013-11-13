@@ -122,15 +122,6 @@ class LobbyService(NunciusService):
         #removes the lobby
         return RemoveLobbyResponse(lobby_removed=True)
 
-
-    @expose("start_game")
-    def start_game(self, request):
-        print "start_game"
-        #input : userId=1, lobbyId=2
-        #return: gameId =1
-        #fetches a gameId for when a full lobby is matched
-        return StartGameResponse(gameId=765432)
-
 	@expose("start_game")
 	def start_game(self, request):
 		if not isinstance(request, StartGameRequest):
