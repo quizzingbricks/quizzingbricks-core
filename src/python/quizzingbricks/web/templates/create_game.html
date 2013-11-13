@@ -80,7 +80,7 @@
         <form action = "{{ url_for('start_game', game_type=game_type, lobby_id=lobby_id) }}" method=post>
 
         {% for friend in accept_friends %}
-           {{friend}}  <input name=friend_{{i}} value='{{friend}}' hidden ><br>
+           {{friend}}  <input name=friend value='{{friend}}' hidden ><br>
         {% endfor %}
 
           <button type=submit> Start Game </button>
