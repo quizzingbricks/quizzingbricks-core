@@ -218,7 +218,7 @@ def get_friends(game_type):
     
 
 
-
+#TODO: Quick Join 2/4 player Should be easy just call create lobbyId and use that to call start game directly 
 
 
 
@@ -245,14 +245,15 @@ def start_game(game_type,lobby_id):
         print "gameId:", gameId
 
 
-        return render_template('test_board.html',friends=friends, gameId=gameId)
+        return render_template('game_board.html',friends=friends, gameId=gameId)
     else:
         return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
 
 
 
-@app.route('/active_games')
+@app.route('/active_games')     
 def active_games():  
+    #TODO: fetch list of active games
     return render_template('active_games.html')
 
 @app.route('/choose_color', methods=["POST"])
@@ -335,8 +336,16 @@ def logout():
 
 @app.route('/game_board', methods=["POST"])
 def tile_placement():
+    print "game board in run_web"
+    gameId = request.form.get('gameId',0, type=int)
     x = request.form.get('x', 0, type=int)
     y = request.form.get('y', 0, type=int)
+    print "gameId", gameId
+    print "userId", session['userId']
+    print "x: ",x
+    print "y: ",y
+
+
    # print session['username']
     return jsonify(result =(x,y))
 
