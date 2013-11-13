@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
     Copyright (C) QuizzingBricks
 """
@@ -122,16 +122,14 @@ class LobbyService(NunciusService):
         #removes the lobby
         return RemoveLobbyResponse(lobby_removed=True)
 
+	@expose("start_game")
+	def start_game(self, request):
+		if not isinstance(request, StartGameRequest):
+			return RpcError(message="Wrong message type, expecting StartGameRequest")
 
-    @expose("start_game")
-    def start_game(self, request):
-        print "start_game"
-        #input : userId=1, lobbyId=2
-        #return: gameId =1
-        #fetches a gameId for when a full lobby is matched
-        return StartGameResponse(gameId=765432)
-
-
-
-
+		with db(session):
+			if lobby.check_owner(request.userID): #TODO: this function
+				# TODO send lobbyID to handlers addtoqueue
+				return StartGameResponse(gameId=765432) #temporary test variable
+		return RpcError(message="Incorrect user or lobby") 
 
