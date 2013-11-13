@@ -13,7 +13,7 @@ from quizzingbricks.common.protocol import (
      AddFriendRequest, AddFriendResponse, RemoveFriendRequest, RemoveFriendResponse, \
      GetLobbyStateRequest, GetLobbyStateResponse, AcceptLobbyInviteRequest, AcceptLobbyInviteResponse, \
      InviteLobbyRequest, InviteLobbyResponse, RemoveLobbyRequest, RemoveLobbyResponse, \
-     StartGameRequest, StartGameResponse   
+     StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse   
 )
 
 #configuration
@@ -158,17 +158,49 @@ def lobby_state(game_type, lobby_id):
                 none_friends = none_friends + [lobby_state_response.friend_email[x]]
     return render_template('create_game.html' ,none_friends = none_friends, deny_friends = deny_friends, accept_friends = accept_friends,friends=friends, friends_list=friends_list, game_type=game_type, lobby_id=lobby_id) 
 
+@app.route('/lobby_list/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
+def lobby_list(game_type, lobby_id):
+    print "lobby list"  
+    print game_type
+    print lobby_id
+    friends_list = []
+    invited_lobbies = []
+    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
+    if (isinstance(friends_response,GetFriendsResponse)):
+        for friend in friends_response.friends_list:
+            friends_list=friends_list+ [friend]
+    print "innan response"
+   
+    lobby_list_response = lobbyservice.getLobbyList(GetLobbyListRequest(userId=session['userId']))
+    #lobby_list_response = lobbyservice.getLobbyList(GetLobbyListRequest(userId=session['userId']))
+    if (isinstance(lobby_list_response, GetLobbyListResponse)):
 
+        #print lobby_list_response
+        for x in range(0, len(lobby_list_response.lobbyIds)):
+            print lobby_list_response.lobbyIds[x], lobby_list_response.status[x], lobby_list_response.owner[x]
+            if (lobby_list_response.status[x] == "Invited"):
+                invited_lobbies = invited_lobbies + [(lobby_list_response.lobbyIds[x],lobby_list_response.owner[x])]
 
+    return render_template('create_game.html' ,invited_lobbies=invited_lobbies, friends_list=friends_list, game_type=game_type, lobby_id=lobby_id)
 
 #not sure how to probe if I got invitations /get notifications (not sure we got time to implement notification service)
 @app.route('/accept_invite/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
 def accept_invite(game_type,lobby_id):
     print "accept invite"
+    print "accepted lobbyId :", request.form['accepted_invite']
     print game_type
     print lobby_id
     friends_list = []
-    accept_invite_response = lobbyservice.acceptLobbyInvite(AcceptLobbyInviteRequest(userId=session['userId'], lobbyId=lobby_id))
+
+    try:
+        accept_invite_response = lobbyservice.acceptLobbyInvite(AcceptLobbyInviteRequest(userId=session['userId'], lobbyId=int(request.form['accepted_invite'])))
+    except:
+        print "Exception in user code:"
+        print '-'*60
+        traceback.print_exc(file=sys.stdout)
+        print '-'*60
+
+    #accept_invite_response = lobbyservice.acceptLobbyInvite(AcceptLobbyInviteRequest(userId=session['userId'], lobbyId=request.form['accepted_invite']))
     if (isinstance(accept_invite_response, AcceptLobbyInviteResponse)):
         print accept_invite_response
     friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId

@@ -12,6 +12,18 @@ message CreateLobbyResponse {
     required int32 lobbyId = 1;
 }
 
+//*********** Lobby List ***************************
+
+message GetLobbyListRequest {
+	required int32 userId = 1;
+}
+
+message GetLobbyListResponse {
+	repeated int32 lobbyIds =1;
+	repeated string status = 2;	// Invited or Member
+	repeated string owner = 3;	//userId of the Owner of the lobby
+}
+
 //*********** Lobby State ***************************
 
 // get the current state of the lobby (accepted declined invitations etc)
@@ -30,11 +42,11 @@ message GetLobbyStateResponse {
 
 message AcceptLobbyInviteRequest {
 	required int32 userId = 1;
-	required int32 lobbyId = 2;
+	required int32 lobbyId = 2;				
 }
-
+// (Accept = change status in lobby from Invited to Member, Deny = Remove lobbyId from LobbyList)
 message AcceptLobbyInviteResponse {
-	required string answer = 1; // Accept or Deny
+	required string answer = 1; // Accept or Deny 
 }
 
 //************* Invite **********************

@@ -61,9 +61,17 @@
           <button type=submit> Update State </button>
         </form> 
 
-        <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-          <button type=submit> Accept invite </button>
+        <form action = "{{ url_for('lobby_list', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+          <button type=submit> Lobby List </button>
         </form> 
+        <b>Game invitation from:</b>
+        {% for lobby in invited_lobbies %}
+        <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+          <input name=accepted_invite value='{{lobby[0]}}' hidden ><br>
+          {{lobby[1]}} <button type=submit> Accept invite </button>
+          
+        </form> 
+        {% endfor %}
 
         <form action = "{{ url_for('remove_lobby', game_type=game_type, lobby_id=lobby_id) }}" method=post>
           <button type=submit> Remove Lobby </button>

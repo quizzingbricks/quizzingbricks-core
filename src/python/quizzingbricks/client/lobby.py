@@ -9,6 +9,10 @@ class LobbyServiceClient(BaseClient):
         with self.rpc_call("get_lobby_id", request, timeout) as response:
             return response
 
+    def getLobbyList(self, request, timeout=None):
+        with self.rpc_call("get_lobby_list", request, timeout) as response:
+            return response
+
     def getLobbyState(self, request, timeout=None):
         with self.rpc_call("get_lobby_state", request, timeout) as response:
             return response
