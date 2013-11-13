@@ -203,9 +203,11 @@ def remove_lobby(game_type,lobby_id):
 def get_friends(game_type):
     print "get_friends test 2p"
     print game_type
+    print session['userId']
     lobby_id = None
-    friends_list = [] 
+    friends_list = []   
     response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
+    
     if (isinstance(response, CreateLobbyResponse)):
         print response
         lobby_id = response.lobbyId
@@ -308,13 +310,15 @@ def register_user():
 def login():
     error = None
     if request.method == 'POST':
-        #response = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
-        #if (isinstance(response, LoginResponse)):
-            #session['userId'] = str(response.userId)
-        session['userId'] = 98789
-        session['logged_in'] = True
-        #else:
-            #error=response.message
+        response = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
+        if (isinstance(response, LoginResponse)):
+            session['userId'] = response.userId
+        #session['userId'] = 98789
+            session['logged_in'] = True
+        else:
+            error=response.message
+ 
+ 
  #       if request.form['username'] != app.config['USERNAME']:
  #           error = 'Invalid username'
  #       elif request.form['password'] != app.config['PASSWORD']:

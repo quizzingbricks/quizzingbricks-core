@@ -16,7 +16,7 @@ class User(Base):
     id = sa.Column(sa.Integer, primary_key=True)
     email = sa.Column(sa.String(128), nullable=False, unique=True)
     _password = sa.Column("password", sa.String(60), nullable=False)
-
+    
     created_at = sa.Column(sa.DateTime, default=datetime.datetime.utcnow, nullable=False)
     updated_at = sa.Column(sa.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow,
                            nullable=False)
