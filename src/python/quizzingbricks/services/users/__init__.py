@@ -25,6 +25,8 @@ from quizzingbricks.common.protocol import (
 # TODO: add the type-checking in a decorator or directly in expose?
 
 from contextlib import contextmanager
+from sqlalchemy.exc import IntegrityError
+
 
 @contextmanager
 def db(session):
@@ -41,12 +43,12 @@ class UserService(NunciusService):
     @expose("authenticate")
     def authenticate_by_password(self, request):
         if not isinstance(request, LoginRequest):
-            return RpcError(message="Wrong message type, expecting LoginRequest")
+            return RpcError(message="Wrong message type, expecting LoginRequest", error_code=1)
         with db(session):
             user = User.query.filter(User.email==request.email).first()
             if user and user.check_password(request.password):
                 return LoginResponse(userId=user.id)
-        return RpcError(message="Incorrect e-mail or password") # TODO: better method to handle error msgs?
+        return RpcError(message="Incorrect e-mail or password", error_code=5) # TODO: better method to handle error msgs?
         #if request.email == "demo@qb.se" and request.password == "demo":
         #    rep = LoginResponse()
         #    rep.userId = 123456
@@ -57,10 +59,10 @@ class UserService(NunciusService):
     @expose("create_user")
     def create_user(self, request):
         if not isinstance(request, RegistrationRequest):
-            return RpcError(message = "Wrong message type, expecting RegistrationRequest")
+            return RpcError(message = "Wrong message type, expecting RegistrationRequest", error_code=1)
         # TODO: add more logic before insert the user to db
         if None in (request.email, request.password):
-            return RpcError(message="Both email and password requires to be set")
+            return RpcError(message="Both email and password requires to be set", error_code=10)
         try:
             user = User(
                 email = request.email,
@@ -70,6 +72,9 @@ class UserService(NunciusService):
             session.commit()
 
             return RegistrationResponse(userId=user.id)
+        except IntegrityError as e:
+            session.rollback()
+            return RpcError(message="E-mail already used", error_code=11)
         except Exception as e:
             session.rollback()
             return RpcError(message=e.message) # TODO: improve this
@@ -78,7 +83,7 @@ class UserService(NunciusService):
     @expose("get_user")
     def get_user_by_id(self, request):
         if not isinstance(request, GetUserRequest):
-            return RpcError(message="Wrong message type, expecting GetUserRequest")
+            return RpcError(message="Wrong message type, expecting GetUserRequest", error_code=1)
 
         with db(session):
             user = User.query.get(request.userId)

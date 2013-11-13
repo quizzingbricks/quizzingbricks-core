@@ -23,6 +23,16 @@ public final class Base {
      */
     com.google.protobuf.ByteString
         getMessageBytes();
+
+    // optional int32 error_code = 2;
+    /**
+     * <code>optional int32 error_code = 2;</code>
+     */
+    boolean hasErrorCode();
+    /**
+     * <code>optional int32 error_code = 2;</code>
+     */
+    int getErrorCode();
   }
   /**
    * Protobuf type {@code RpcError}
@@ -78,6 +88,11 @@ public final class Base {
             case 10: {
               bitField0_ |= 0x00000001;
               message_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              errorCode_ = input.readInt32();
               break;
             }
           }
@@ -163,8 +178,25 @@ public final class Base {
       }
     }
 
+    // optional int32 error_code = 2;
+    public static final int ERROR_CODE_FIELD_NUMBER = 2;
+    private int errorCode_;
+    /**
+     * <code>optional int32 error_code = 2;</code>
+     */
+    public boolean hasErrorCode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 error_code = 2;</code>
+     */
+    public int getErrorCode() {
+      return errorCode_;
+    }
+
     private void initFields() {
       message_ = "";
+      errorCode_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -185,6 +217,9 @@ public final class Base {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getMessageBytes());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, errorCode_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -197,6 +232,10 @@ public final class Base {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getMessageBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, errorCode_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -316,6 +355,8 @@ public final class Base {
         super.clear();
         message_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        errorCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -348,6 +389,10 @@ public final class Base {
           to_bitField0_ |= 0x00000001;
         }
         result.message_ = message_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.errorCode_ = errorCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -368,6 +413,9 @@ public final class Base {
           bitField0_ |= 0x00000001;
           message_ = other.message_;
           onChanged();
+        }
+        if (other.hasErrorCode()) {
+          setErrorCode(other.getErrorCode());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -474,6 +522,39 @@ public final class Base {
         return this;
       }
 
+      // optional int32 error_code = 2;
+      private int errorCode_ ;
+      /**
+       * <code>optional int32 error_code = 2;</code>
+       */
+      public boolean hasErrorCode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 error_code = 2;</code>
+       */
+      public int getErrorCode() {
+        return errorCode_;
+      }
+      /**
+       * <code>optional int32 error_code = 2;</code>
+       */
+      public Builder setErrorCode(int value) {
+        bitField0_ |= 0x00000002;
+        errorCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 error_code = 2;</code>
+       */
+      public Builder clearErrorCode() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        errorCode_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:RpcError)
     }
 
@@ -499,8 +580,8 @@ public final class Base {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nbase.proto\"\033\n\010RpcError\022\017\n\007message\030\001 \002(" +
-      "\t"
+      "\n\nbase.proto\"/\n\010RpcError\022\017\n\007message\030\001 \002(" +
+      "\t\022\022\n\nerror_code\030\002 \001(\005"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -512,7 +593,7 @@ public final class Base {
           internal_static_RpcError_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RpcError_descriptor,
-              new java.lang.String[] { "Message", });
+              new java.lang.String[] { "Message", "ErrorCode", });
           return null;
         }
       };

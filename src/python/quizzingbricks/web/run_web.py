@@ -52,23 +52,14 @@ def add_friend():
             add_friend_response = friendservice.add_friend(AddFriendRequest(userId=session['userId'],friend_email=friend_Email))
             if (isinstance(add_friend_response, AddFriendResponse)):
                 #print "add response", add_friend_response
-                friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-                if (isinstance(friends_response,GetFriendsResponse)):
-                    for friend in friends_response.friends_list:
-                        friends_list=friends_list+ [friend]
-                    return render_template('friends_list.html',friends_list=friends_list)
+                friends_list = get_friends_list()
+                return render_template('friends_list.html',friends_list=friends_list)
         else:
-            friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-            if (isinstance(friends_response,GetFriendsResponse)):
-                for friend in friends_response.friends_list:
-                    friends_list=friends_list+ [friend]
-                return render_template('friends_list.html',friends_list=friends_list, error="Must fill in email of user you want to add")   
+            friends_list = get_friends_list()
+            return render_template('friends_list.html',friends_list=friends_list, error="Must fill in email of user you want to add")   
     else:
-        friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-        if (isinstance(friends_response,GetFriendsResponse)):
-            for friend in friends_response.friends_list:
-                friends_list=friends_list+ [friend]
-            return render_template('friends_list.html',friends_list=friends_list)    
+        friends_list = get_friends_list()
+        return render_template('friends_list.html',friends_list=friends_list)    
 
 @app.route('/remove_friend', methods=['GET', 'POST'])
 def remove_friend():
@@ -78,28 +69,15 @@ def remove_friend():
             remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =session['userId'],friend_email=request.form['friend']))
             if (isinstance(remove_friend_response, RemoveFriendResponse)):
                 print "remove response", remove_friend_response
-                friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-                if (isinstance(friends_response,GetFriendsResponse)):
-                    #print friends_response
-                    for friend in friends_response.friends_list:
-                        #print friend
-                        friends_list=friends_list+ [friend]
-                    return render_template('friends_list.html',friends_list=friends_list)
+                friends_list = get_friends_list()
+                return render_template('friends_list.html',friends_list=friends_list)
         except: #no radio buttons selected
-            friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-            if (isinstance(friends_response,GetFriendsResponse)):
-                #print friends_response
-                for friend in friends_response.friends_list:
-                    #print friend
-                    friends_list=friends_list+ [friend]
-                return render_template('friends_list.html',friends_list=friends_list, error="Must select radio button")
+            friends_list = get_friends_list()
+            return render_template('friends_list.html',friends_list=friends_list, error="Must select radio button")
 
     else:
-        friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-        if (isinstance(friends_response,GetFriendsResponse)):
-            for friend in friends_response.friends_list:
-                friends_list=friends_list+ [friend]
-            return render_template('friends_list.html',friends_list=friends_list)
+        friends_list = get_friends_list()
+        return render_template('friends_list.html',friends_list=friends_list)
 
 @app.route('/lobby_invite/<int:game_type>/<int:lobby_id>',methods=['GET', 'POST'])
 def lobby_invite(game_type,lobby_id):
@@ -117,12 +95,8 @@ def lobby_invite(game_type,lobby_id):
     lobby_invite_response = lobbyservice.inviteToLobby(InviteLobbyRequest(userId=session['userId'],lobbyId=lobby_id, invite_emails=friends))
     if (isinstance(lobby_invite_response, InviteLobbyResponse)):
         print lobby_invite_response
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-    if (isinstance(friends_response,GetFriendsResponse)):
-        print friends_response
-        for friend in friends_response.friends_list:
-            print friend
-            friends_list=friends_list+ [friend] 
+    friends_list = get_friends_list()
+ 
     
     return render_template('create_game.html' ,friends_list=friends_list, game_type=game_type, lobby_id=lobby_id)
 
@@ -136,12 +110,7 @@ def lobby_state(game_type, lobby_id):
     deny_friends=[]
     none_friends=[]
     friends_list = []
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-    if (isinstance(friends_response,GetFriendsResponse)):
-        print friends_response
-        for friend in friends_response.friends_list:
-            print friend
-            friends_list=friends_list+ [friend]
+    friends_list = get_friends_list()
 
     lobby_state_response = lobbyservice.getLobbyState(GetLobbyStateRequest(lobbyId=lobby_id))
     if (isinstance(lobby_state_response, GetLobbyStateResponse)):
@@ -165,10 +134,7 @@ def lobby_list(game_type, lobby_id):
     print lobby_id
     friends_list = []
     invited_lobbies = []
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-    if (isinstance(friends_response,GetFriendsResponse)):
-        for friend in friends_response.friends_list:
-            friends_list=friends_list+ [friend]
+    friends_list = get_friends_list()
     print "innan response"
    
     lobby_list_response = lobbyservice.getLobbyList(GetLobbyListRequest(userId=session['userId']))
@@ -203,11 +169,8 @@ def accept_invite(game_type,lobby_id):
     #accept_invite_response = lobbyservice.acceptLobbyInvite(AcceptLobbyInviteRequest(userId=session['userId'], lobbyId=request.form['accepted_invite']))
     if (isinstance(accept_invite_response, AcceptLobbyInviteResponse)):
         print accept_invite_response
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-    if (isinstance(friends_response,GetFriendsResponse)):
-        for friend in friends_response.friends_list:
-            friends_list=friends_list+ [friend]
-        return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+    friends_list = get_friends_list()
+    return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
 
 # @app.route('/start_game/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
 # def start_game(game_type,lobby_id):
@@ -224,31 +187,24 @@ def remove_lobby(game_type,lobby_id):
     remove_lobby_response = lobbyservice.removeLobby(RemoveLobbyRequest(userId=session['userId'], lobbyId=lobby_id))
     if (isinstance(remove_lobby_response, RemoveLobbyResponse)):
         print remove_lobby_response
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-    if (isinstance(friends_response,GetFriendsResponse)):
-        for friend in friends_response.friends_list:
-            friends_list=friends_list+ [friend]
-        return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+    friends_list = get_friends_list()
+    return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
 
 
 @app.route('/get_friends/<int:game_type>',methods=['GET'])
 def get_friends(game_type):
     print "get_friends test 2p"
     print game_type
+    print session['userId']
     lobby_id = None
-    friends_list = [] 
+    friends_list = []   
     response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
+    
     if (isinstance(response, CreateLobbyResponse)):
         print response
         lobby_id = response.lobbyId
-
-    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
-    if (isinstance(friends_response,GetFriendsResponse)):
-        print friends_response
-        for friend in friends_response.friends_list:
-            print friend
-            friends_list=friends_list+ [friend]
-        return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
+    friends_list = get_friends_list()
+    return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
 
     
 #************************ AWESOME ERROR FINDER ************************************
@@ -340,13 +296,15 @@ def register_user():
 def login():
     error = None
     if request.method == 'POST':
-        #response = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
-        #if (isinstance(response, LoginResponse)):
-            #session['userId'] = str(response.userId)
-        session['userId'] = 98789
-        session['logged_in'] = True
-        #else:
-            #error=response.message
+        response = userservice.authenticate(LoginRequest(email=request.form['email'], password=request.form['password']),1000)
+        if (isinstance(response, LoginResponse)):
+            session['userId'] = response.userId
+        #session['userId'] = 98789
+            session['logged_in'] = True
+        else:
+            error=response.message
+ 
+ 
  #       if request.form['username'] != app.config['USERNAME']:
  #           error = 'Invalid username'
  #       elif request.form['password'] != app.config['PASSWORD']:
@@ -398,3 +356,12 @@ def test_tile_placement():
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',debug=True)
 #    app.run(debug=True)
+
+def get_friends_list():
+    friends_list=[]
+    friends_response = friendservice.get_friends_list(GetFriendsRequest(userId=session['userId']))  #hard coded userId
+    if (isinstance(friends_response,GetFriendsResponse)):
+        for friend in friends_response.friends_list:
+            friends_list=friends_list+ [friend]
+    return friends_list
+
