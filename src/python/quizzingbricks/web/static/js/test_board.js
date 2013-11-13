@@ -1,7 +1,7 @@
 var selected_token;
 
-var BOARD_HEIGHT = 10
-var BOARD_WIDTH  = 10
+var BOARD_HEIGHT = 8
+var BOARD_WIDTH  = 8
 
 var TOKEN = {
     EMPTY  : {value: 0, string: "Empty"},
