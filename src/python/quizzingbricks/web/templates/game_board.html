@@ -3,6 +3,10 @@
 {% block body %} 
      <link href="/static/css/board.css" rel="stylesheet">
 
+     <script src="/static/js/game_board.js"></script>
+
+   
+
      <div class="container">
 
       <div class="starter-template">
@@ -25,28 +29,41 @@
             <img src="/static/img/BoardCell_Red.png" onclick='selectToken(TOKEN.RED)' width="64" /> -->
 
 
-          <br>Your Color = <img src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
+          <br>Your Color = <img onload="assign_colors({{friends}},{{userId}})" onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
 
           <br>GameId = <b> {{gameId}} </b>
 
           {% if friends %}
             <div class="container">
             <strong> Players: </strong> 
-            {% for friend in friends%}    
-              <br>  {{friend}} 
+            {% set i = 1 %}
+            {% for friend in friends%} 
+                {% if i== 1%}
+                  <br>  {{friend[0]}} = <img src="/static/img/BoardCell_Yellow.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
+                {% endif %}
+                
+                {% if i== 2%}
+                  <br>  {{friend[0]}} = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
+                {% endif %}
+                
+                {% if i== 3%}
+                  <br>  {{friend[0]}} = <img src="/static/img/BoardCell_Green.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.GREEN)' width="64" />
+                {% endif %}
+                
+                {% set i = i+1 %}
+      
             {% endfor %}                                             
             </div> 
           {% endif %}
 
 
-          {% if test %}
-            <div class="container">
-            <strong> Players: </strong> 
-            {% for t in test%}    
-              <br>  {{t}} 
-            {% endfor %}                                             
-            </div> 
-          {% endif %}
+          <form action = "{{ url_for('game_info', game_id=gameId) }}" method=post>
+            <button type=submit> Game Info </button>
+          </form> 
+
+            {% for b in board %}
+              {{b}}
+            {% endfor %}
 
         </div>
         <div id="board">
@@ -85,6 +102,6 @@
 
 
     <!-- My own scripts -->
-    <script src="/static/js/game_board.js"></script>
+    
 
 {% endblock %}
