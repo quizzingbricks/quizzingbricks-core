@@ -26,3 +26,9 @@ def get_friends():
         print "friends:", e
         traceback.print_exc()
         return api_error("Service not available", 500), 500
+
+
+@app.route("/api/users/me/friends", methods=["POST"])
+@token_required
+def add_friend():
+    pass
