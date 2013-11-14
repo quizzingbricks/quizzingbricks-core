@@ -1,5 +1,18 @@
 
 import "users.proto";
+
+message Lobby {
+	required int32 lobbyId = 1;
+	required User owner = 2;
+	repeated LobbyMembership lobbymembers = 3;
+}
+
+message LobbyMembership {
+	required User user = 1;
+	required string status = 2 [default = "Invited"];
+}
+
+
 // messages
 
 message CreateLobbyRequest {
@@ -11,6 +24,11 @@ message CreateLobbyRequest {
 message CreateLobbyResponse {
     required int32 lobbyId = 1;
 }
+
+
+//*********** Get Lobby ***************************
+
+
 
 //*********** Lobby List ***************************
 
