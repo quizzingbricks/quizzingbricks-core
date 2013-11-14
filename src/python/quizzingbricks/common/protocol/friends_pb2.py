@@ -8,12 +8,13 @@ from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 
+import users_pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='friends.proto',
   package='',
-  serialized_pb='\n\rfriends.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"*\n\x12GetFriendsResponse\x12\x14\n\x0c\x66riends_list\x18\x01 \x03(\t\"8\n\x10\x41\x64\x64\x46riendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\";\n\x13RemoveFriendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
+  serialized_pb='\n\rfriends.proto\x1a\x0busers.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\",\n\x12GetFriendsResponse\x12\x16\n\x07\x66riends\x18\x01 \x03(\x0b\x32\x05.User\"8\n\x10\x41\x64\x64\x46riendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\";\n\x13RemoveFriendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
 
 
 
@@ -41,8 +42,8 @@ _GETFRIENDSREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=17,
-  serialized_end=52,
+  serialized_start=30,
+  serialized_end=65,
 )
 
 
@@ -54,8 +55,8 @@ _GETFRIENDSRESPONSE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='friends_list', full_name='GetFriendsResponse.friends_list', index=0,
-      number=1, type=9, cpp_type=9, label=3,
+      name='friends', full_name='GetFriendsResponse.friends', index=0,
+      number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -69,8 +70,8 @@ _GETFRIENDSRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=54,
-  serialized_end=96,
+  serialized_start=67,
+  serialized_end=111,
 )
 
 
@@ -104,8 +105,8 @@ _ADDFRIENDREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=98,
-  serialized_end=154,
+  serialized_start=113,
+  serialized_end=169,
 )
 
 
@@ -132,8 +133,8 @@ _ADDFRIENDRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=156,
-  serialized_end=197,
+  serialized_start=171,
+  serialized_end=212,
 )
 
 
@@ -167,8 +168,8 @@ _REMOVEFRIENDREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=199,
-  serialized_end=258,
+  serialized_start=214,
+  serialized_end=273,
 )
 
 
@@ -195,10 +196,11 @@ _REMOVEFRIENDRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=260,
-  serialized_end=306,
+  serialized_start=275,
+  serialized_end=321,
 )
 
+_GETFRIENDSRESPONSE.fields_by_name['friends'].message_type = users_pb2._USER
 DESCRIPTOR.message_types_by_name['GetFriendsRequest'] = _GETFRIENDSREQUEST
 DESCRIPTOR.message_types_by_name['GetFriendsResponse'] = _GETFRIENDSRESPONSE
 DESCRIPTOR.message_types_by_name['AddFriendRequest'] = _ADDFRIENDREQUEST

@@ -1,5 +1,5 @@
 
-
+import "users.proto";
 // messages
 
 message GetFriendsRequest {
@@ -8,7 +8,7 @@ message GetFriendsRequest {
 
 // friends list
 message GetFriendsResponse {
-    repeated string friends_list = 1;
+    repeated User friends = 1;
 }
 
 message AddFriendRequest {

@@ -7,14 +7,18 @@ from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.lobby import LobbyServiceClient
 from quizzingbricks.client.friends import FriendServiceClient
+from quizzingbricks.client.games import GameServiceClient
 from quizzingbricks.common.protocol import (
     LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , \
      CreateLobbyRequest, CreateLobbyResponse, GetFriendsRequest, GetFriendsResponse, \
      AddFriendRequest, AddFriendResponse, RemoveFriendRequest, RemoveFriendResponse, \
      GetLobbyStateRequest, GetLobbyStateResponse, AcceptLobbyInviteRequest, AcceptLobbyInviteResponse, \
      InviteLobbyRequest, InviteLobbyResponse, RemoveLobbyRequest, RemoveLobbyResponse, \
-     StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse   
-)
+     StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse, \
+     CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
+     MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
+     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse )
+    
 
 #configuration
 
@@ -25,7 +29,7 @@ SECRET_KEY = 'development key'
 userservice = UserServiceClient("tcp://*:5551")
 lobbyservice = LobbyServiceClient("tcp://*:5552")
 friendservice = FriendServiceClient("tcp://*:5553")
-
+gameservice = GameServiceClient("tcp://*:1234")
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -218,7 +222,7 @@ def get_friends(game_type):
     
 
 
-
+#TODO: Quick Join 2/4 player Should be easy just call create lobbyId and use that to call start game directly 
 
 
 
@@ -244,29 +248,60 @@ def start_game(game_type,lobby_id):
         gameId = str(start_game_response).split(":")[1]
         print "gameId:", gameId
 
-
-        return render_template('test_board.html',friends=friends, gameId=gameId)
+        #TODO: fetch friends from the gameId
+        #friends = email string fetch with get_user_by_id 
+        #also give userId
+        friends = [("Linus@test.se", 21),("David@test.se", 22)]
+        board=[]
+        return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
     else:
         return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
 
 
 
-@app.route('/active_games')
+
+@app.route('/game_info/<int:game_id>', methods=['GET','POST'])
+def game_info(game_id):
+    print "game info"
+    print game_id
+    friends = []
+    board = []
+    friend1 = ("David@test.se", 2)
+    friend2 = ("Anton@test.se", 25)
+    friends = [friend1,friend2]
+    for x in range(0,64):
+        if (x > 40):
+            board = board +[1]
+        elif (x<20):
+            board = board +[2]
+        else:
+            board = board + [0]
+    return render_template('game_board.html',friends=friends, gameId=game_id, board=board, userId=session['userId'])
+
+
+@app.route('/active_games')     
 def active_games():  
+    #TODO: fetch list of active games
     return render_template('active_games.html')
 
-@app.route('/choose_color', methods=["POST"])
-def choose_color():
-	token = request.form.get('token','None', type=str)
-	#session['player_color'] = token.upper()
-	#print session['player_color']
-	return jsonify(result=token)
+# @app.route('/choose_color', methods=["POST"])
+# def choose_color():
+# 	token = request.form.get('token','None', type=str)
+# 	#session['player_color'] = token.upper()
+# 	#print session['player_color']
+# 	return jsonify(result=token)
 
 
 
 @app.route('/game_board',methods=["GET"])
 def game_board ():
-	return render_template('game_board.html')
+    friends = []
+    board =[]
+    gameId  = 999999
+    friend1 = ("David@test.se", 2)
+    friend2 = ("Anton@test.se", 25)
+    friends = [friend1,friend2]
+    return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
 
 @app.route('/test_board',methods=["GET"])
 def test_board ():
@@ -333,12 +368,34 @@ def logout():
 
 
 
-@app.route('/game_board', methods=["POST"])
+@app.route('/make_move', methods=["POST"])
 def tile_placement():
+    print "game board in run_web"
+    gameId = request.form.get('gameId',0, type=int)
     x = request.form.get('x', 0, type=int)
     y = request.form.get('y', 0, type=int)
+    print "gameId", gameId
+    print "userId", session['userId']
+    print "x: ",x
+    print "y: ",y
+    print "before msg"
+
+    msg = MoveRequest()
+    msg.x       = x
+    msg.y       = y
+    msg.gameId   = gameId
+    msg.userId  = session['userId']
+    try:
+        player_move_response = gameservice.send(msg)
+        if(isinstance(player_move_response,GameError)):
+            return jsonify(result=(player_move_response.description, player_move_response.code))
+        else:
+            return jsonify(result ="Move sent")
+    except TimeoutError as e:
+        return jsonify(result = "Timeout")
+
    # print session['username']
-    return jsonify(result =(x,y))
+   # return jsonify(result =(x,y))
 
 @app.route('/test_board', methods=["POST"])
 def test_tile_placement():
@@ -353,15 +410,16 @@ def test_tile_placement():
 
 
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
 #    app.run(debug=True)
 
 def get_friends_list():
     friends_list=[]
-    friends_response = friendservice.get_friends(GetFriendsRequest(userId=session['userId']))  #hard coded userId
+    friends_response = friendservice.get_friends(GetFriendsRequest(userId=session['userId']), timeout=5000)  #hard coded userId
     if (isinstance(friends_response,GetFriendsResponse)):
-        for friend in friends_response.friends_list:
-            friends_list=friends_list+ [friend]
+        for friend in friends_response.friends:
+            friends_list=friends_list+ [friend.email]
     return friends_list
 

@@ -37,3 +37,11 @@ message GetUserRequest {
 message GetUserResponse {
     required User user = 1;
 }
+
+message GetMultipleUsersRequest {
+    repeated int32 userIds = 1;   
+}
+
+message GetMultipleUsersResponse {
+    repeated User users = 1;   
+}
