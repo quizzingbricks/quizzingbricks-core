@@ -417,9 +417,9 @@ if __name__ == '__main__':
 
 def get_friends_list():
     friends_list=[]
-    friends_response = friendservice.get_friends(GetFriendsRequest(userId=session['userId']))  #hard coded userId
+    friends_response = friendservice.get_friends(GetFriendsRequest(userId=session['userId']), timeout=5000)  #hard coded userId
     if (isinstance(friends_response,GetFriendsResponse)):
-        for friend in friends_response.friends_list:
-            friends_list=friends_list+ [friend]
+        for friend in friends_response.friends:
+            friends_list=friends_list+ [friend.email]
     return friends_list
 
