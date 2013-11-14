@@ -7,6 +7,7 @@ import sqlalchemy as sa
 
 from quizzingbricks.nuncius import NunciusService, expose
 from quizzingbricks.common.db import session
+from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.services.friends.models import Friendship
 from quizzingbricks.services.users.models import User
 
@@ -19,7 +20,9 @@ from quizzingbricks.common.protocol import (
     AddFriendRequest,
     AddFriendResponse,
     RemoveFriendRequest,
-    RemoveFriendResponse
+    RemoveFriendResponse,
+    GetMultipleUsersRequest,
+    GetMultipleUsersResponse
 
 )
 
@@ -73,29 +76,21 @@ class FriendService(NunciusService):
     @expose("get_friends")
     def get_friends(self, request):
         with db(session):
-            # NOTE: this fetch all friendships in the db
-            # and is a "select N+1", change to something like this:
-            # Friendship.query.filter(Friendship.user_id==request.userId) # fetch all friends by user
-            # User.query.filter(User.id.in_(the above ids)) # fetch all users that matches the friendship ids
-            # ... but can also be solved by a join.
-            #
+            userservice = UserServiceClient("tcp://*:5551")
+            
             # TODO: We may also decide if the user fetching should be done
             # by the user service which means that the friendservice calls the userservice over zmq via the client api
             # as planned earlier, but the responsible for this decide.
-            friends = Friendship.query.filter()
-            friend_list = []
-            for friend in friends:
-                friend_mail = User.query.get(friend.friend_id)
-                friend_list.append(friend_mail.email)
-            return GetFriendsResponse(friends_list=friend_list)
-        
-        
-        # if (request.gameType == 4):
-        #     return CreateLobbyResponse(lobbyId=123456)
-        # if (request.gameType == 2):
-        #     return CreateLobbyResponse(lobbyId=654321)
-        # else:
-        #     return CreateLobbyResponse(lobbyId=123321)
+            friends = Friendship.query.filter(Friendship.user_id==request.userId)
+            users = User.query.filter(User.id.in_(map(lambda f:f.friend_id, friends)))
+            print "USERS", users
+            friends=map(lambda u:u.id, users)
+            print "friends", friends
+            response = userservice.get_multiple_users(GetMultipleUsersRequest(userIds=friends), timeout=5000)
+            if (isinstance(response, GetMultipleUsersResponse)):
+                return GetFriendsResponse(friends=response.users)
+            else:
+                return RpcError(message="Invalid user id")
 
     
 

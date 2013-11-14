@@ -107,10 +107,10 @@ class UserService(NunciusService):
         with db(session):
             users = User.query.filter(User.id.in_(request.userIds))
             user_list=[]
-            for user in users
+            for user in users:
                 user_message = ProtoUser(
                     id=user.id,
                     email=user.email,
                     username=user.email)
                 user_list.append(user_message)
-            return GetUserResponse(users=user_list)
+            return GetMultipleUsersResponse(users=user_list)

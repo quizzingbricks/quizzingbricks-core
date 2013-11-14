@@ -18,5 +18,5 @@ class UserServiceClient(BaseClient):
             return response
 
     def get_multiple_users(self, request, timeout=None):
-    with self.rpc_call("get_multiple_users", request, timeout) as response:
-        return response
+        with self.rpc_call("get_multiple_users", request, timeout) as response:
+            return response
