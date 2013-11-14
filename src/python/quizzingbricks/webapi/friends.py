@@ -19,10 +19,19 @@ friendservice = FriendServiceClient("tcp://*:5553")
 @token_required
 def get_friends():
     try:
-        friends = friendservice.get_friends(GetFriendsRequest(userId=g.user.id))
+        response = friendservice.get_friends(GetFriendsRequest(userId=g.user.id))
 
-        return jsonify({"friends": list(friends.friends_list)})
+        return jsonify({"friends": map(
+            lambda user: dict(id=user.id, email=user.email),
+            response.friends
+        )})
     except Exception as e:
         print "friends:", e
         traceback.print_exc()
         return api_error("Service not available", 500), 500
+
+
+@app.route("/api/users/me/friends", methods=["POST"])
+@token_required
+def add_friend():
+    pass
