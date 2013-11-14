@@ -413,25 +413,30 @@ public final class Friends {
   public interface GetFriendsResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated string friends_list = 1;
+    // repeated .User friends = 1;
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    java.util.List<java.lang.String>
-    getFriendsListList();
+    java.util.List<Users.User> 
+        getFriendsList();
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    int getFriendsListCount();
+    Users.User getFriends(int index);
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    java.lang.String getFriendsList(int index);
+    int getFriendsCount();
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    com.google.protobuf.ByteString
-        getFriendsListBytes(int index);
+    java.util.List<? extends Users.UserOrBuilder> 
+        getFriendsOrBuilderList();
+    /**
+     * <code>repeated .User friends = 1;</code>
+     */
+    Users.UserOrBuilder getFriendsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code GetFriendsResponse}
@@ -490,10 +495,10 @@ public final class Friends {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                friendsList_ = new com.google.protobuf.LazyStringArrayList();
+                friends_ = new java.util.ArrayList<Users.User>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              friendsList_.add(input.readBytes());
+              friends_.add(input.readMessage(Users.User.PARSER, extensionRegistry));
               break;
             }
           }
@@ -505,7 +510,7 @@ public final class Friends {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          friendsList_ = new com.google.protobuf.UnmodifiableLazyStringList(friendsList_);
+          friends_ = java.util.Collections.unmodifiableList(friends_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -538,44 +543,56 @@ public final class Friends {
       return PARSER;
     }
 
-    // repeated string friends_list = 1;
-    public static final int FRIENDS_LIST_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList friendsList_;
+    // repeated .User friends = 1;
+    public static final int FRIENDS_FIELD_NUMBER = 1;
+    private java.util.List<Users.User> friends_;
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    public java.util.List<java.lang.String>
-        getFriendsListList() {
-      return friendsList_;
+    public java.util.List<Users.User> getFriendsList() {
+      return friends_;
     }
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    public int getFriendsListCount() {
-      return friendsList_.size();
+    public java.util.List<? extends Users.UserOrBuilder> 
+        getFriendsOrBuilderList() {
+      return friends_;
     }
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    public java.lang.String getFriendsList(int index) {
-      return friendsList_.get(index);
+    public int getFriendsCount() {
+      return friends_.size();
     }
     /**
-     * <code>repeated string friends_list = 1;</code>
+     * <code>repeated .User friends = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getFriendsListBytes(int index) {
-      return friendsList_.getByteString(index);
+    public Users.User getFriends(int index) {
+      return friends_.get(index);
+    }
+    /**
+     * <code>repeated .User friends = 1;</code>
+     */
+    public Users.UserOrBuilder getFriendsOrBuilder(
+        int index) {
+      return friends_.get(index);
     }
 
     private void initFields() {
-      friendsList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      friends_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      for (int i = 0; i < getFriendsCount(); i++) {
+        if (!getFriends(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -583,8 +600,8 @@ public final class Friends {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < friendsList_.size(); i++) {
-        output.writeBytes(1, friendsList_.getByteString(i));
+      for (int i = 0; i < friends_.size(); i++) {
+        output.writeMessage(1, friends_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -595,14 +612,9 @@ public final class Friends {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < friendsList_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(friendsList_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getFriendsListList().size();
+      for (int i = 0; i < friends_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, friends_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -716,6 +728,7 @@ public final class Friends {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFriendsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -724,8 +737,12 @@ public final class Friends {
 
       public Builder clear() {
         super.clear();
-        friendsList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        if (friendsBuilder_ == null) {
+          friends_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          friendsBuilder_.clear();
+        }
         return this;
       }
 
@@ -753,12 +770,15 @@ public final class Friends {
       public Friends.GetFriendsResponse buildPartial() {
         Friends.GetFriendsResponse result = new Friends.GetFriendsResponse(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          friendsList_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              friendsList_);
-          bitField0_ = (bitField0_ & ~0x00000001);
+        if (friendsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            friends_ = java.util.Collections.unmodifiableList(friends_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.friends_ = friends_;
+        } else {
+          result.friends_ = friendsBuilder_.build();
         }
-        result.friendsList_ = friendsList_;
         onBuilt();
         return result;
       }
@@ -774,21 +794,43 @@ public final class Friends {
 
       public Builder mergeFrom(Friends.GetFriendsResponse other) {
         if (other == Friends.GetFriendsResponse.getDefaultInstance()) return this;
-        if (!other.friendsList_.isEmpty()) {
-          if (friendsList_.isEmpty()) {
-            friendsList_ = other.friendsList_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureFriendsListIsMutable();
-            friendsList_.addAll(other.friendsList_);
+        if (friendsBuilder_ == null) {
+          if (!other.friends_.isEmpty()) {
+            if (friends_.isEmpty()) {
+              friends_ = other.friends_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureFriendsIsMutable();
+              friends_.addAll(other.friends_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.friends_.isEmpty()) {
+            if (friendsBuilder_.isEmpty()) {
+              friendsBuilder_.dispose();
+              friendsBuilder_ = null;
+              friends_ = other.friends_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              friendsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getFriendsFieldBuilder() : null;
+            } else {
+              friendsBuilder_.addAllMessages(other.friends_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        for (int i = 0; i < getFriendsCount(); i++) {
+          if (!getFriends(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -811,97 +853,244 @@ public final class Friends {
       }
       private int bitField0_;
 
-      // repeated string friends_list = 1;
-      private com.google.protobuf.LazyStringList friendsList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureFriendsListIsMutable() {
+      // repeated .User friends = 1;
+      private java.util.List<Users.User> friends_ =
+        java.util.Collections.emptyList();
+      private void ensureFriendsIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          friendsList_ = new com.google.protobuf.LazyStringArrayList(friendsList_);
+          friends_ = new java.util.ArrayList<Users.User>(friends_);
           bitField0_ |= 0x00000001;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> friendsBuilder_;
+
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public java.util.List<java.lang.String>
-          getFriendsListList() {
-        return java.util.Collections.unmodifiableList(friendsList_);
+      public java.util.List<Users.User> getFriendsList() {
+        if (friendsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(friends_);
+        } else {
+          return friendsBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public int getFriendsListCount() {
-        return friendsList_.size();
+      public int getFriendsCount() {
+        if (friendsBuilder_ == null) {
+          return friends_.size();
+        } else {
+          return friendsBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public java.lang.String getFriendsList(int index) {
-        return friendsList_.get(index);
+      public Users.User getFriends(int index) {
+        if (friendsBuilder_ == null) {
+          return friends_.get(index);
+        } else {
+          return friendsBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getFriendsListBytes(int index) {
-        return friendsList_.getByteString(index);
-      }
-      /**
-       * <code>repeated string friends_list = 1;</code>
-       */
-      public Builder setFriendsList(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureFriendsListIsMutable();
-        friendsList_.set(index, value);
-        onChanged();
+      public Builder setFriends(
+          int index, Users.User value) {
+        if (friendsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFriendsIsMutable();
+          friends_.set(index, value);
+          onChanged();
+        } else {
+          friendsBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public Builder addFriendsList(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureFriendsListIsMutable();
-        friendsList_.add(value);
-        onChanged();
+      public Builder setFriends(
+          int index, Users.User.Builder builderForValue) {
+        if (friendsBuilder_ == null) {
+          ensureFriendsIsMutable();
+          friends_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          friendsBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public Builder addAllFriendsList(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureFriendsListIsMutable();
-        super.addAll(values, friendsList_);
-        onChanged();
+      public Builder addFriends(Users.User value) {
+        if (friendsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFriendsIsMutable();
+          friends_.add(value);
+          onChanged();
+        } else {
+          friendsBuilder_.addMessage(value);
+        }
         return this;
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public Builder clearFriendsList() {
-        friendsList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
+      public Builder addFriends(
+          int index, Users.User value) {
+        if (friendsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFriendsIsMutable();
+          friends_.add(index, value);
+          onChanged();
+        } else {
+          friendsBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string friends_list = 1;</code>
+       * <code>repeated .User friends = 1;</code>
        */
-      public Builder addFriendsListBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureFriendsListIsMutable();
-        friendsList_.add(value);
-        onChanged();
+      public Builder addFriends(
+          Users.User.Builder builderForValue) {
+        if (friendsBuilder_ == null) {
+          ensureFriendsIsMutable();
+          friends_.add(builderForValue.build());
+          onChanged();
+        } else {
+          friendsBuilder_.addMessage(builderForValue.build());
+        }
         return this;
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Builder addFriends(
+          int index, Users.User.Builder builderForValue) {
+        if (friendsBuilder_ == null) {
+          ensureFriendsIsMutable();
+          friends_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          friendsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Builder addAllFriends(
+          java.lang.Iterable<? extends Users.User> values) {
+        if (friendsBuilder_ == null) {
+          ensureFriendsIsMutable();
+          super.addAll(values, friends_);
+          onChanged();
+        } else {
+          friendsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Builder clearFriends() {
+        if (friendsBuilder_ == null) {
+          friends_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          friendsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Builder removeFriends(int index) {
+        if (friendsBuilder_ == null) {
+          ensureFriendsIsMutable();
+          friends_.remove(index);
+          onChanged();
+        } else {
+          friendsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Users.User.Builder getFriendsBuilder(
+          int index) {
+        return getFriendsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Users.UserOrBuilder getFriendsOrBuilder(
+          int index) {
+        if (friendsBuilder_ == null) {
+          return friends_.get(index);  } else {
+          return friendsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public java.util.List<? extends Users.UserOrBuilder> 
+           getFriendsOrBuilderList() {
+        if (friendsBuilder_ != null) {
+          return friendsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(friends_);
+        }
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Users.User.Builder addFriendsBuilder() {
+        return getFriendsFieldBuilder().addBuilder(
+            Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public Users.User.Builder addFriendsBuilder(
+          int index) {
+        return getFriendsFieldBuilder().addBuilder(
+            index, Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User friends = 1;</code>
+       */
+      public java.util.List<Users.User.Builder> 
+           getFriendsBuilderList() {
+        return getFriendsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> 
+          getFriendsFieldBuilder() {
+        if (friendsBuilder_ == null) {
+          friendsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              Users.User, Users.User.Builder, Users.UserOrBuilder>(
+                  friends_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          friends_ = null;
+        }
+        return friendsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GetFriendsResponse)
@@ -2898,14 +3087,15 @@ public final class Friends {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rfriends.proto\"#\n\021GetFriendsRequest\022\016\n\006" +
-      "userId\030\001 \002(\005\"*\n\022GetFriendsResponse\022\024\n\014fr" +
-      "iends_list\030\001 \003(\t\"8\n\020AddFriendRequest\022\016\n\006" +
-      "userId\030\001 \002(\005\022\024\n\014friend_email\030\002 \002(\t\")\n\021Ad" +
-      "dFriendResponse\022\024\n\014friend_added\030\001 \002(\010\";\n" +
-      "\023RemoveFriendRequest\022\016\n\006userId\030\001 \002(\005\022\024\n\014" +
-      "friend_email\030\002 \002(\t\".\n\024RemoveFriendRespon" +
-      "se\022\026\n\016friend_removed\030\001 \002(\010"
+      "\n\rfriends.proto\032\013users.proto\"#\n\021GetFrien" +
+      "dsRequest\022\016\n\006userId\030\001 \002(\005\",\n\022GetFriendsR" +
+      "esponse\022\026\n\007friends\030\001 \003(\0132\005.User\"8\n\020AddFr" +
+      "iendRequest\022\016\n\006userId\030\001 \002(\005\022\024\n\014friend_em" +
+      "ail\030\002 \002(\t\")\n\021AddFriendResponse\022\024\n\014friend" +
+      "_added\030\001 \002(\010\";\n\023RemoveFriendRequest\022\016\n\006u" +
+      "serId\030\001 \002(\005\022\024\n\014friend_email\030\002 \002(\t\".\n\024Rem" +
+      "oveFriendResponse\022\026\n\016friend_removed\030\001 \002(" +
+      "\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2923,7 +3113,7 @@ public final class Friends {
           internal_static_GetFriendsResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetFriendsResponse_descriptor,
-              new java.lang.String[] { "FriendsList", });
+              new java.lang.String[] { "Friends", });
           internal_static_AddFriendRequest_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_AddFriendRequest_fieldAccessorTable = new
@@ -2954,6 +3144,7 @@ public final class Friends {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          Users.getDescriptor(),
         }, assigner);
   }
 

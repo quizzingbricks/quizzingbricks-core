@@ -1368,18 +1368,26 @@ public final class Lobbies {
     com.google.protobuf.ByteString
         getStatusBytes(int index);
 
-    // repeated string owner = 3;
+    // repeated .User owner = 3;
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getOwnerList();
+    java.util.List<Users.User> 
+        getOwnerList();
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
+     *
+     * <pre>
+     *userId of the Owner of the lobby
+     * </pre>
+     */
+    Users.User getOwner(int index);
+    /**
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
@@ -1387,22 +1395,23 @@ public final class Lobbies {
      */
     int getOwnerCount();
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
      * </pre>
      */
-    java.lang.String getOwner(int index);
+    java.util.List<? extends Users.UserOrBuilder> 
+        getOwnerOrBuilderList();
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getOwnerBytes(int index);
+    Users.UserOrBuilder getOwnerOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code GetLobbyListResponse}
@@ -1486,10 +1495,10 @@ public final class Lobbies {
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                owner_ = new com.google.protobuf.LazyStringArrayList();
+                owner_ = new java.util.ArrayList<Users.User>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              owner_.add(input.readBytes());
+              owner_.add(input.readMessage(Users.User.PARSER, extensionRegistry));
               break;
             }
           }
@@ -1507,7 +1516,7 @@ public final class Lobbies {
           status_ = new com.google.protobuf.UnmodifiableLazyStringList(status_);
         }
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          owner_ = new com.google.protobuf.UnmodifiableLazyStringList(owner_);
+          owner_ = java.util.Collections.unmodifiableList(owner_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1609,22 +1618,32 @@ public final class Lobbies {
       return status_.getByteString(index);
     }
 
-    // repeated string owner = 3;
+    // repeated .User owner = 3;
     public static final int OWNER_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList owner_;
+    private java.util.List<Users.User> owner_;
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getOwnerList() {
+    public java.util.List<Users.User> getOwnerList() {
       return owner_;
     }
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
+     *
+     * <pre>
+     *userId of the Owner of the lobby
+     * </pre>
+     */
+    public java.util.List<? extends Users.UserOrBuilder> 
+        getOwnerOrBuilderList() {
+      return owner_;
+    }
+    /**
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
@@ -1634,37 +1653,43 @@ public final class Lobbies {
       return owner_.size();
     }
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
      * </pre>
      */
-    public java.lang.String getOwner(int index) {
+    public Users.User getOwner(int index) {
       return owner_.get(index);
     }
     /**
-     * <code>repeated string owner = 3;</code>
+     * <code>repeated .User owner = 3;</code>
      *
      * <pre>
      *userId of the Owner of the lobby
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getOwnerBytes(int index) {
-      return owner_.getByteString(index);
+    public Users.UserOrBuilder getOwnerOrBuilder(
+        int index) {
+      return owner_.get(index);
     }
 
     private void initFields() {
       lobbyIds_ = java.util.Collections.emptyList();
       status_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      owner_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      owner_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      for (int i = 0; i < getOwnerCount(); i++) {
+        if (!getOwner(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1679,7 +1704,7 @@ public final class Lobbies {
         output.writeBytes(2, status_.getByteString(i));
       }
       for (int i = 0; i < owner_.size(); i++) {
-        output.writeBytes(3, owner_.getByteString(i));
+        output.writeMessage(3, owner_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1708,14 +1733,9 @@ public final class Lobbies {
         size += dataSize;
         size += 1 * getStatusList().size();
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < owner_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(owner_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getOwnerList().size();
+      for (int i = 0; i < owner_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, owner_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1825,6 +1845,7 @@ public final class Lobbies {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getOwnerFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1837,8 +1858,12 @@ public final class Lobbies {
         bitField0_ = (bitField0_ & ~0x00000001);
         status_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        owner_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        if (ownerBuilder_ == null) {
+          owner_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          ownerBuilder_.clear();
+        }
         return this;
       }
 
@@ -1877,12 +1902,15 @@ public final class Lobbies {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.status_ = status_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          owner_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              owner_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+        if (ownerBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            owner_ = java.util.Collections.unmodifiableList(owner_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.owner_ = owner_;
+        } else {
+          result.owner_ = ownerBuilder_.build();
         }
-        result.owner_ = owner_;
         onBuilt();
         return result;
       }
@@ -1918,21 +1946,43 @@ public final class Lobbies {
           }
           onChanged();
         }
-        if (!other.owner_.isEmpty()) {
-          if (owner_.isEmpty()) {
-            owner_ = other.owner_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureOwnerIsMutable();
-            owner_.addAll(other.owner_);
+        if (ownerBuilder_ == null) {
+          if (!other.owner_.isEmpty()) {
+            if (owner_.isEmpty()) {
+              owner_ = other.owner_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureOwnerIsMutable();
+              owner_.addAll(other.owner_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.owner_.isEmpty()) {
+            if (ownerBuilder_.isEmpty()) {
+              ownerBuilder_.dispose();
+              ownerBuilder_ = null;
+              owner_ = other.owner_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              ownerBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getOwnerFieldBuilder() : null;
+            } else {
+              ownerBuilder_.addAllMessages(other.owner_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        for (int i = 0; i < getOwnerCount(); i++) {
+          if (!getOwner(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -2150,133 +2200,316 @@ public final class Lobbies {
         return this;
       }
 
-      // repeated string owner = 3;
-      private com.google.protobuf.LazyStringList owner_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .User owner = 3;
+      private java.util.List<Users.User> owner_ =
+        java.util.Collections.emptyList();
       private void ensureOwnerIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          owner_ = new com.google.protobuf.LazyStringArrayList(owner_);
+          owner_ = new java.util.ArrayList<Users.User>(owner_);
           bitField0_ |= 0x00000004;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> ownerBuilder_;
+
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getOwnerList() {
-        return java.util.Collections.unmodifiableList(owner_);
+      public java.util.List<Users.User> getOwnerList() {
+        if (ownerBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(owner_);
+        } else {
+          return ownerBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
       public int getOwnerCount() {
-        return owner_.size();
+        if (ownerBuilder_ == null) {
+          return owner_.size();
+        } else {
+          return ownerBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
-      public java.lang.String getOwner(int index) {
-        return owner_.get(index);
+      public Users.User getOwner(int index) {
+        if (ownerBuilder_ == null) {
+          return owner_.get(index);
+        } else {
+          return ownerBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string owner = 3;</code>
-       *
-       * <pre>
-       *userId of the Owner of the lobby
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getOwnerBytes(int index) {
-        return owner_.getByteString(index);
-      }
-      /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
       public Builder setOwner(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureOwnerIsMutable();
-        owner_.set(index, value);
-        onChanged();
+          int index, Users.User value) {
+        if (ownerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOwnerIsMutable();
+          owner_.set(index, value);
+          onChanged();
+        } else {
+          ownerBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Builder setOwner(
+          int index, Users.User.Builder builderForValue) {
+        if (ownerBuilder_ == null) {
+          ensureOwnerIsMutable();
+          owner_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          ownerBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Builder addOwner(Users.User value) {
+        if (ownerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOwnerIsMutable();
+          owner_.add(value);
+          onChanged();
+        } else {
+          ownerBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
       public Builder addOwner(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureOwnerIsMutable();
-        owner_.add(value);
-        onChanged();
+          int index, Users.User value) {
+        if (ownerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOwnerIsMutable();
+          owner_.add(index, value);
+          onChanged();
+        } else {
+          ownerBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Builder addOwner(
+          Users.User.Builder builderForValue) {
+        if (ownerBuilder_ == null) {
+          ensureOwnerIsMutable();
+          owner_.add(builderForValue.build());
+          onChanged();
+        } else {
+          ownerBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Builder addOwner(
+          int index, Users.User.Builder builderForValue) {
+        if (ownerBuilder_ == null) {
+          ensureOwnerIsMutable();
+          owner_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          ownerBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
       public Builder addAllOwner(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureOwnerIsMutable();
-        super.addAll(values, owner_);
-        onChanged();
+          java.lang.Iterable<? extends Users.User> values) {
+        if (ownerBuilder_ == null) {
+          ensureOwnerIsMutable();
+          super.addAll(values, owner_);
+          onChanged();
+        } else {
+          ownerBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
       public Builder clearOwner() {
-        owner_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
+        if (ownerBuilder_ == null) {
+          owner_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          ownerBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string owner = 3;</code>
+       * <code>repeated .User owner = 3;</code>
        *
        * <pre>
        *userId of the Owner of the lobby
        * </pre>
        */
-      public Builder addOwnerBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureOwnerIsMutable();
-        owner_.add(value);
-        onChanged();
+      public Builder removeOwner(int index) {
+        if (ownerBuilder_ == null) {
+          ensureOwnerIsMutable();
+          owner_.remove(index);
+          onChanged();
+        } else {
+          ownerBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Users.User.Builder getOwnerBuilder(
+          int index) {
+        return getOwnerFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Users.UserOrBuilder getOwnerOrBuilder(
+          int index) {
+        if (ownerBuilder_ == null) {
+          return owner_.get(index);  } else {
+          return ownerBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public java.util.List<? extends Users.UserOrBuilder> 
+           getOwnerOrBuilderList() {
+        if (ownerBuilder_ != null) {
+          return ownerBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(owner_);
+        }
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Users.User.Builder addOwnerBuilder() {
+        return getOwnerFieldBuilder().addBuilder(
+            Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public Users.User.Builder addOwnerBuilder(
+          int index) {
+        return getOwnerFieldBuilder().addBuilder(
+            index, Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User owner = 3;</code>
+       *
+       * <pre>
+       *userId of the Owner of the lobby
+       * </pre>
+       */
+      public java.util.List<Users.User.Builder> 
+           getOwnerBuilderList() {
+        return getOwnerFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> 
+          getOwnerFieldBuilder() {
+        if (ownerBuilder_ == null) {
+          ownerBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              Users.User, Users.User.Builder, Users.UserOrBuilder>(
+                  owner_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          owner_ = null;
+        }
+        return ownerBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GetLobbyListResponse)
@@ -2705,25 +2938,30 @@ public final class Lobbies {
   public interface GetLobbyStateResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated string friend_email = 1;
+    // repeated .User users = 1;
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    java.util.List<java.lang.String>
-    getFriendEmailList();
+    java.util.List<Users.User> 
+        getUsersList();
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    int getFriendEmailCount();
+    Users.User getUsers(int index);
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    java.lang.String getFriendEmail(int index);
+    int getUsersCount();
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    com.google.protobuf.ByteString
-        getFriendEmailBytes(int index);
+    java.util.List<? extends Users.UserOrBuilder> 
+        getUsersOrBuilderList();
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    Users.UserOrBuilder getUsersOrBuilder(
+        int index);
 
     // repeated string answer = 2;
     /**
@@ -2820,10 +3058,10 @@ public final class Lobbies {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                friendEmail_ = new com.google.protobuf.LazyStringArrayList();
+                users_ = new java.util.ArrayList<Users.User>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              friendEmail_.add(input.readBytes());
+              users_.add(input.readMessage(Users.User.PARSER, extensionRegistry));
               break;
             }
             case 18: {
@@ -2848,7 +3086,7 @@ public final class Lobbies {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          friendEmail_ = new com.google.protobuf.UnmodifiableLazyStringList(friendEmail_);
+          users_ = java.util.Collections.unmodifiableList(users_);
         }
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           answer_ = new com.google.protobuf.UnmodifiableLazyStringList(answer_);
@@ -2885,34 +3123,40 @@ public final class Lobbies {
     }
 
     private int bitField0_;
-    // repeated string friend_email = 1;
-    public static final int FRIEND_EMAIL_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList friendEmail_;
+    // repeated .User users = 1;
+    public static final int USERS_FIELD_NUMBER = 1;
+    private java.util.List<Users.User> users_;
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public java.util.List<java.lang.String>
-        getFriendEmailList() {
-      return friendEmail_;
+    public java.util.List<Users.User> getUsersList() {
+      return users_;
     }
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public int getFriendEmailCount() {
-      return friendEmail_.size();
+    public java.util.List<? extends Users.UserOrBuilder> 
+        getUsersOrBuilderList() {
+      return users_;
     }
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public java.lang.String getFriendEmail(int index) {
-      return friendEmail_.get(index);
+    public int getUsersCount() {
+      return users_.size();
     }
     /**
-     * <code>repeated string friend_email = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getFriendEmailBytes(int index) {
-      return friendEmail_.getByteString(index);
+    public Users.User getUsers(int index) {
+      return users_.get(index);
+    }
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    public Users.UserOrBuilder getUsersOrBuilder(
+        int index) {
+      return users_.get(index);
     }
 
     // repeated string answer = 2;
@@ -2970,7 +3214,7 @@ public final class Lobbies {
     }
 
     private void initFields() {
-      friendEmail_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      users_ = java.util.Collections.emptyList();
       answer_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       gameType_ = 0;
     }
@@ -2983,6 +3227,12 @@ public final class Lobbies {
         memoizedIsInitialized = 0;
         return false;
       }
+      for (int i = 0; i < getUsersCount(); i++) {
+        if (!getUsers(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2990,8 +3240,8 @@ public final class Lobbies {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < friendEmail_.size(); i++) {
-        output.writeBytes(1, friendEmail_.getByteString(i));
+      for (int i = 0; i < users_.size(); i++) {
+        output.writeMessage(1, users_.get(i));
       }
       for (int i = 0; i < answer_.size(); i++) {
         output.writeBytes(2, answer_.getByteString(i));
@@ -3008,14 +3258,9 @@ public final class Lobbies {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < friendEmail_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(friendEmail_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getFriendEmailList().size();
+      for (int i = 0; i < users_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, users_.get(i));
       }
       {
         int dataSize = 0;
@@ -3142,6 +3387,7 @@ public final class Lobbies {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getUsersFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3150,8 +3396,12 @@ public final class Lobbies {
 
       public Builder clear() {
         super.clear();
-        friendEmail_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        if (usersBuilder_ == null) {
+          users_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          usersBuilder_.clear();
+        }
         answer_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         gameType_ = 0;
@@ -3184,12 +3434,15 @@ public final class Lobbies {
         Lobbies.GetLobbyStateResponse result = new Lobbies.GetLobbyStateResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          friendEmail_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              friendEmail_);
-          bitField0_ = (bitField0_ & ~0x00000001);
+        if (usersBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            users_ = java.util.Collections.unmodifiableList(users_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.users_ = users_;
+        } else {
+          result.users_ = usersBuilder_.build();
         }
-        result.friendEmail_ = friendEmail_;
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           answer_ = new com.google.protobuf.UnmodifiableLazyStringList(
               answer_);
@@ -3216,15 +3469,31 @@ public final class Lobbies {
 
       public Builder mergeFrom(Lobbies.GetLobbyStateResponse other) {
         if (other == Lobbies.GetLobbyStateResponse.getDefaultInstance()) return this;
-        if (!other.friendEmail_.isEmpty()) {
-          if (friendEmail_.isEmpty()) {
-            friendEmail_ = other.friendEmail_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureFriendEmailIsMutable();
-            friendEmail_.addAll(other.friendEmail_);
+        if (usersBuilder_ == null) {
+          if (!other.users_.isEmpty()) {
+            if (users_.isEmpty()) {
+              users_ = other.users_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureUsersIsMutable();
+              users_.addAll(other.users_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.users_.isEmpty()) {
+            if (usersBuilder_.isEmpty()) {
+              usersBuilder_.dispose();
+              usersBuilder_ = null;
+              users_ = other.users_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              usersBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getUsersFieldBuilder() : null;
+            } else {
+              usersBuilder_.addAllMessages(other.users_);
+            }
+          }
         }
         if (!other.answer_.isEmpty()) {
           if (answer_.isEmpty()) {
@@ -3248,6 +3517,12 @@ public final class Lobbies {
           
           return false;
         }
+        for (int i = 0; i < getUsersCount(); i++) {
+          if (!getUsers(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -3270,97 +3545,244 @@ public final class Lobbies {
       }
       private int bitField0_;
 
-      // repeated string friend_email = 1;
-      private com.google.protobuf.LazyStringList friendEmail_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureFriendEmailIsMutable() {
+      // repeated .User users = 1;
+      private java.util.List<Users.User> users_ =
+        java.util.Collections.emptyList();
+      private void ensureUsersIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          friendEmail_ = new com.google.protobuf.LazyStringArrayList(friendEmail_);
+          users_ = new java.util.ArrayList<Users.User>(users_);
           bitField0_ |= 0x00000001;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> usersBuilder_;
+
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public java.util.List<java.lang.String>
-          getFriendEmailList() {
-        return java.util.Collections.unmodifiableList(friendEmail_);
+      public java.util.List<Users.User> getUsersList() {
+        if (usersBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(users_);
+        } else {
+          return usersBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public int getFriendEmailCount() {
-        return friendEmail_.size();
+      public int getUsersCount() {
+        if (usersBuilder_ == null) {
+          return users_.size();
+        } else {
+          return usersBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public java.lang.String getFriendEmail(int index) {
-        return friendEmail_.get(index);
+      public Users.User getUsers(int index) {
+        if (usersBuilder_ == null) {
+          return users_.get(index);
+        } else {
+          return usersBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getFriendEmailBytes(int index) {
-        return friendEmail_.getByteString(index);
-      }
-      /**
-       * <code>repeated string friend_email = 1;</code>
-       */
-      public Builder setFriendEmail(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureFriendEmailIsMutable();
-        friendEmail_.set(index, value);
-        onChanged();
+      public Builder setUsers(
+          int index, Users.User value) {
+        if (usersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersIsMutable();
+          users_.set(index, value);
+          onChanged();
+        } else {
+          usersBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public Builder addFriendEmail(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureFriendEmailIsMutable();
-        friendEmail_.add(value);
-        onChanged();
+      public Builder setUsers(
+          int index, Users.User.Builder builderForValue) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          usersBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public Builder addAllFriendEmail(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureFriendEmailIsMutable();
-        super.addAll(values, friendEmail_);
-        onChanged();
+      public Builder addUsers(Users.User value) {
+        if (usersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersIsMutable();
+          users_.add(value);
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(value);
+        }
         return this;
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public Builder clearFriendEmail() {
-        friendEmail_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
+      public Builder addUsers(
+          int index, Users.User value) {
+        if (usersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersIsMutable();
+          users_.add(index, value);
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string friend_email = 1;</code>
+       * <code>repeated .User users = 1;</code>
        */
-      public Builder addFriendEmailBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureFriendEmailIsMutable();
-        friendEmail_.add(value);
-        onChanged();
+      public Builder addUsers(
+          Users.User.Builder builderForValue) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.add(builderForValue.build());
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(builderForValue.build());
+        }
         return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addUsers(
+          int index, Users.User.Builder builderForValue) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addAllUsers(
+          java.lang.Iterable<? extends Users.User> values) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          super.addAll(values, users_);
+          onChanged();
+        } else {
+          usersBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder clearUsers() {
+        if (usersBuilder_ == null) {
+          users_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          usersBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder removeUsers(int index) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.remove(index);
+          onChanged();
+        } else {
+          usersBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User.Builder getUsersBuilder(
+          int index) {
+        return getUsersFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.UserOrBuilder getUsersOrBuilder(
+          int index) {
+        if (usersBuilder_ == null) {
+          return users_.get(index);  } else {
+          return usersBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public java.util.List<? extends Users.UserOrBuilder> 
+           getUsersOrBuilderList() {
+        if (usersBuilder_ != null) {
+          return usersBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(users_);
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User.Builder addUsersBuilder() {
+        return getUsersFieldBuilder().addBuilder(
+            Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User.Builder addUsersBuilder(
+          int index) {
+        return getUsersFieldBuilder().addBuilder(
+            index, Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public java.util.List<Users.User.Builder> 
+           getUsersBuilderList() {
+        return getUsersFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> 
+          getUsersFieldBuilder() {
+        if (usersBuilder_ == null) {
+          usersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              Users.User, Users.User.Builder, Users.UserOrBuilder>(
+                  users_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          users_ = null;
+        }
+        return usersBuilder_;
       }
 
       // repeated string answer = 2;
@@ -7507,26 +7929,26 @@ public final class Lobbies {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rlobbies.proto\"6\n\022CreateLobbyRequest\022\016\n" +
-      "\006userId\030\001 \002(\005\022\020\n\010gameType\030\002 \002(\005\"&\n\023Creat" +
-      "eLobbyResponse\022\017\n\007lobbyId\030\001 \002(\005\"%\n\023GetLo" +
-      "bbyListRequest\022\016\n\006userId\030\001 \002(\005\"G\n\024GetLob" +
-      "byListResponse\022\020\n\010lobbyIds\030\001 \003(\005\022\016\n\006stat" +
-      "us\030\002 \003(\t\022\r\n\005owner\030\003 \003(\t\"\'\n\024GetLobbyState" +
-      "Request\022\017\n\007lobbyId\030\001 \002(\005\"O\n\025GetLobbyStat" +
-      "eResponse\022\024\n\014friend_email\030\001 \003(\t\022\016\n\006answe" +
-      "r\030\002 \003(\t\022\020\n\010gameType\030\003 \002(\005\";\n\030AcceptLobby" +
-      "InviteRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId",
-      "\030\002 \002(\005\"+\n\031AcceptLobbyInviteResponse\022\016\n\006a" +
-      "nswer\030\001 \002(\t\"L\n\022InviteLobbyRequest\022\016\n\006use" +
-      "rId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\022\025\n\rinvite_ema" +
-      "ils\030\003 \003(\t\".\n\023InviteLobbyResponse\022\027\n\017frie" +
-      "nds_invited\030\001 \002(\010\"5\n\022RemoveLobbyRequest\022" +
-      "\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\",\n\023Remo" +
-      "veLobbyResponse\022\025\n\rlobby_removed\030\001 \002(\010\"3" +
-      "\n\020StartGameRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lo" +
-      "bbyId\030\002 \002(\005\"#\n\021StartGameResponse\022\016\n\006game" +
-      "Id\030\001 \002(\005"
+      "\n\rlobbies.proto\032\013users.proto\"6\n\022CreateLo" +
+      "bbyRequest\022\016\n\006userId\030\001 \002(\005\022\020\n\010gameType\030\002" +
+      " \002(\005\"&\n\023CreateLobbyResponse\022\017\n\007lobbyId\030\001" +
+      " \002(\005\"%\n\023GetLobbyListRequest\022\016\n\006userId\030\001 " +
+      "\002(\005\"N\n\024GetLobbyListResponse\022\020\n\010lobbyIds\030" +
+      "\001 \003(\005\022\016\n\006status\030\002 \003(\t\022\024\n\005owner\030\003 \003(\0132\005.U" +
+      "ser\"\'\n\024GetLobbyStateRequest\022\017\n\007lobbyId\030\001" +
+      " \002(\005\"O\n\025GetLobbyStateResponse\022\024\n\005users\030\001" +
+      " \003(\0132\005.User\022\016\n\006answer\030\002 \003(\t\022\020\n\010gameType\030" +
+      "\003 \002(\005\";\n\030AcceptLobbyInviteRequest\022\016\n\006use",
+      "rId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\"+\n\031AcceptLobb" +
+      "yInviteResponse\022\016\n\006answer\030\001 \002(\t\"L\n\022Invit" +
+      "eLobbyRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId" +
+      "\030\002 \002(\005\022\025\n\rinvite_emails\030\003 \003(\t\".\n\023InviteL" +
+      "obbyResponse\022\027\n\017friends_invited\030\001 \002(\010\"5\n" +
+      "\022RemoveLobbyRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007l" +
+      "obbyId\030\002 \002(\005\",\n\023RemoveLobbyResponse\022\025\n\rl" +
+      "obby_removed\030\001 \002(\010\"3\n\020StartGameRequest\022\016" +
+      "\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\"#\n\021Start" +
+      "GameResponse\022\016\n\006gameId\030\001 \002(\005"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7568,7 +7990,7 @@ public final class Lobbies {
           internal_static_GetLobbyStateResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetLobbyStateResponse_descriptor,
-              new java.lang.String[] { "FriendEmail", "Answer", "GameType", });
+              new java.lang.String[] { "Users", "Answer", "GameType", });
           internal_static_AcceptLobbyInviteRequest_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_AcceptLobbyInviteRequest_fieldAccessorTable = new
@@ -7623,6 +8045,7 @@ public final class Lobbies {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          Users.getDescriptor(),
         }, assigner);
   }
 
