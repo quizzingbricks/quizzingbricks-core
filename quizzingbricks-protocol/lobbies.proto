@@ -1,5 +1,5 @@
 
-
+import "users.proto";
 // messages
 
 message CreateLobbyRequest {
@@ -21,7 +21,7 @@ message GetLobbyListRequest {
 message GetLobbyListResponse {
 	repeated int32 lobbyIds =1;
 	repeated string status = 2;	// Invited or Member
-	repeated string owner = 3;	//userId of the Owner of the lobby
+	repeated User owner = 3;	//userId of the Owner of the lobby
 }
 
 //*********** Lobby State ***************************
@@ -33,7 +33,7 @@ message GetLobbyStateRequest {
 
 // 2 lists 1 with emails of the friends and 1 with answers corresponding to the same index in the email list
 message GetLobbyStateResponse {
-	repeated string friend_email = 1;
+	repeated User users = 1;
 	repeated string answer = 2;
 	required int32 gameType = 3;			//2 or 4
 }

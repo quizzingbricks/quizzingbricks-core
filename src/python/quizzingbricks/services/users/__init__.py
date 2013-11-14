@@ -19,7 +19,10 @@ from quizzingbricks.common.protocol import (
     RegistrationRequest,
     RegistrationResponse,
     GetUserRequest,
-    GetUserResponse
+    GetUserResponse,
+    GetMultipleUsersRequest,
+    GetMultipleUsersResponse
+
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -95,3 +98,19 @@ class UserService(NunciusService):
                 username=user.email
             )
             return GetUserResponse(user=user_message)
+
+    @expose("get_multiple_users")
+    def get_multiple_users(self, request):
+        if not isinstance(request, GetMultipleUsersRequest):
+            return RpcError(message="Wrong message type, expecting GetUserRequest", error_code=1)
+
+        with db(session):
+            users = User.query.filter(User.id.in_(request.userIds))
+            user_list=[]
+            for user in users
+                user_message = ProtoUser(
+                    id=user.id,
+                    email=user.email,
+                    username=user.email)
+                user_list.append(user_message)
+            return GetUserResponse(users=user_list)

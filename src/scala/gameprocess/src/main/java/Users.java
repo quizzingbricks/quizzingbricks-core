@@ -3815,6 +3815,1161 @@ public final class Users {
     // @@protoc_insertion_point(class_scope:GetUserResponse)
   }
 
+  public interface GetMultipleUsersRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated int32 userIds = 1;
+    /**
+     * <code>repeated int32 userIds = 1;</code>
+     */
+    java.util.List<java.lang.Integer> getUserIdsList();
+    /**
+     * <code>repeated int32 userIds = 1;</code>
+     */
+    int getUserIdsCount();
+    /**
+     * <code>repeated int32 userIds = 1;</code>
+     */
+    int getUserIds(int index);
+  }
+  /**
+   * Protobuf type {@code GetMultipleUsersRequest}
+   */
+  public static final class GetMultipleUsersRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements GetMultipleUsersRequestOrBuilder {
+    // Use GetMultipleUsersRequest.newBuilder() to construct.
+    private GetMultipleUsersRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetMultipleUsersRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetMultipleUsersRequest defaultInstance;
+    public static GetMultipleUsersRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetMultipleUsersRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetMultipleUsersRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                userIds_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              userIds_.add(input.readInt32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
+                userIds_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                userIds_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          userIds_ = java.util.Collections.unmodifiableList(userIds_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return Users.internal_static_GetMultipleUsersRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return Users.internal_static_GetMultipleUsersRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              Users.GetMultipleUsersRequest.class, Users.GetMultipleUsersRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetMultipleUsersRequest> PARSER =
+        new com.google.protobuf.AbstractParser<GetMultipleUsersRequest>() {
+      public GetMultipleUsersRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetMultipleUsersRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetMultipleUsersRequest> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated int32 userIds = 1;
+    public static final int USERIDS_FIELD_NUMBER = 1;
+    private java.util.List<java.lang.Integer> userIds_;
+    /**
+     * <code>repeated int32 userIds = 1;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getUserIdsList() {
+      return userIds_;
+    }
+    /**
+     * <code>repeated int32 userIds = 1;</code>
+     */
+    public int getUserIdsCount() {
+      return userIds_.size();
+    }
+    /**
+     * <code>repeated int32 userIds = 1;</code>
+     */
+    public int getUserIds(int index) {
+      return userIds_.get(index);
+    }
+
+    private void initFields() {
+      userIds_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < userIds_.size(); i++) {
+        output.writeInt32(1, userIds_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < userIds_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(userIds_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getUserIdsList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static Users.GetMultipleUsersRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static Users.GetMultipleUsersRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static Users.GetMultipleUsersRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(Users.GetMultipleUsersRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetMultipleUsersRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements Users.GetMultipleUsersRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return Users.internal_static_GetMultipleUsersRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return Users.internal_static_GetMultipleUsersRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                Users.GetMultipleUsersRequest.class, Users.GetMultipleUsersRequest.Builder.class);
+      }
+
+      // Construct using Users.GetMultipleUsersRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userIds_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return Users.internal_static_GetMultipleUsersRequest_descriptor;
+      }
+
+      public Users.GetMultipleUsersRequest getDefaultInstanceForType() {
+        return Users.GetMultipleUsersRequest.getDefaultInstance();
+      }
+
+      public Users.GetMultipleUsersRequest build() {
+        Users.GetMultipleUsersRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public Users.GetMultipleUsersRequest buildPartial() {
+        Users.GetMultipleUsersRequest result = new Users.GetMultipleUsersRequest(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          userIds_ = java.util.Collections.unmodifiableList(userIds_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.userIds_ = userIds_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof Users.GetMultipleUsersRequest) {
+          return mergeFrom((Users.GetMultipleUsersRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(Users.GetMultipleUsersRequest other) {
+        if (other == Users.GetMultipleUsersRequest.getDefaultInstance()) return this;
+        if (!other.userIds_.isEmpty()) {
+          if (userIds_.isEmpty()) {
+            userIds_ = other.userIds_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureUserIdsIsMutable();
+            userIds_.addAll(other.userIds_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        Users.GetMultipleUsersRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (Users.GetMultipleUsersRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated int32 userIds = 1;
+      private java.util.List<java.lang.Integer> userIds_ = java.util.Collections.emptyList();
+      private void ensureUserIdsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          userIds_ = new java.util.ArrayList<java.lang.Integer>(userIds_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getUserIdsList() {
+        return java.util.Collections.unmodifiableList(userIds_);
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public int getUserIdsCount() {
+        return userIds_.size();
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public int getUserIds(int index) {
+        return userIds_.get(index);
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public Builder setUserIds(
+          int index, int value) {
+        ensureUserIdsIsMutable();
+        userIds_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public Builder addUserIds(int value) {
+        ensureUserIdsIsMutable();
+        userIds_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public Builder addAllUserIds(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureUserIdsIsMutable();
+        super.addAll(values, userIds_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 userIds = 1;</code>
+       */
+      public Builder clearUserIds() {
+        userIds_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GetMultipleUsersRequest)
+    }
+
+    static {
+      defaultInstance = new GetMultipleUsersRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GetMultipleUsersRequest)
+  }
+
+  public interface GetMultipleUsersResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .User users = 1;
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    java.util.List<Users.User> 
+        getUsersList();
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    Users.User getUsers(int index);
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    int getUsersCount();
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    java.util.List<? extends Users.UserOrBuilder> 
+        getUsersOrBuilderList();
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    Users.UserOrBuilder getUsersOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code GetMultipleUsersResponse}
+   */
+  public static final class GetMultipleUsersResponse extends
+      com.google.protobuf.GeneratedMessage
+      implements GetMultipleUsersResponseOrBuilder {
+    // Use GetMultipleUsersResponse.newBuilder() to construct.
+    private GetMultipleUsersResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetMultipleUsersResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetMultipleUsersResponse defaultInstance;
+    public static GetMultipleUsersResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetMultipleUsersResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetMultipleUsersResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                users_ = new java.util.ArrayList<Users.User>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              users_.add(input.readMessage(Users.User.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          users_ = java.util.Collections.unmodifiableList(users_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return Users.internal_static_GetMultipleUsersResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return Users.internal_static_GetMultipleUsersResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              Users.GetMultipleUsersResponse.class, Users.GetMultipleUsersResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetMultipleUsersResponse> PARSER =
+        new com.google.protobuf.AbstractParser<GetMultipleUsersResponse>() {
+      public GetMultipleUsersResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetMultipleUsersResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetMultipleUsersResponse> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .User users = 1;
+    public static final int USERS_FIELD_NUMBER = 1;
+    private java.util.List<Users.User> users_;
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    public java.util.List<Users.User> getUsersList() {
+      return users_;
+    }
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    public java.util.List<? extends Users.UserOrBuilder> 
+        getUsersOrBuilderList() {
+      return users_;
+    }
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    public int getUsersCount() {
+      return users_.size();
+    }
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    public Users.User getUsers(int index) {
+      return users_.get(index);
+    }
+    /**
+     * <code>repeated .User users = 1;</code>
+     */
+    public Users.UserOrBuilder getUsersOrBuilder(
+        int index) {
+      return users_.get(index);
+    }
+
+    private void initFields() {
+      users_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getUsersCount(); i++) {
+        if (!getUsers(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < users_.size(); i++) {
+        output.writeMessage(1, users_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < users_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, users_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static Users.GetMultipleUsersResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static Users.GetMultipleUsersResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static Users.GetMultipleUsersResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(Users.GetMultipleUsersResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetMultipleUsersResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements Users.GetMultipleUsersResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return Users.internal_static_GetMultipleUsersResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return Users.internal_static_GetMultipleUsersResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                Users.GetMultipleUsersResponse.class, Users.GetMultipleUsersResponse.Builder.class);
+      }
+
+      // Construct using Users.GetMultipleUsersResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getUsersFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (usersBuilder_ == null) {
+          users_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          usersBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return Users.internal_static_GetMultipleUsersResponse_descriptor;
+      }
+
+      public Users.GetMultipleUsersResponse getDefaultInstanceForType() {
+        return Users.GetMultipleUsersResponse.getDefaultInstance();
+      }
+
+      public Users.GetMultipleUsersResponse build() {
+        Users.GetMultipleUsersResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public Users.GetMultipleUsersResponse buildPartial() {
+        Users.GetMultipleUsersResponse result = new Users.GetMultipleUsersResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (usersBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            users_ = java.util.Collections.unmodifiableList(users_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.users_ = users_;
+        } else {
+          result.users_ = usersBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof Users.GetMultipleUsersResponse) {
+          return mergeFrom((Users.GetMultipleUsersResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(Users.GetMultipleUsersResponse other) {
+        if (other == Users.GetMultipleUsersResponse.getDefaultInstance()) return this;
+        if (usersBuilder_ == null) {
+          if (!other.users_.isEmpty()) {
+            if (users_.isEmpty()) {
+              users_ = other.users_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureUsersIsMutable();
+              users_.addAll(other.users_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.users_.isEmpty()) {
+            if (usersBuilder_.isEmpty()) {
+              usersBuilder_.dispose();
+              usersBuilder_ = null;
+              users_ = other.users_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              usersBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getUsersFieldBuilder() : null;
+            } else {
+              usersBuilder_.addAllMessages(other.users_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getUsersCount(); i++) {
+          if (!getUsers(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        Users.GetMultipleUsersResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (Users.GetMultipleUsersResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .User users = 1;
+      private java.util.List<Users.User> users_ =
+        java.util.Collections.emptyList();
+      private void ensureUsersIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          users_ = new java.util.ArrayList<Users.User>(users_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> usersBuilder_;
+
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public java.util.List<Users.User> getUsersList() {
+        if (usersBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(users_);
+        } else {
+          return usersBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public int getUsersCount() {
+        if (usersBuilder_ == null) {
+          return users_.size();
+        } else {
+          return usersBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User getUsers(int index) {
+        if (usersBuilder_ == null) {
+          return users_.get(index);
+        } else {
+          return usersBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder setUsers(
+          int index, Users.User value) {
+        if (usersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersIsMutable();
+          users_.set(index, value);
+          onChanged();
+        } else {
+          usersBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder setUsers(
+          int index, Users.User.Builder builderForValue) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          usersBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addUsers(Users.User value) {
+        if (usersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersIsMutable();
+          users_.add(value);
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addUsers(
+          int index, Users.User value) {
+        if (usersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersIsMutable();
+          users_.add(index, value);
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addUsers(
+          Users.User.Builder builderForValue) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.add(builderForValue.build());
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addUsers(
+          int index, Users.User.Builder builderForValue) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          usersBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder addAllUsers(
+          java.lang.Iterable<? extends Users.User> values) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          super.addAll(values, users_);
+          onChanged();
+        } else {
+          usersBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder clearUsers() {
+        if (usersBuilder_ == null) {
+          users_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          usersBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Builder removeUsers(int index) {
+        if (usersBuilder_ == null) {
+          ensureUsersIsMutable();
+          users_.remove(index);
+          onChanged();
+        } else {
+          usersBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User.Builder getUsersBuilder(
+          int index) {
+        return getUsersFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.UserOrBuilder getUsersOrBuilder(
+          int index) {
+        if (usersBuilder_ == null) {
+          return users_.get(index);  } else {
+          return usersBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public java.util.List<? extends Users.UserOrBuilder> 
+           getUsersOrBuilderList() {
+        if (usersBuilder_ != null) {
+          return usersBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(users_);
+        }
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User.Builder addUsersBuilder() {
+        return getUsersFieldBuilder().addBuilder(
+            Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public Users.User.Builder addUsersBuilder(
+          int index) {
+        return getUsersFieldBuilder().addBuilder(
+            index, Users.User.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .User users = 1;</code>
+       */
+      public java.util.List<Users.User.Builder> 
+           getUsersBuilderList() {
+        return getUsersFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          Users.User, Users.User.Builder, Users.UserOrBuilder> 
+          getUsersFieldBuilder() {
+        if (usersBuilder_ == null) {
+          usersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              Users.User, Users.User.Builder, Users.UserOrBuilder>(
+                  users_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          users_ = null;
+        }
+        return usersBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GetMultipleUsersResponse)
+    }
+
+    static {
+      defaultInstance = new GetMultipleUsersResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GetMultipleUsersResponse)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_User_descriptor;
   private static
@@ -3850,6 +5005,16 @@ public final class Users {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GetUserResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetMultipleUsersRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetMultipleUsersRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetMultipleUsersResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetMultipleUsersResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3866,7 +5031,10 @@ public final class Users {
       "tionRequest\022\r\n\005email\030\001 \002(\t\022\020\n\010password\030\002" +
       " \002(\t\"&\n\024RegistrationResponse\022\016\n\006userId\030\001" +
       " \002(\005\" \n\016GetUserRequest\022\016\n\006userId\030\001 \002(\005\"&" +
-      "\n\017GetUserResponse\022\023\n\004user\030\001 \002(\0132\005.User"
+      "\n\017GetUserResponse\022\023\n\004user\030\001 \002(\0132\005.User\"*" +
+      "\n\027GetMultipleUsersRequest\022\017\n\007userIds\030\001 \003" +
+      "(\005\"0\n\030GetMultipleUsersResponse\022\024\n\005users\030",
+      "\001 \003(\0132\005.User"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3915,6 +5083,18 @@ public final class Users {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetUserResponse_descriptor,
               new java.lang.String[] { "User", });
+          internal_static_GetMultipleUsersRequest_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_GetMultipleUsersRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GetMultipleUsersRequest_descriptor,
+              new java.lang.String[] { "UserIds", });
+          internal_static_GetMultipleUsersResponse_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_GetMultipleUsersResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GetMultipleUsersResponse_descriptor,
+              new java.lang.String[] { "Users", });
           return null;
         }
       };

@@ -46,7 +46,7 @@ function assign_colors(friends, userId, playerPos) {
         if (i==2) { TOKEN.GREEN.userId  = element }
     }
     drawBoard(playerPos);                                   //since it should be done onload but after assign_colors.
-alert(teststring);
+//alert(teststring);
 }
 
 
@@ -100,7 +100,7 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
 
         board_element.appendChild(create_token(selected_token));*/
         
-        $.post($SCRIPT_ROOT + '/game_board', {gameId: gameId, x: x, y: y },
+        $.post($SCRIPT_ROOT + '/make_move', {gameId: gameId, x: x, y: y },
         function(data) {
         $("#result").text(data.result);
       });

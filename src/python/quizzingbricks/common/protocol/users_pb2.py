@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='users.proto',
   package='',
-  serialized_pb='\n\x0busers.proto\"3\n\x04User\x12\n\n\x02id\x18\x01 \x02(\x05\x12\r\n\x05\x65mail\x18\x02 \x02(\t\x12\x10\n\x08username\x18\x03 \x02(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"\x1f\n\rLoginResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"6\n\x13RegistrationRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"&\n\x14RegistrationResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\" \n\x0eGetUserRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"&\n\x0fGetUserResponse\x12\x13\n\x04user\x18\x01 \x02(\x0b\x32\x05.User')
+  serialized_pb='\n\x0busers.proto\"3\n\x04User\x12\n\n\x02id\x18\x01 \x02(\x05\x12\r\n\x05\x65mail\x18\x02 \x02(\t\x12\x10\n\x08username\x18\x03 \x02(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"\x1f\n\rLoginResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"6\n\x13RegistrationRequest\x12\r\n\x05\x65mail\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"&\n\x14RegistrationResponse\x12\x0e\n\x06userId\x18\x01 \x02(\x05\" \n\x0eGetUserRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"&\n\x0fGetUserResponse\x12\x13\n\x04user\x18\x01 \x02(\x0b\x32\x05.User\"*\n\x17GetMultipleUsersRequest\x12\x0f\n\x07userIds\x18\x01 \x03(\x05\"0\n\x18GetMultipleUsersResponse\x12\x14\n\x05users\x18\x01 \x03(\x0b\x32\x05.User')
 
 
 
@@ -241,7 +241,64 @@ _GETUSERRESPONSE = _descriptor.Descriptor(
   serialized_end=318,
 )
 
+
+_GETMULTIPLEUSERSREQUEST = _descriptor.Descriptor(
+  name='GetMultipleUsersRequest',
+  full_name='GetMultipleUsersRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='userIds', full_name='GetMultipleUsersRequest.userIds', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=320,
+  serialized_end=362,
+)
+
+
+_GETMULTIPLEUSERSRESPONSE = _descriptor.Descriptor(
+  name='GetMultipleUsersResponse',
+  full_name='GetMultipleUsersResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='users', full_name='GetMultipleUsersResponse.users', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=364,
+  serialized_end=412,
+)
+
 _GETUSERRESPONSE.fields_by_name['user'].message_type = _USER
+_GETMULTIPLEUSERSRESPONSE.fields_by_name['users'].message_type = _USER
 DESCRIPTOR.message_types_by_name['User'] = _USER
 DESCRIPTOR.message_types_by_name['LoginRequest'] = _LOGINREQUEST
 DESCRIPTOR.message_types_by_name['LoginResponse'] = _LOGINRESPONSE
@@ -249,6 +306,8 @@ DESCRIPTOR.message_types_by_name['RegistrationRequest'] = _REGISTRATIONREQUEST
 DESCRIPTOR.message_types_by_name['RegistrationResponse'] = _REGISTRATIONRESPONSE
 DESCRIPTOR.message_types_by_name['GetUserRequest'] = _GETUSERREQUEST
 DESCRIPTOR.message_types_by_name['GetUserResponse'] = _GETUSERRESPONSE
+DESCRIPTOR.message_types_by_name['GetMultipleUsersRequest'] = _GETMULTIPLEUSERSREQUEST
+DESCRIPTOR.message_types_by_name['GetMultipleUsersResponse'] = _GETMULTIPLEUSERSRESPONSE
 
 class User(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -291,6 +350,18 @@ class GetUserResponse(_message.Message):
   DESCRIPTOR = _GETUSERRESPONSE
 
   # @@protoc_insertion_point(class_scope:GetUserResponse)
+
+class GetMultipleUsersRequest(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _GETMULTIPLEUSERSREQUEST
+
+  # @@protoc_insertion_point(class_scope:GetMultipleUsersRequest)
+
+class GetMultipleUsersResponse(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _GETMULTIPLEUSERSRESPONSE
+
+  # @@protoc_insertion_point(class_scope:GetMultipleUsersResponse)
 
 
 # @@protoc_insertion_point(module_scope)

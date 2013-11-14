@@ -49,7 +49,9 @@ protocol_mapper = {
     35: MoveResponse,
     36: CreateGameResponse,
     37: GetLobbyListRequest,
-    38: GetLobbyListResponse
+    38: GetLobbyListResponse,
+    39: GetMultipleUsersRequest,
+    40: GetMultipleUsersResponse
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}

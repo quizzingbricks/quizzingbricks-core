@@ -14,8 +14,11 @@ from quizzingbricks.common.protocol import (
      AddFriendRequest, AddFriendResponse, RemoveFriendRequest, RemoveFriendResponse, \
      GetLobbyStateRequest, GetLobbyStateResponse, AcceptLobbyInviteRequest, AcceptLobbyInviteResponse, \
      InviteLobbyRequest, InviteLobbyResponse, RemoveLobbyRequest, RemoveLobbyResponse, \
-     StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse   
-)
+     StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse, \
+     CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
+     MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
+     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse )
+    
 
 #configuration
 
@@ -365,7 +368,7 @@ def logout():
 
 
 
-@app.route('/game_board', methods=["POST"])
+@app.route('/make_move', methods=["POST"])
 def tile_placement():
     print "game board in run_web"
     gameId = request.form.get('gameId',0, type=int)
@@ -375,10 +378,24 @@ def tile_placement():
     print "userId", session['userId']
     print "x: ",x
     print "y: ",y
+    print "before msg"
 
+    msg = MoveRequest()
+    msg.x       = x
+    msg.y       = y
+    msg.gameId   = gameId
+    msg.userId  = session['userId']
+    try:
+        player_move_response = gameservice.send(msg)
+        if(isinstance(player_move_response,GameError)):
+            return jsonify(result=(player_move_response.description, player_move_response.code))
+        else:
+            return jsonify(result ="Move sent")
+    except TimeoutError as e:
+        return jsonify(result = "Timeout")
 
    # print session['username']
-    return jsonify(result =(x,y))
+   # return jsonify(result =(x,y))
 
 @app.route('/test_board', methods=["POST"])
 def test_tile_placement():
