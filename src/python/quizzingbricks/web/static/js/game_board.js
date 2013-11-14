@@ -33,7 +33,7 @@ function test_userId(token){
 }
 
 
-function assign_colors(friends, userId, playerPos) {
+function assign_colors(friends, userId,gameId) {
     selected_token.userId = userId
     var length = friends.length,
     element = null;
@@ -45,7 +45,7 @@ function assign_colors(friends, userId, playerPos) {
         if (i==1) { TOKEN.BLUE.userId   = element }
         if (i==2) { TOKEN.GREEN.userId  = element }
     }
-    drawBoard(playerPos);                                   //since it should be done onload but after assign_colors.
+    drawBoard(gameId);                                   //since it should be done onload but after assign_colors.
 //alert(teststring);
 }
 
@@ -66,10 +66,16 @@ for (var i = 0; i < board.length; i++) {
     board[i] = new Array(BOARD_WIDTH)
 }
 
-function drawBoard(playerPos){  
+function drawBoard(gameId){ 
+    $.post($SCRIPT_ROOT + '/game_info', {gameId: gameId},
+    function(data) {
+    
+  });
   //  board_element = document.getElementById("square_"+ 2+"_"+2);
   //  board_element.appendChild(create_token(TOKEN.RED));
   //  $('#result').text(playerPos[1]);
+  // TODO: fetch playerPos for the board placements from the data object returned from Jquery call above
+    playerPos = [1,2,0,1,2]
     for (var y =0; y<BOARD_HEIGHT; y++ ){
         for (var x=0; x<BOARD_WIDTH; x++){
             board_element = document.getElementById("square_"+ x+"_"+y);
@@ -90,6 +96,28 @@ function drawBoard(playerPos){
         }
     }
 }
+
+function getQuestion(gameId){
+        $.post($SCRIPT_ROOT + '/get_question', {gameId: gameId},
+        function(data) {
+         $("#result").text(data.question);
+         $("#alt_1").text(data.alternatives[0]);
+         $("#alt_2").text(data.alternatives[1]);
+         $("#alt_3").text(data.alternatives[2]);
+         $("#alt_4").text(data.alternatives[3]);
+
+  }); 
+}
+
+function submitAnswer(gameId, answer){
+    $.post($SCRIPT_ROOT + '/submit_answer', {gameId: gameId, answer: answer},
+    function(data) {
+         $("#answer").text(data.isCorrect);     
+
+
+  }); 
+}
+
 
 function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates to run_web
  /*   player_color    = document.getElementById('player_color').innerHTML;
