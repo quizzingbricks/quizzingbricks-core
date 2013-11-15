@@ -5,6 +5,7 @@ message Lobby {
 	required int32 lobbyId = 1;
 	required User owner = 2;
 	repeated LobbyMembership lobbymembers = 3;
+	required int32 gameType = 4;
 }
 
 message LobbyMembership {
@@ -40,6 +41,7 @@ message GetLobbyListResponse {
 	repeated int32 lobbyIds =1;
 	repeated string status = 2;	// Invited or Member
 	repeated User owner = 3;	//userId of the Owner of the lobby
+
 }
 
 //*********** Lobby State ***************************
