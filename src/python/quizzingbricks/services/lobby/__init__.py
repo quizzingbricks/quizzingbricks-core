@@ -26,7 +26,8 @@ from quizzingbricks.common.protocol import (
     StartGameRequest,
     StartGameResponse,
     GetLobbyListRequest,
-    GetLobbyListResponse
+    GetLobbyListResponse,
+    User as ProtoUser,
 )
 
 # TODO: add the type-checking in a decorator or directly in expose?
@@ -70,11 +71,27 @@ class LobbyService(NunciusService):
         test_lobby_2_status = "Invited"
         test_lobby_3_status = "Invited"
         status_list =[test_lobby_1_status, test_lobby_2_status, test_lobby_3_status]
-        test_lobby_1_owner = "Anton@test.se"
-        test_lobby_2_owner = "David@test.se"
-        test_lobby_3_owner = "Linus@test.se"
-        owner_list = [test_lobby_1_owner, test_lobby_2_owner, test_lobby_3_owner]
-        return GetLobbyListResponse(lobbyIds=test_lobby_list, status=status_list, owner=owner_list)
+        # test_lobby_1_owner = "Anton@test.se"
+        # test_lobby_2_owner = "David@test.se"
+        # test_lobby_3_owner = "Linus@test.se"
+        test_owner_user_1  = ProtoUser(
+                    id=11,
+                    email="Anton@test.se",
+                    username="Anton@test.se")
+
+        test_owner_user_2  = ProtoUser(
+                    id=22,
+                    email="David@test.se",
+                    username="David@test.se")
+
+        test_owner_user_3  = ProtoUser(
+                    id=33,
+                    email="Linus@test.se",
+                    username="Linus@test.se")
+
+        # owner_list = [test_lobby_1_owner, test_lobby_2_owner, test_lobby_3_owner]
+        test_owner_list = [test_owner_user_1, test_owner_user_2, test_owner_user_3]
+        return GetLobbyListResponse(lobbyIds=test_lobby_list, status=status_list, owner=test_owner_list)
 
 
     @expose("get_lobby_state")
@@ -83,16 +100,33 @@ class LobbyService(NunciusService):
         #input : lobbyId=1
         #return: friend_email=1, answer=2, gameType=3  
         #query with request.lobbyId
-        test_friend_1 = "Anton@test.se"
-        test_friend_2 = "David@test.se"
-        test_friend_3 = "Linus@test.se"
-        test_friend_list = [test_friend_1,test_friend_2,test_friend_3]
+        # test_friend_1 = "Anton@test.se"
+        # test_friend_2 = "David@test.se"
+        # test_friend_3 = "Linus@test.se"
+        # test_friend_list = [test_friend_1,test_friend_2,test_friend_3]
+        test_user_1  = ProtoUser(
+                    id=11,
+                    email="Anton@test.se",
+                    username="Anton@test.se")
+
+        test_user_2  = ProtoUser(
+                    id=22,
+                    email="David@test.se",
+                    username="David@test.se")
+
+        test_user_3  = ProtoUser(
+                    id=33,
+                    email="Linus@test.se",
+                    username="Linus@test.se")
+
+        # owner_list = [test_lobby_1_owner, test_lobby_2_owner, test_lobby_3_owner]
+        test_user_list = [test_user_1, test_user_2, test_user_3]
         test_friend_1_answer = "Accept"
         test_friend_2_answer = "Deny"
         test_friend_3_answer = "None"
         answer_list = [test_friend_1_answer,test_friend_2_answer,test_friend_3_answer]
         test_gameType = 2 
-        return GetLobbyStateResponse(friend_email=test_friend_list, answer=answer_list, gameType=test_gameType)
+        return GetLobbyStateResponse(users=test_user_list, answer=answer_list, gameType=test_gameType)
 
 
 
@@ -122,14 +156,18 @@ class LobbyService(NunciusService):
         #removes the lobby
         return RemoveLobbyResponse(lobby_removed=True)
 
-	@expose("start_game")
-	def start_game(self, request):
-		if not isinstance(request, StartGameRequest):
-			return RpcError(message="Wrong message type, expecting StartGameRequest")
+    @expose("start_game")
+    def start_game(self, request):
+        return StartGameResponse(gameId=765432)
 
-		with db(session):
-			if lobby.check_owner(request.userID): #TODO: this function
-				# TODO send lobbyID to handlers addtoqueue
-				return StartGameResponse(gameId=765432) #temporary test variable
-		return RpcError(message="Incorrect user or lobby") 
+    # @expose("start_game")         #Williams function suppose to be used
+    # def start_game(self, request):
+    #     if not isinstance(request, StartGameRequest):
+    #        return RpcError(message="Wrong message type, expecting StartGameRequest")
+
+    #     with db(session):
+    #         if lobby.check_owner(request.userID): #TODO: this function
+    #             # TODO send lobbyID to handlers addtoqueue
+    #             return StartGameResponse(gameId=765432) #temporary test variable
+    #     return RpcError(message="Incorrect user or lobby") 
 
