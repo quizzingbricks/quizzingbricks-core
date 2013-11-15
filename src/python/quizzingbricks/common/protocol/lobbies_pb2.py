@@ -14,7 +14,7 @@ import users_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='lobbies.proto',
   package='',
-  serialized_pb='\n\rlobbies.proto\x1a\x0busers.proto\"V\n\x05Lobby\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\x12\x14\n\x05owner\x18\x02 \x02(\x0b\x32\x05.User\x12&\n\x0clobbymembers\x18\x03 \x03(\x0b\x32\x10.LobbyMembership\"?\n\x0fLobbyMembership\x12\x13\n\x04user\x18\x01 \x02(\x0b\x32\x05.User\x12\x17\n\x06status\x18\x02 \x02(\t:\x07Invited\"6\n\x12\x43reateLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x10\n\x08gameType\x18\x02 \x02(\x05\"&\n\x13\x43reateLobbyResponse\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"%\n\x13GetLobbyListRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"N\n\x14GetLobbyListResponse\x12\x10\n\x08lobbyIds\x18\x01 \x03(\x05\x12\x0e\n\x06status\x18\x02 \x03(\t\x12\x14\n\x05owner\x18\x03 \x03(\x0b\x32\x05.User\"\'\n\x14GetLobbyStateRequest\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"O\n\x15GetLobbyStateResponse\x12\x14\n\x05users\x18\x01 \x03(\x0b\x32\x05.User\x12\x0e\n\x06\x61nswer\x18\x02 \x03(\t\x12\x10\n\x08gameType\x18\x03 \x02(\x05\";\n\x18\x41\x63\x63\x65ptLobbyInviteRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"+\n\x19\x41\x63\x63\x65ptLobbyInviteResponse\x12\x0e\n\x06\x61nswer\x18\x01 \x02(\t\"L\n\x12InviteLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\x12\x15\n\rinvite_emails\x18\x03 \x03(\t\".\n\x13InviteLobbyResponse\x12\x17\n\x0f\x66riends_invited\x18\x01 \x02(\x08\"5\n\x12RemoveLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\",\n\x13RemoveLobbyResponse\x12\x15\n\rlobby_removed\x18\x01 \x02(\x08\"3\n\x10StartGameRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"#\n\x11StartGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05')
+  serialized_pb='\n\rlobbies.proto\x1a\x0busers.proto\"h\n\x05Lobby\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\x12\x14\n\x05owner\x18\x02 \x02(\x0b\x32\x05.User\x12&\n\x0clobbymembers\x18\x03 \x03(\x0b\x32\x10.LobbyMembership\x12\x10\n\x08gameType\x18\x04 \x02(\x05\"?\n\x0fLobbyMembership\x12\x13\n\x04user\x18\x01 \x02(\x0b\x32\x05.User\x12\x17\n\x06status\x18\x02 \x02(\t:\x07Invited\"6\n\x12\x43reateLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x10\n\x08gameType\x18\x02 \x02(\x05\"&\n\x13\x43reateLobbyResponse\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"%\n\x13GetLobbyListRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"N\n\x14GetLobbyListResponse\x12\x10\n\x08lobbyIds\x18\x01 \x03(\x05\x12\x0e\n\x06status\x18\x02 \x03(\t\x12\x14\n\x05owner\x18\x03 \x03(\x0b\x32\x05.User\"\'\n\x14GetLobbyStateRequest\x12\x0f\n\x07lobbyId\x18\x01 \x02(\x05\"O\n\x15GetLobbyStateResponse\x12\x14\n\x05users\x18\x01 \x03(\x0b\x32\x05.User\x12\x0e\n\x06\x61nswer\x18\x02 \x03(\t\x12\x10\n\x08gameType\x18\x03 \x02(\x05\";\n\x18\x41\x63\x63\x65ptLobbyInviteRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"+\n\x19\x41\x63\x63\x65ptLobbyInviteResponse\x12\x0e\n\x06\x61nswer\x18\x01 \x02(\t\"L\n\x12InviteLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\x12\x15\n\rinvite_emails\x18\x03 \x03(\t\".\n\x13InviteLobbyResponse\x12\x17\n\x0f\x66riends_invited\x18\x01 \x02(\x08\"5\n\x12RemoveLobbyRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\",\n\x13RemoveLobbyResponse\x12\x15\n\rlobby_removed\x18\x01 \x02(\x08\"3\n\x10StartGameRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x0f\n\x07lobbyId\x18\x02 \x02(\x05\"#\n\x11StartGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05')
 
 
 
@@ -47,6 +47,13 @@ _LOBBY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='gameType', full_name='Lobby.gameType', index=3,
+      number=4, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -57,7 +64,7 @@ _LOBBY = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=30,
-  serialized_end=116,
+  serialized_end=134,
 )
 
 
@@ -91,8 +98,8 @@ _LOBBYMEMBERSHIP = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=118,
-  serialized_end=181,
+  serialized_start=136,
+  serialized_end=199,
 )
 
 
@@ -126,8 +133,8 @@ _CREATELOBBYREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=183,
-  serialized_end=237,
+  serialized_start=201,
+  serialized_end=255,
 )
 
 
@@ -154,8 +161,8 @@ _CREATELOBBYRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=239,
-  serialized_end=277,
+  serialized_start=257,
+  serialized_end=295,
 )
 
 
@@ -182,8 +189,8 @@ _GETLOBBYLISTREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=279,
-  serialized_end=316,
+  serialized_start=297,
+  serialized_end=334,
 )
 
 
@@ -224,8 +231,8 @@ _GETLOBBYLISTRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=318,
-  serialized_end=396,
+  serialized_start=336,
+  serialized_end=414,
 )
 
 
@@ -252,8 +259,8 @@ _GETLOBBYSTATEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=398,
-  serialized_end=437,
+  serialized_start=416,
+  serialized_end=455,
 )
 
 
@@ -294,8 +301,8 @@ _GETLOBBYSTATERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=439,
-  serialized_end=518,
+  serialized_start=457,
+  serialized_end=536,
 )
 
 
@@ -329,8 +336,8 @@ _ACCEPTLOBBYINVITEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=520,
-  serialized_end=579,
+  serialized_start=538,
+  serialized_end=597,
 )
 
 
@@ -357,8 +364,8 @@ _ACCEPTLOBBYINVITERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=581,
-  serialized_end=624,
+  serialized_start=599,
+  serialized_end=642,
 )
 
 
@@ -399,8 +406,8 @@ _INVITELOBBYREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=626,
-  serialized_end=702,
+  serialized_start=644,
+  serialized_end=720,
 )
 
 
@@ -427,8 +434,8 @@ _INVITELOBBYRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=704,
-  serialized_end=750,
+  serialized_start=722,
+  serialized_end=768,
 )
 
 
@@ -462,8 +469,8 @@ _REMOVELOBBYREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=752,
-  serialized_end=805,
+  serialized_start=770,
+  serialized_end=823,
 )
 
 
@@ -490,8 +497,8 @@ _REMOVELOBBYRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=807,
-  serialized_end=851,
+  serialized_start=825,
+  serialized_end=869,
 )
 
 
@@ -525,8 +532,8 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=853,
-  serialized_end=904,
+  serialized_start=871,
+  serialized_end=922,
 )
 
 
@@ -553,8 +560,8 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=906,
-  serialized_end=941,
+  serialized_start=924,
+  serialized_end=959,
 )
 
 _LOBBY.fields_by_name['owner'].message_type = users_pb2._USER

@@ -57,6 +57,16 @@ public final class Lobbies {
      */
     Lobbies.LobbyMembershipOrBuilder getLobbymembersOrBuilder(
         int index);
+
+    // required int32 gameType = 4;
+    /**
+     * <code>required int32 gameType = 4;</code>
+     */
+    boolean hasGameType();
+    /**
+     * <code>required int32 gameType = 4;</code>
+     */
+    int getGameType();
   }
   /**
    * Protobuf type {@code Lobby}
@@ -133,6 +143,11 @@ public final class Lobbies {
                 mutable_bitField0_ |= 0x00000004;
               }
               lobbymembers_.add(input.readMessage(Lobbies.LobbyMembership.PARSER, extensionRegistry));
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              gameType_ = input.readInt32();
               break;
             }
           }
@@ -252,10 +267,27 @@ public final class Lobbies {
       return lobbymembers_.get(index);
     }
 
+    // required int32 gameType = 4;
+    public static final int GAMETYPE_FIELD_NUMBER = 4;
+    private int gameType_;
+    /**
+     * <code>required int32 gameType = 4;</code>
+     */
+    public boolean hasGameType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 gameType = 4;</code>
+     */
+    public int getGameType() {
+      return gameType_;
+    }
+
     private void initFields() {
       lobbyId_ = 0;
       owner_ = Users.User.getDefaultInstance();
       lobbymembers_ = java.util.Collections.emptyList();
+      gameType_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -267,6 +299,10 @@ public final class Lobbies {
         return false;
       }
       if (!hasOwner()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGameType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -296,6 +332,9 @@ public final class Lobbies {
       for (int i = 0; i < lobbymembers_.size(); i++) {
         output.writeMessage(3, lobbymembers_.get(i));
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, gameType_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -316,6 +355,10 @@ public final class Lobbies {
       for (int i = 0; i < lobbymembers_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, lobbymembers_.get(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, gameType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -449,6 +492,8 @@ public final class Lobbies {
         } else {
           lobbymembersBuilder_.clear();
         }
+        gameType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -498,6 +543,10 @@ public final class Lobbies {
         } else {
           result.lobbymembers_ = lobbymembersBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.gameType_ = gameType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -546,6 +595,9 @@ public final class Lobbies {
             }
           }
         }
+        if (other.hasGameType()) {
+          setGameType(other.getGameType());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -556,6 +608,10 @@ public final class Lobbies {
           return false;
         }
         if (!hasOwner()) {
+          
+          return false;
+        }
+        if (!hasGameType()) {
           
           return false;
         }
@@ -979,6 +1035,39 @@ public final class Lobbies {
           lobbymembers_ = null;
         }
         return lobbymembersBuilder_;
+      }
+
+      // required int32 gameType = 4;
+      private int gameType_ ;
+      /**
+       * <code>required int32 gameType = 4;</code>
+       */
+      public boolean hasGameType() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 gameType = 4;</code>
+       */
+      public int getGameType() {
+        return gameType_;
+      }
+      /**
+       * <code>required int32 gameType = 4;</code>
+       */
+      public Builder setGameType(int value) {
+        bitField0_ |= 0x00000008;
+        gameType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 gameType = 4;</code>
+       */
+      public Builder clearGameType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        gameType_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:Lobby)
@@ -9612,30 +9701,30 @@ public final class Lobbies {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rlobbies.proto\032\013users.proto\"V\n\005Lobby\022\017\n" +
+      "\n\rlobbies.proto\032\013users.proto\"h\n\005Lobby\022\017\n" +
       "\007lobbyId\030\001 \002(\005\022\024\n\005owner\030\002 \002(\0132\005.User\022&\n\014" +
-      "lobbymembers\030\003 \003(\0132\020.LobbyMembership\"?\n\017" +
-      "LobbyMembership\022\023\n\004user\030\001 \002(\0132\005.User\022\027\n\006" +
-      "status\030\002 \002(\t:\007Invited\"6\n\022CreateLobbyRequ" +
-      "est\022\016\n\006userId\030\001 \002(\005\022\020\n\010gameType\030\002 \002(\005\"&\n" +
-      "\023CreateLobbyResponse\022\017\n\007lobbyId\030\001 \002(\005\"%\n" +
-      "\023GetLobbyListRequest\022\016\n\006userId\030\001 \002(\005\"N\n\024" +
-      "GetLobbyListResponse\022\020\n\010lobbyIds\030\001 \003(\005\022\016" +
-      "\n\006status\030\002 \003(\t\022\024\n\005owner\030\003 \003(\0132\005.User\"\'\n\024",
-      "GetLobbyStateRequest\022\017\n\007lobbyId\030\001 \002(\005\"O\n" +
-      "\025GetLobbyStateResponse\022\024\n\005users\030\001 \003(\0132\005." +
-      "User\022\016\n\006answer\030\002 \003(\t\022\020\n\010gameType\030\003 \002(\005\";" +
-      "\n\030AcceptLobbyInviteRequest\022\016\n\006userId\030\001 \002" +
-      "(\005\022\017\n\007lobbyId\030\002 \002(\005\"+\n\031AcceptLobbyInvite" +
-      "Response\022\016\n\006answer\030\001 \002(\t\"L\n\022InviteLobbyR" +
-      "equest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\022" +
-      "\025\n\rinvite_emails\030\003 \003(\t\".\n\023InviteLobbyRes" +
-      "ponse\022\027\n\017friends_invited\030\001 \002(\010\"5\n\022Remove" +
-      "LobbyRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030",
-      "\002 \002(\005\",\n\023RemoveLobbyResponse\022\025\n\rlobby_re" +
-      "moved\030\001 \002(\010\"3\n\020StartGameRequest\022\016\n\006userI" +
-      "d\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\"#\n\021StartGameRes" +
-      "ponse\022\016\n\006gameId\030\001 \002(\005"
+      "lobbymembers\030\003 \003(\0132\020.LobbyMembership\022\020\n\010" +
+      "gameType\030\004 \002(\005\"?\n\017LobbyMembership\022\023\n\004use" +
+      "r\030\001 \002(\0132\005.User\022\027\n\006status\030\002 \002(\t:\007Invited\"" +
+      "6\n\022CreateLobbyRequest\022\016\n\006userId\030\001 \002(\005\022\020\n" +
+      "\010gameType\030\002 \002(\005\"&\n\023CreateLobbyResponse\022\017" +
+      "\n\007lobbyId\030\001 \002(\005\"%\n\023GetLobbyListRequest\022\016" +
+      "\n\006userId\030\001 \002(\005\"N\n\024GetLobbyListResponse\022\020" +
+      "\n\010lobbyIds\030\001 \003(\005\022\016\n\006status\030\002 \003(\t\022\024\n\005owne",
+      "r\030\003 \003(\0132\005.User\"\'\n\024GetLobbyStateRequest\022\017" +
+      "\n\007lobbyId\030\001 \002(\005\"O\n\025GetLobbyStateResponse" +
+      "\022\024\n\005users\030\001 \003(\0132\005.User\022\016\n\006answer\030\002 \003(\t\022\020" +
+      "\n\010gameType\030\003 \002(\005\";\n\030AcceptLobbyInviteReq" +
+      "uest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\"+\n" +
+      "\031AcceptLobbyInviteResponse\022\016\n\006answer\030\001 \002" +
+      "(\t\"L\n\022InviteLobbyRequest\022\016\n\006userId\030\001 \002(\005" +
+      "\022\017\n\007lobbyId\030\002 \002(\005\022\025\n\rinvite_emails\030\003 \003(\t" +
+      "\".\n\023InviteLobbyResponse\022\027\n\017friends_invit" +
+      "ed\030\001 \002(\010\"5\n\022RemoveLobbyRequest\022\016\n\006userId",
+      "\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\",\n\023RemoveLobbyRe" +
+      "sponse\022\025\n\rlobby_removed\030\001 \002(\010\"3\n\020StartGa" +
+      "meRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002" +
+      "(\005\"#\n\021StartGameResponse\022\016\n\006gameId\030\001 \002(\005"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9647,7 +9736,7 @@ public final class Lobbies {
           internal_static_Lobby_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Lobby_descriptor,
-              new java.lang.String[] { "LobbyId", "Owner", "Lobbymembers", });
+              new java.lang.String[] { "LobbyId", "Owner", "Lobbymembers", "GameType", });
           internal_static_LobbyMembership_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_LobbyMembership_fieldAccessorTable = new
