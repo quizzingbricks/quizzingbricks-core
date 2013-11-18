@@ -99,6 +99,6 @@ message StartGameRequest {
 }
 
 message StartGameResponse {
-	required int32 gameId = 1;
+	required bool isCreated = 1;
 }
 

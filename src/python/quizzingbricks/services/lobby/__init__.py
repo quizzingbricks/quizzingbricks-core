@@ -158,7 +158,7 @@ class LobbyService(NunciusService):
 
     @expose("start_game")
     def start_game(self, request):
-        return StartGameResponse(gameId=765432)
+        return StartGameResponse(isCreated=True)
 
     # @expose("start_game")         #Williams function suppose to be used
     # def start_game(self, request):

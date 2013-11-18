@@ -211,7 +211,6 @@ def get_friends(game_type):
         traceback.print_exc(file=sys.stdout)
         print '-'*60   
     #response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
-    
     if (isinstance(response, CreateLobbyResponse)):
         print response
         lobby_id = response.lobbyId
@@ -258,10 +257,12 @@ def start_game(game_type,lobby_id):
         traceback.print_exc(file=sys.stdout)
         print '-'*60
 
-    start_game_response = lobbyservice.startGame(StartGameRequest(userId=session['userId'], lobbyId=lobby_id))
+    #start_game_response = lobbyservice.startGame(StartGameRequest(userId=session['userId'], lobbyId=lobby_id))
     if (isinstance(start_game_response, StartGameResponse)):
-        print "test"
-        gameId = str(start_game_response).split(":")[1]
+        print "test in isinstance"
+        #gameId = str(start_game_response).split(":")[1]
+        print start_game_response
+        gameId=99999
         print "gameId:", gameId
 
         #TODO: fetch friends from the gameId
