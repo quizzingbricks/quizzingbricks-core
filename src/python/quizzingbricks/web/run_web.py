@@ -262,15 +262,28 @@ def start_game(game_type,lobby_id):
         print "test in isinstance"
         #gameId = str(start_game_response).split(":")[1]
         print start_game_response
-        gameId=99999
+        
         print "gameId:", gameId
+        friends = [("David@test.se", 2)]
+        
+        players =[session['userId'],2]
+        msg = CreateGameRequest(players=players)
+        try:
+            create_game_response = gameservice.send(msg)
+            if isinstance(create_game_response, GameError):
+                print "Error", create_game_response.description, " code: ", create_game_response.code 
+            else:
+                print "gameId", create_game_response.gameId
+                gameId= create_game_response.gameId
+        except TimeoutError as e:
+            print "Timeout"
 
         #TODO: fetch friends from the gameId
         #friends = email string fetch with get_user_by_id 
         #also give userId
-        friends = [("Linus@test.se", 21),("David@test.se", 22)]
+        
         board=[]
-        return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
+        return render_template('game_board.html',friends=friends, board=board, gameId=gameId, userId=session['userId'])
     else:
         return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
 
@@ -312,7 +325,7 @@ def active_games():
 
 @app.route('/game_info', methods=['POST'])
 def game_info():
-    print " "
+    print "game info "
     gameId = request.form.get('gameId',0, type=int)
     msg = GameInfoRequest()
     msg.gameId = gameId
@@ -321,6 +334,7 @@ def game_info():
         if isinstance(game_info_response, GameError):
             return jsonify(result=(game_info_response.description, game_info_response.code))
         else:
+            print "game info", game_info_response
             return jsonify({ "gameId" : game_info_response.gameId,
                              "players" : [ { "userId" : player.userId,
                                             "state" : player.state,
@@ -329,7 +343,7 @@ def game_info():
                                             "question" : player.question,
                                             "alternatives" : [a for a in player.alternatives],
                                             "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.players ],
-                             "board" : [ b for b in rep.board ]
+                             "board" : [b for b in game_info_response.board ]
                           })
     except TimeoutError as e:
         return jsonify(result = "Timeout")
@@ -408,14 +422,10 @@ def tile_placement():
 
 
 
-@app.route('/game_board',methods=["GET"])
-def game_board ():
+@app.route('/game_board/<int:gameId>',methods=["GET"])          #changed so I can test a gameId with 
+def game_board (gameId):
     friends = []
     board =[]
-    gameId  = 999999
-    friend1 = ("David@test.se", 2)
-    friend2 = ("Anton@test.se", 25)
-    friends = [friend1,friend2]
     return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
 
 @app.route('/test_board',methods=["GET"])

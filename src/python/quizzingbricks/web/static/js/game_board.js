@@ -66,45 +66,52 @@ for (var i = 0; i < board.length; i++) {
     board[i] = new Array(BOARD_WIDTH)
 }
 
-function drawBoard(gameId){ 
+function drawBoard(gameId){
+    playerPos = [] 
     $.post($SCRIPT_ROOT + '/game_info', {gameId: gameId},
     function(data) {
-    
+        playerPos = data.board
+        $("#drawResult").text(playerPos[1]);
+        for (var y =0; y<BOARD_HEIGHT; y++ ){
+            for (var x=0; x<BOARD_WIDTH; x++){
+                board_element = document.getElementById("square_"+ x+"_"+y);
+                index = y*BOARD_HEIGHT +x;
+
+                if(TOKEN.RED.userId == playerPos[index]){
+                    board_element.appendChild(create_token(TOKEN.RED));
+                }
+                if(TOKEN.YELLOW.userId == playerPos[index]){
+                    board_element.appendChild(create_token(TOKEN.YELLOW));
+                }
+                if(TOKEN.BLUE.userId == playerPos[index]){
+                    board_element.appendChild(create_token(TOKEN.BLUE));
+                }
+                if(TOKEN.GREEN.userId == playerPos[index]){
+                    board_element.appendChild(create_token(TOKEN.GREEN));
+                }
+            }
+        }
+   //playerPos = data.board
+   //$('#result').text(playerPos[1]);
   });
   //  board_element = document.getElementById("square_"+ 2+"_"+2);
   //  board_element.appendChild(create_token(TOKEN.RED));
   //  $('#result').text(playerPos[1]);
   // TODO: fetch playerPos for the board placements from the data object returned from Jquery call above
-    playerPos = [1,2,0,1,2]
-    for (var y =0; y<BOARD_HEIGHT; y++ ){
-        for (var x=0; x<BOARD_WIDTH; x++){
-            board_element = document.getElementById("square_"+ x+"_"+y);
-            index = y*BOARD_HEIGHT +x;
+    //playerPos = [1,2,0,1,2]
+    
 
-            if(TOKEN.RED.userId == playerPos[index]){
-                board_element.appendChild(create_token(TOKEN.RED));
-            }
-            if(TOKEN.YELLOW.userId == playerPos[index]){
-                board_element.appendChild(create_token(TOKEN.YELLOW));
-            }
-            if(TOKEN.BLUE.userId == playerPos[index]){
-                board_element.appendChild(create_token(TOKEN.BLUE));
-            }
-            if(TOKEN.GREEN.userId == playerPos[index]){
-                board_element.appendChild(create_token(TOKEN.GREEN));
-            }
-        }
-    }
 }
 
 function getQuestion(gameId){
         $.post($SCRIPT_ROOT + '/get_question', {gameId: gameId},
         function(data) {
-         $("#result").text(data.question);
+         $("#modalQuestion").text(data.question);
          $("#alt_1").text(data.alternatives[0]);
          $("#alt_2").text(data.alternatives[1]);
          $("#alt_3").text(data.alternatives[2]);
          $("#alt_4").text(data.alternatives[3]);
+         $('#myModal').modal('show')
 
   }); 
 }
@@ -112,9 +119,13 @@ function getQuestion(gameId){
 function submitAnswer(gameId, answer){
     $.post($SCRIPT_ROOT + '/submit_answer', {gameId: gameId, answer: answer},
     function(data) {
-         $("#answer").text(data.isCorrect);     
-
-
+        if(data.isCorrect){
+            $("#answer").text("Correct answer");
+        }
+        else{
+            $("#answer").text("Wrong answer");
+        }
+        $('#myModal').modal('hide')   
   }); 
 }
 
@@ -131,7 +142,9 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
         $.post($SCRIPT_ROOT + '/make_move', {gameId: gameId, x: x, y: y },
         function(data) {
         $("#result").text(data.result);
+        drawBoard(gameId);
       });
+        
   //  }
 }
 
