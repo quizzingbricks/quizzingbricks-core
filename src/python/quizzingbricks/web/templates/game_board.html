@@ -87,15 +87,17 @@
        
       </div>
     </div><!-- /.container -->
-
+    <div id="result"> </div>
+    <div id="drawResult"> </div>
+    <div id="drawResult2"> </div>
     <div class="container">
     <div onclick="getQuestion({{gameId}})">getQuestion Tester</div>
-      <div id="result"> </div>
+<!--      <div id="question"> </div>
 
      Alt 1: <div onclick="submitAnswer({{gameId}}, 1)" id="alt_1"></div>
      Alt 2: <div onclick="submitAnswer({{gameId}}, 2)" id="alt_2"></div>
      Alt 3: <div onclick="submitAnswer({{gameId}}, 3)" id="alt_3"></div>
-     Alt 4: <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4"></div> 
+     Alt 4: <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4"></div> -->
      Answer:<div id="answer"></div> 
           
     </div>
@@ -103,7 +105,26 @@
 
 
 
-
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="modalQuestion">Question</h4>
+            </div>
+            <div class="modal-body">
+              <div onclick="submitAnswer({{gameId}}, 1)" id="alt_1" style="height:100px; background-color: #fff5a2" ></div>
+              <div onclick="submitAnswer({{gameId}}, 2)" id="alt_2" style="height:100px; background-color: #d3ffce" ></div>
+              <div onclick="submitAnswer({{gameId}}, 3)" id="alt_3" style="height:100px; background-color: #ff6b4f" ></div>
+              <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4" style="height:100px; background-color: #2cabe2" ></div> 
+            </div>
+           <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button> -
+            </div> -->
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
 
 
 
