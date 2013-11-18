@@ -9211,15 +9211,15 @@ public final class Lobbies {
   public interface StartGameResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 gameId = 1;
+    // required bool isCreated = 1;
     /**
-     * <code>required int32 gameId = 1;</code>
+     * <code>required bool isCreated = 1;</code>
      */
-    boolean hasGameId();
+    boolean hasIsCreated();
     /**
-     * <code>required int32 gameId = 1;</code>
+     * <code>required bool isCreated = 1;</code>
      */
-    int getGameId();
+    boolean getIsCreated();
   }
   /**
    * Protobuf type {@code StartGameResponse}
@@ -9274,7 +9274,7 @@ public final class Lobbies {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              gameId_ = input.readInt32();
+              isCreated_ = input.readBool();
               break;
             }
           }
@@ -9317,31 +9317,31 @@ public final class Lobbies {
     }
 
     private int bitField0_;
-    // required int32 gameId = 1;
-    public static final int GAMEID_FIELD_NUMBER = 1;
-    private int gameId_;
+    // required bool isCreated = 1;
+    public static final int ISCREATED_FIELD_NUMBER = 1;
+    private boolean isCreated_;
     /**
-     * <code>required int32 gameId = 1;</code>
+     * <code>required bool isCreated = 1;</code>
      */
-    public boolean hasGameId() {
+    public boolean hasIsCreated() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 gameId = 1;</code>
+     * <code>required bool isCreated = 1;</code>
      */
-    public int getGameId() {
-      return gameId_;
+    public boolean getIsCreated() {
+      return isCreated_;
     }
 
     private void initFields() {
-      gameId_ = 0;
+      isCreated_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasGameId()) {
+      if (!hasIsCreated()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9353,7 +9353,7 @@ public final class Lobbies {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, gameId_);
+        output.writeBool(1, isCreated_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -9366,7 +9366,7 @@ public final class Lobbies {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, gameId_);
+          .computeBoolSize(1, isCreated_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9484,7 +9484,7 @@ public final class Lobbies {
 
       public Builder clear() {
         super.clear();
-        gameId_ = 0;
+        isCreated_ = false;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -9517,7 +9517,7 @@ public final class Lobbies {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.gameId_ = gameId_;
+        result.isCreated_ = isCreated_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9534,15 +9534,15 @@ public final class Lobbies {
 
       public Builder mergeFrom(Lobbies.StartGameResponse other) {
         if (other == Lobbies.StartGameResponse.getDefaultInstance()) return this;
-        if (other.hasGameId()) {
-          setGameId(other.getGameId());
+        if (other.hasIsCreated()) {
+          setIsCreated(other.getIsCreated());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasGameId()) {
+        if (!hasIsCreated()) {
           
           return false;
         }
@@ -9568,35 +9568,35 @@ public final class Lobbies {
       }
       private int bitField0_;
 
-      // required int32 gameId = 1;
-      private int gameId_ ;
+      // required bool isCreated = 1;
+      private boolean isCreated_ ;
       /**
-       * <code>required int32 gameId = 1;</code>
+       * <code>required bool isCreated = 1;</code>
        */
-      public boolean hasGameId() {
+      public boolean hasIsCreated() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 gameId = 1;</code>
+       * <code>required bool isCreated = 1;</code>
        */
-      public int getGameId() {
-        return gameId_;
+      public boolean getIsCreated() {
+        return isCreated_;
       }
       /**
-       * <code>required int32 gameId = 1;</code>
+       * <code>required bool isCreated = 1;</code>
        */
-      public Builder setGameId(int value) {
+      public Builder setIsCreated(boolean value) {
         bitField0_ |= 0x00000001;
-        gameId_ = value;
+        isCreated_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 gameId = 1;</code>
+       * <code>required bool isCreated = 1;</code>
        */
-      public Builder clearGameId() {
+      public Builder clearIsCreated() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        gameId_ = 0;
+        isCreated_ = false;
         onChanged();
         return this;
       }
@@ -9724,7 +9724,8 @@ public final class Lobbies {
       "\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002(\005\",\n\023RemoveLobbyRe" +
       "sponse\022\025\n\rlobby_removed\030\001 \002(\010\"3\n\020StartGa" +
       "meRequest\022\016\n\006userId\030\001 \002(\005\022\017\n\007lobbyId\030\002 \002" +
-      "(\005\"#\n\021StartGameResponse\022\016\n\006gameId\030\001 \002(\005"
+      "(\005\"&\n\021StartGameResponse\022\021\n\tisCreated\030\001 \002" +
+      "(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9826,7 +9827,7 @@ public final class Lobbies {
           internal_static_StartGameResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_StartGameResponse_descriptor,
-              new java.lang.String[] { "GameId", });
+              new java.lang.String[] { "IsCreated", });
           return null;
         }
       };
