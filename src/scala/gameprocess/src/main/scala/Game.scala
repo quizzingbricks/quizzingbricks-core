@@ -29,7 +29,7 @@ class Game (id: Int, playerIds: Array[Int]) extends Actor
     
     def isValidMove(x: Int, y: Int) = x >= 0 && x < sideLength && y >= 0 && y < sideLength && board(y*sideLength + x) == 0
     
-    def getGameInfo() = GameInfoResponse(id, playerList map playerToMessage, board)
+    def getGameInfo() = GameMessage(id, playerList map playerToMessage, board)
     
     def partitionSeveral[A](l: List[A], f: ((A,A) => Boolean)) : List[List[A]] =
         l match
@@ -86,7 +86,7 @@ class Game (id: Int, playerIds: Array[Int]) extends Actor
     def handleGameInfoResponse(idReq: Int)
     {
         assert(idReq == id)
-        sender ! GameInfoResponse(id, playerList map playerToMessage, board)
+        sender ! GameInfoResponse(getGameInfo())
     }
     
     def handleAnswerRequest(id: Int, player: Int, answer: Int)
@@ -106,10 +106,14 @@ class Game (id: Int, playerIds: Array[Int]) extends Actor
                 val sites = partitionSeveral(playerList, (p1: Player, p2: Player) => p1.x == p2.x && p1.y == p2.y)
                 for(site <- sites)
                 {
-                    val correctAnswerers = site.filter(p => p.state == Player.ANSWERED && p.answer == p.question.correctAnswer)
-                    if(correctAnswerers.length > 1)
-                        for(c <- correctAnswerers)
-                            c.resetTo(Player.PLACED)
+                    if(site.forall(p => p.state == Player.ANSWERED))
+                    {
+                        println("site: " + site.mkString(", "))
+                        val correctAnswerers = site.filter(p => p.state == Player.ANSWERED && p.answer == p.question.correctAnswer)
+                        if(correctAnswerers.length > 1)
+                            for(c <- correctAnswerers)
+                                c.resetTo(Player.PLACED)
+                    }
                 }
                 
                 if(!playerList.forall(p => p.state == Player.ANSWERED))
