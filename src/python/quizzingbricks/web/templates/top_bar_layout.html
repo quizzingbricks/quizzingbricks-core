@@ -30,89 +30,86 @@
     {% endblock %}
   </head>
 {% set navigation_bar = [
-    ('/', 'index', 'Index'),
-    ('/about', 'about', 'About'),
-    ('/contact', 'contact', 'Contact'),
-    ('/game_board', 'game_board', 'Game_board'),
-    ('/test_board', 'test_board', 'Test_board')
+    
+    ('/game_board', 'game_board', 'Game_board')
 ] -%}
 {% set active_page = active_page|default('index') -%}
 </ul>
   <body>
   {% block top_bar %}
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div id="navbar_container" class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
 
-          <a class="navbar-brand" href="/">Quizzing Bricks</a>
-        </div>
-        <div id="top_div" class="collapse navbar-collapse">
-          <ul  class="nav navbar-nav">
-            {% for href, id, caption in navigation_bar %}
-              <li{% if id == active_page %} class="active"{% endif
-              %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
-            {% endfor %}
-            
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Game Menu<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/active_games">Active Games</a></li>
-                <li><a href="#">Quickjoin 2p</a></li>
-                <li><a href="#">Quickjoin 4p</a></li>
-                <li><a href="/get_friends/2">Create Game 2p</a></li>
-                <li><a href="/get_friends/4">Create Game 4p</a></li>
-                <li><a href="/add_friend">Friends List</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
 
-            
-          </ul>
-  
-          <ul id="navbar_right" class="navbar-form pull-right">
-
-             {% if not session.logged_in %}
-              <form action="{{ url_for('login') }}" class="form-inline"  method=post>
-                <div class="form-group">
-                  <input class="form-control" type=email placeholder="E-mail" name=email>
-                </div>
-                <div class="form-group">
-                  <input type=password class="form-control" placeholder="Password" name=password>
-                </div>
-				
-                <!--<div class="checkbox">
-                  <label>
-                    <input type="checkbox"> <font color=White>Remember me <font>     saving if we want to use later 
-                  </label>
-                </div> -->
-                <button  class="btn btn-success" type=submit value=Login >Login </button> 
-              </form> 
-              <div>
-                  <a href="/register_user">Register user</a> 
-               </div> 
-              {% else %}
-               <form action="{{ url_for('logout') }}"  >
-                  <button  class="btn btn-default" type=submit  >Logout </button>  
-                </form> 
-              {% endif %}
-                <!--<form action="{{ url_for('register_user') }}" >
-                  <button   class="btn btn-default"  > Register</button> 
-                </form> -->
-                
-
-           </ul> 
-        
-        </div><!--/.nav-collapse -->
-      </div>
+<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+  <div class="container" id="top_bar_container" style="max-width:995px;">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">Quizzing Bricks</a>
     </div>
+    
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="top_bar_nav" > 
+      <!--  800 in order to make it collapse in a nice way -->        
+      <ul class="nav navbar-nav">
+        {% for href, id, caption in navigation_bar %}
+          <li {% if id == active_page %} class="active"{% endif
+          %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+        {% endfor %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Game Menu<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/active_games">Active Games</a></li>
+            <li><a href="#">Quickjoin 2p</a></li>
+            <li><a href="#">Quickjoin 4p</a></li>
+            <li><a href="/get_friends/2">Create Game 2p</a></li>
+            <li><a href="/get_friends/4">Create Game 4p</a></li>
+            <li><a href="/add_friend">Friends List</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Misc</li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </li> 
+      </ul>
+      <ul id="navbar_right" class="navbar-form pull-right">
+
+       {% if not session.logged_in %}
+        <form action="{{ url_for('login') }}" class="form-inline"  method=post>
+          <div class="form-group">
+            <input class="form-control" type=email placeholder="E-mail" name=email>
+          </div>
+          <div class="form-group">
+            <input type=password class="form-control" placeholder="Password" name=password>
+          </div>
+  
+          <!--<div class="checkbox">
+            <label>
+              <input type="checkbox"> <font color=White>Remember me <font>     saving if we want to use later 
+            </label>
+          </div> -->
+          <button  class="btn btn-success" type=submit value=Login >Login </button> 
+        </form> 
+        <div>
+            <a href="/register_user">Register user</a> 
+         </div> 
+        {% else %}
+         <form action="{{ url_for('logout') }}"  >
+            <button  class="btn btn-default" type=submit  >Logout </button>  
+          </form> 
+        {% endif %}
+          <!--<form action="{{ url_for('register_user') }}" >
+            <button   class="btn btn-default"  > Register</button> 
+          </form> -->
+      </ul>   
+    </nav>
+  </div>
+</header>
+
+
+
+
   {% endblock %}
 
   {% block default_body %}

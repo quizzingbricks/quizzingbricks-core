@@ -26,8 +26,8 @@
             <img src="/static/img/BoardCell_Red.png" onclick='selectToken(TOKEN.RED)' width="64" /> -->
 
       <div class="container" style="float: left; background-color: red; margin-left: 0px ">
-      <!-- GameId = <b> {{gameId}} </b> 
-      <strong> Players: </strong>  -->
+       GameId = <b> {{gameId}} </b> 
+      <!--<strong> Players: </strong>  -->
         <div style="float: right">
           <br>You: <img  onload="assign_colors({{friends}},{{userId}},{{gameId}})"  onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
         </div>
@@ -37,8 +37,8 @@
           {% if i== 1%}
             <div style="float: right">
               <br>  {{friend[0]}} : <img src="/static/img/BoardCell_Yellow.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
-              <br>  qq@q.q = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
-              <br>  reallyreallyreallylongname@testtesttest.se = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
+            <!--  <br>  qq@q.q = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
+              <br>  reallyreallyreallylongname@testtesttest.se = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" /> -->
             </div>
           {% endif %}
           
@@ -89,6 +89,8 @@
        Alt 4: <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4"></div> -->
        <br>
        <div style="float: left" id="answer"></div>
+       <div id="result"> result errors etc</div>
+       <div style="float: left" onclick="drawBoard({{gameId}})">Refresh board</div>
     </div> 
           
     

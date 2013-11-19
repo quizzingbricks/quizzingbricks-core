@@ -17,7 +17,8 @@ from quizzingbricks.common.protocol import (
      StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse, \
      CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
      MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
-     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse )
+     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse, \
+     GetUserRequest, GetUserResponse )
     
 
 #configuration
@@ -355,7 +356,7 @@ def get_question():
     msg = QuestionRequest()
     msg.gameId = gameId
     msg.userId = session['userId']
-    return jsonify({ "question" : "Starts the alphabet?", "alternatives" : [a for a in ["a","b","c","d"]] }) 
+    #return jsonify({ "question" : "Starts the alphabet?", "alternatives" : [a for a in ["a","b","c","d"]] }) 
     #added in order to be able to have a proper message to parse 
     try:
         get_question_response = gameservice.send(msg)
@@ -376,10 +377,10 @@ def submit_answer():
     msg.gameId = gameId
     msg.userId = session['userId']
     msg.answer = answer
-    if (answer==1):
-        return jsonify({ "isCorrect" : True })
-    else:
-        return jsonify({ "isCorrect" : False })
+    # if (answer==1):
+    #     return jsonify({ "isCorrect" : True })
+    # else:
+    #     return jsonify({ "isCorrect" : False })
     try:
         submit_answer_response = gameservice.send(msg)
         if isinstance(submit_answer_response,GameError):
@@ -426,6 +427,11 @@ def tile_placement():
 def game_board (gameId):
     friends = []
     board =[]
+    friends =[("qwe@asd.se", 1)]
+    #user_response= userservice.get_user(GetUserRequest(userId=1)
+    #if(isinstance(user_response, GetUserResponse)):
+
+
     return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
 
 @app.route('/test_board',methods=["GET"])
