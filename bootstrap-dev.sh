@@ -120,7 +120,7 @@ cd ~
 
 #https://www.digitalocean.com/community/articles/how-to-install-and-use-postgresql-on-ubuntu-12-04
 
-sudo apt-get install postgresql postgresql-contrib
+sudo apt-get install -y postgresql postgresql-contrib
 
 sudo -u postgres psql -c "CREATE USER qb WITH SUPERUSER;"
 sudo -u postgres psql -c "ALTER USER qb WITH PASSWORD 'qb123';"
