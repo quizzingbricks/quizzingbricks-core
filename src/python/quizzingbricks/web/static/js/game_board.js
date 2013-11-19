@@ -51,12 +51,15 @@ function assign_colors(friends, userId,gameId) {
 
 
 
-function create_token(token) {
+function create_token(token, isConfirmed) {
 
     token_img = document.createElement("img");
     token_img.setAttribute("height", "64");
     token_img.setAttribute("width", "64");
     token_img.setAttribute("src", "/static/img/BoardCell_" + token.string + ".png");
+    if (! isConfirmed){
+        token_img.style.opacity="0.4";
+    }
     
     return token_img        
 }
@@ -67,27 +70,36 @@ for (var i = 0; i < board.length; i++) {
 }
 
 function drawBoard(gameId){
-    playerPos = [] 
+    //playerPos = [] 
     $.post($SCRIPT_ROOT + '/game_info', {gameId: gameId},
     function(data) {
         playerPos = data.board
-        $("#drawResult").text(playerPos[1]);
+       // $("#drawResult").text(playerPos[1]);
         for (var y =0; y<BOARD_HEIGHT; y++ ){
             for (var x=0; x<BOARD_WIDTH; x++){
                 board_element = document.getElementById("square_"+ x+"_"+y);
                 index = y*BOARD_HEIGHT +x;
 
+
+
                 if(TOKEN.RED.userId == playerPos[index]){
-                    board_element.appendChild(create_token(TOKEN.RED));
+                    board_element.innerHTML = ""
+                    board_element.appendChild(create_token(TOKEN.RED,true));
                 }
                 if(TOKEN.YELLOW.userId == playerPos[index]){
-                    board_element.appendChild(create_token(TOKEN.YELLOW));
+                    board_element.innerHTML = ""
+                    board_element.appendChild(create_token(TOKEN.YELLOW,true));
+                    //board_element.innerHTML = create_token(TOKEN.YELLOW).toString();
                 }
                 if(TOKEN.BLUE.userId == playerPos[index]){
-                    board_element.appendChild(create_token(TOKEN.BLUE));
+                    board_element.innerHTML = ""
+                    board_element.appendChild(create_token(TOKEN.BLUE,true));
+                    //board_element.innerHTML = create_token(TOKEN.BLUE);
                 }
                 if(TOKEN.GREEN.userId == playerPos[index]){
-                    board_element.appendChild(create_token(TOKEN.GREEN));
+                    board_element.innerHTML = ""
+                    board_element.appendChild(create_token(TOKEN.GREEN,true));
+                    //board_element.innerHTML = create_token(TOKEN.GREEN);
                 }
             }
         }
@@ -125,7 +137,8 @@ function submitAnswer(gameId, answer){
         else{
             $("#answer").text("Wrong answer");
         }
-        $('#myModal').modal('hide')   
+        $('#myModal').modal('hide')
+       // drawBoard(gameId);  
   }); 
 }
 
@@ -142,7 +155,10 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
         $.post($SCRIPT_ROOT + '/make_move', {gameId: gameId, x: x, y: y },
         function(data) {
         $("#result").text(data.result);
-        drawBoard(gameId);
+        if(data.result=="Move sent"){
+            board_element = document.getElementById("square_"+ x+"_"+y);
+            board_element.appendChild(create_token(TOKEN.RED,false));
+        }
       });
         
   //  }
