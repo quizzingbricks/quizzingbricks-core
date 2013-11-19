@@ -335,16 +335,16 @@ def game_info():
         if isinstance(game_info_response, GameError):
             return jsonify(result=(game_info_response.description, game_info_response.code))
         else:
-            print "game info", game_info_response
-            return jsonify({ "gameId" : game_info_response.gameId,
+            print "game info this one", game_info_response.game
+            return jsonify({ "gameId" : game_info_response.game.gameId,
                              "players" : [ { "userId" : player.userId,
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
                                             "question" : player.question,
                                             "alternatives" : [a for a in player.alternatives],
-                                            "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.players ],
-                             "board" : [b for b in game_info_response.board ]
+                                            "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.game.players ],
+                             "board" : [b for b in game_info_response.game.board ]
                           })
     except TimeoutError as e:
         return jsonify(result = "Timeout")
