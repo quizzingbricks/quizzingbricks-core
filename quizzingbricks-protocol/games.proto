@@ -10,6 +10,13 @@ message CreateGameResponse
    required int32 gameId = 1;
 }
 
+message Game
+{
+   required int32 gameId = 1;
+   repeated Player players = 2;
+   repeated int32 board = 3;
+}
+
 message GameInfoRequest
 {
    required int32 gameId = 1;
@@ -17,9 +24,17 @@ message GameInfoRequest
 
 message GameInfoResponse
 {
-   required int32 gameId = 1;
-   repeated Player players = 2;
-   repeated int32 board = 3;
+   required Game game = 1;
+}
+
+message GameListRequest
+{
+   required int32 userId = 1;
+}
+
+message GameListResponse
+{
+   repeated Game games = 1;
 }
 
 message Player
