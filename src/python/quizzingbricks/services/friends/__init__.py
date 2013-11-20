@@ -81,7 +81,11 @@ class FriendService(NunciusService):
             # TODO: We may also decide if the user fetching should be done
             # by the user service which means that the friendservice calls the userservice over zmq via the client api
             # as planned earlier, but the responsible for this decide.
-            friends = Friendship.query.filter(Friendship.user_id==request.userId)
+            friends = Friendship.query.filter(Friendship.user_id==request.userId).all()
+            if not friends:
+                # we need to return an empty list when friends is empty
+                # to avoid to do an IN query with an empty list.
+                return GetFriendsResponse(friends=[])
             users = User.query.filter(User.id.in_(map(lambda f:f.friend_id, friends)))
             print "USERS", users
             friends=map(lambda u:u.id, users)
