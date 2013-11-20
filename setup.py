@@ -13,6 +13,7 @@ setup(
     description="Quizzingbricks is a quiz game",
     package_dir={"": "src/python"},
     packages=find_packages("src/python"),
+    include_package_data=True,
     zip_safe=False,
     platforms="any",
     install_requires=[
