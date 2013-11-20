@@ -2,13 +2,13 @@
 {% set active_page = "game_board" %}
 {% block body %} 
  <link href="/static/css/board.css" rel="stylesheet">
-
+  <!-- My own scripts -->
  <script src="/static/js/game_board.js"></script>
 
  <div class="container">
   <div class="starter-template">
     <h1>Game board</h1>
-    <p class="lead"> Where the magic happens! :D
+    <p class="lead"> Where the magic happens! :D </p>
       <!--<div class="choose_player">
           Choose Player:
           <img src="/static/img/Black_Token.png" onclick='selectToken(TOKEN.BLACK)'/>
@@ -25,75 +25,149 @@
             <img src="/static/img/BoardCell_Yellow.png" onclick='selectToken(TOKEN.YELLOW)'width="64" />
             <img src="/static/img/BoardCell_Red.png" onclick='selectToken(TOKEN.RED)' width="64" /> -->
 
-      <div class="container" style="float: left; background-color: red; margin-left: 0px ">
-       GameId = <b> {{gameId}} </b> 
-      <!--<strong> Players: </strong>  -->
-        <div style="float: right">
-          <br>You: <img  onload="assign_colors({{friends}},{{userId}},{{gameId}})"  onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
-        </div>
-        <br>
-        {% set i = 1 %}
-        {% for friend in friends%} 
-          {% if i== 1%}
-            <div style="float: right">
-              <br>  {{friend[0]}} : <img src="/static/img/BoardCell_Yellow.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
-            <!--  <br>  qq@q.q = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
-              <br>  reallyreallyreallylongname@testtesttest.se = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" /> -->
-            </div>
-          {% endif %}
-          
-          {% if i== 2%}
-            <div style="float: right">
-              <br>  {{friend[0]}} = <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
-            </div>  
-          {% endif %}
-          
-          {% if i== 3%}
-            <div style="float: right">
-              <br>  {{friend[0]}} = <img src="/static/img/BoardCell_Green.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.GREEN)' width="64" />
-            </div>
-          {% endif %}
-          {% set i = i+1 %}
-        {% endfor %}                                             
-      </div> 
 
-      <div id="board">
-        <div id ="square_div">
-          {% set hor_scale = 64.0 %}
-          {% set ver_scale = 64.0 %}
-          {% for x in range(0, 8) %}
-            {% for y in range(0, 8) %}
-              {% set LEFT = ((x)*hor_scale) %}
-              {% set TOP = (y)*ver_scale %}  
-              <!-- BEGIN square -->
-              <div id="square_{{x}}_{{y}}" onclick='addTokens({{gameId}},{{x}},{{y}})' class="square" style="left: {{LEFT}}px; top: {{TOP}}px;">
-              <!--{{x}}.{{y}}--></div>
-              <!-- END square -->
+
+      <div class="row">
+        <div class="col-md-12"  >
+          <div  class="row">
+            <div class="col-md-4" style="background-color:#d3ffce;  " >
+              info
+              <div  >
+               GameId = <b> {{gameId}} </b> 
+               <!--<strong> Players: </strong>  -->
+                <div class="row">
+                  <div class="player_container" >
+                    <br>You: <img  onload="assign_colors({{friends}},{{userId}},{{gameId}})"  onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
+                    <div id="status_id_{{userId}}" >
+                    
+                    </div> 
+                  </div>
+                </div>
+              
+              {% set i = 1 %}
+              {% for friend in friends%} 
+                {% if i== 1%}
+                  <div class="row">
+                    <div class="player_container"  >
+                      {{friend[0]|truncate(20, True) }} : <img src="/static/img/BoardCell_Yellow.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
+                      <div id ="status_id_{{friend[1]}}">
+                        
+                      </div>
+                    </div>
+                     
+
+                  </div>  
+                {% endif %}
+                
+                {% if i== 2%}
+                  <div class="row">
+                    <div class="player_container" >
+                      {{friend[0]|truncate(20, True) }} : <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
+                      <div id ="status_id_{{friend[1]}}" > 
+                      
+                      </div>
+                    </div>
+                  </div>  
+                {% endif %}
+                
+                {% if i== 3%}
+                  <div class="row">
+                    <div class="player_container" >
+                      {{friend[0]|truncate(20, True) }} : <img src="/static/img/BoardCell_Green.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.GREEN)' width="64" />
+                      <div id ="status_id_{{friend[1]}}">
+                        
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+                {% set i = i+1 %}
               {% endfor %}
-            {% endfor %}
+              </div>
+
+              <div class="container" >
+                <div onclick="getQuestion({{gameId}})">getQuestion Tester
+                </div>
+                  <!--      <div id="question"> </div>
+
+                  Alt 1: <div onclick="submitAnswer({{gameId}}, 1)" id="alt_1"></div>
+                  Alt 2: <div onclick="submitAnswer({{gameId}}, 2)" id="alt_2"></div>
+                  Alt 3: <div onclick="submitAnswer({{gameId}}, 3)" id="alt_3"></div>
+                  Alt 4: <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4"></div> -->
+                <br>
+                <div id="answer">
+                </div>
+                <div id="result"> 
+                  Result errors etc
+                </div>
+                <div onclick="drawBoard({{gameId}})">
+                  Refresh board
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-8" >
+     
+              <div id="board">
+                <div id ="square_div">
+                  {% set hor_scale = 64.0 %}
+                  {% set ver_scale = 64.0 %}
+                  {% for x in range(0, 8) %}
+                    {% for y in range(0, 8) %}
+                      {% set LEFT = ((x)*hor_scale) %}
+                      {% set TOP = (y)*ver_scale %}  
+                      <!-- BEGIN square -->
+                      <div id="square_{{x}}_{{y}}" onclick='addTokens({{gameId}},{{x}},{{y}})' class="square" style="left: {{LEFT}}px; top: {{TOP}}px;">
+                      <!--{{x}}.{{y}}--></div>
+                      <!-- END square -->
+                      {% endfor %}
+                    {% endfor %}
+                </div>
+              </div>
+
+
+            </div>
+          </div>
         </div>
-      </div>
+      </div>  
+
+
+ 
+
+
+            
+
+           
+    
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
        
 <!-- /.container -->
 <!--    <div id="result"> </div>
     <div id="drawResult"> </div>
     <div id="drawResult2"> </div>
     <div class="container"> -->
-    <div class="container" style="float: right; background-color: green">
-      <div style="float: left" onclick="getQuestion({{gameId}})">getQuestion Tester</div>
-  <!--      <div id="question"> </div>
 
-       Alt 1: <div onclick="submitAnswer({{gameId}}, 1)" id="alt_1"></div>
-       Alt 2: <div onclick="submitAnswer({{gameId}}, 2)" id="alt_2"></div>
-       Alt 3: <div onclick="submitAnswer({{gameId}}, 3)" id="alt_3"></div>
-       Alt 4: <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4"></div> -->
-       <br>
-       <div style="float: left" id="answer"></div>
-       <div id="result"> result errors etc</div>
-       <div style="float: left" onclick="drawBoard({{gameId}})">Refresh board</div>
-    </div> 
           
     
+
 
 
 
@@ -106,10 +180,10 @@
               <h4 class="modal-title" id="modalQuestion">Question</h4>
             </div>
             <div class="modal-body">
-              <div onclick="submitAnswer({{gameId}}, 1)" id="alt_1" style="height:100px; background-color: #fff5a2" ></div>
-              <div onclick="submitAnswer({{gameId}}, 2)" id="alt_2" style="height:100px; background-color: #d3ffce" ></div>
-              <div onclick="submitAnswer({{gameId}}, 3)" id="alt_3" style="height:100px; background-color: #ff6b4f" ></div>
-              <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4" style="height:100px; background-color: #2cabe2" ></div> 
+              <div onclick="submitAnswer({{gameId}}, 1)" id="question_alt_1" ></div>
+              <div onclick="submitAnswer({{gameId}}, 2)" id="question_alt_2" ></div>
+              <div onclick="submitAnswer({{gameId}}, 3)" id="question_alt_3" ></div>
+              <div onclick="submitAnswer({{gameId}}, 4)" id="question_alt_4" ></div> 
             </div>
            <!-- <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -125,7 +199,7 @@
 
 
 
-    <!-- My own scripts -->
+    
     
 
 {% endblock %}

@@ -2,6 +2,7 @@
 
 var BOARD_HEIGHT = 8
 var BOARD_WIDTH  = 8
+var last_marked_element =null;
 
 var TOKEN = {
     EMPTY  : {value: 0, string: "Empty",    userId: 0 },
@@ -69,11 +70,33 @@ for (var i = 0; i < board.length; i++) {
     board[i] = new Array(BOARD_WIDTH)
 }
 
+function updateStatus(players){
+    var length = players.length
+    element= null;
+    for (var i = 0; i < length; i++) {
+        element = players[i];
+        if(element.state == 0 ){
+            $("#status_id_"+element.userId).text("State: Placing Tile      ");
+        }
+        if(element.state == 1 ){
+            $("#status_id_"+element.userId).text("State: Placed Tile       ");
+        }
+        if(element.state == 2 ){
+            $("#status_id_"+element.userId).text("State: Answering Question");
+        }
+        if(element.state == 3 ){
+            $("#status_id_"+element.userId).text("State: Answered Question ");
+        }
+    }
+
+}
+
 function drawBoard(gameId){
     //playerPos = [] 
     $.post($SCRIPT_ROOT + '/game_info', {gameId: gameId},
     function(data) {
         playerPos = data.board
+        updateStatus(data.players);
        // $("#drawResult").text(playerPos[1]);
         for (var y =0; y<BOARD_HEIGHT; y++ ){
             for (var x=0; x<BOARD_WIDTH; x++){
@@ -86,20 +109,26 @@ function drawBoard(gameId){
                     board_element.innerHTML = ""
                     board_element.appendChild(create_token(TOKEN.RED,true));
                 }
-                if(TOKEN.YELLOW.userId == playerPos[index]){
+                else if(TOKEN.YELLOW.userId == playerPos[index]){
                     board_element.innerHTML = ""
                     board_element.appendChild(create_token(TOKEN.YELLOW,true));
                     //board_element.innerHTML = create_token(TOKEN.YELLOW).toString();
                 }
-                if(TOKEN.BLUE.userId == playerPos[index]){
+                else if(TOKEN.BLUE.userId == playerPos[index]){
                     board_element.innerHTML = ""
                     board_element.appendChild(create_token(TOKEN.BLUE,true));
                     //board_element.innerHTML = create_token(TOKEN.BLUE);
                 }
-                if(TOKEN.GREEN.userId == playerPos[index]){
+                else if(TOKEN.GREEN.userId == playerPos[index]){
                     board_element.innerHTML = ""
                     board_element.appendChild(create_token(TOKEN.GREEN,true));
                     //board_element.innerHTML = create_token(TOKEN.GREEN);
+                }
+                else if(board_element==last_marked_element){
+
+                }
+                else{
+                    board_element.innerHTML = ""
                 }
             }
         }
@@ -118,12 +147,14 @@ function drawBoard(gameId){
 function getQuestion(gameId){
         $.post($SCRIPT_ROOT + '/get_question', {gameId: gameId},
         function(data) {
-         $("#modalQuestion").text(data.question);
-         $("#alt_1").text(data.alternatives[0]);
-         $("#alt_2").text(data.alternatives[1]);
-         $("#alt_3").text(data.alternatives[2]);
-         $("#alt_4").text(data.alternatives[3]);
-         $('#myModal').modal('show')
+            if (data.isQuestion){
+                 $("#modalQuestion").text(data.question);
+                 $("#question_alt_1").text(data.alternatives[0]);
+                 $("#question_alt_2").text(data.alternatives[1]);
+                 $("#question_alt_3").text(data.alternatives[2]);
+                 $("#question_alt_4").text(data.alternatives[3]);
+                 $('#myModal').modal('show')
+            }
 
   }); 
 }
@@ -137,6 +168,7 @@ function submitAnswer(gameId, answer){
         else{
             $("#answer").text("Wrong answer");
         }
+        last_marked_element=null;
         $('#myModal').modal('hide')
        // drawBoard(gameId);  
   }); 
@@ -156,8 +188,10 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
         function(data) {
         $("#result").text(data.result);
         if(data.result=="Move sent"){
+
             board_element = document.getElementById("square_"+ x+"_"+y);
             board_element.appendChild(create_token(TOKEN.RED,false));
+            last_marked_element=board_element
         }
       });
         
