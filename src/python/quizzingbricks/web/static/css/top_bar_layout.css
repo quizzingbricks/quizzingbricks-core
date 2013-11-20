@@ -1,5 +1,5 @@
 #navbar_container {
-  max-width:1920px;
+  /*max-width:1920px; */
   /*padding-left:475px;*/
  
 }
@@ -23,3 +23,8 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+#top_bar_nav{
+	/*min-width: 940px; */
+}
+

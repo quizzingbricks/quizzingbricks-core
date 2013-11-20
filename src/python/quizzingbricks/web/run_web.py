@@ -17,7 +17,8 @@ from quizzingbricks.common.protocol import (
      StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse, \
      CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
      MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
-     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse )
+     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse, \
+     GetUserRequest, GetUserResponse )
     
 
 #configuration
@@ -334,16 +335,16 @@ def game_info():
         if isinstance(game_info_response, GameError):
             return jsonify(result=(game_info_response.description, game_info_response.code))
         else:
-            print "game info", game_info_response
-            return jsonify({ "gameId" : game_info_response.gameId,
+            print "game info this one", game_info_response.game
+            return jsonify({ "gameId" : game_info_response.game.gameId,
                              "players" : [ { "userId" : player.userId,
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
                                             "question" : player.question,
                                             "alternatives" : [a for a in player.alternatives],
-                                            "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.players ],
-                             "board" : [b for b in game_info_response.board ]
+                                            "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.game.players ],
+                             "board" : [b for b in game_info_response.game.board ]
                           })
     except TimeoutError as e:
         return jsonify(result = "Timeout")
@@ -355,7 +356,7 @@ def get_question():
     msg = QuestionRequest()
     msg.gameId = gameId
     msg.userId = session['userId']
-    return jsonify({ "question" : "Starts the alphabet?", "alternatives" : [a for a in ["a","b","c","d"]] }) 
+    #return jsonify({ "question" : "Starts the alphabet?", "alternatives" : [a for a in ["a","b","c","d"]] }) 
     #added in order to be able to have a proper message to parse 
     try:
         get_question_response = gameservice.send(msg)
@@ -376,10 +377,10 @@ def submit_answer():
     msg.gameId = gameId
     msg.userId = session['userId']
     msg.answer = answer
-    if (answer==1):
-        return jsonify({ "isCorrect" : True })
-    else:
-        return jsonify({ "isCorrect" : False })
+    # if (answer==1):
+    #     return jsonify({ "isCorrect" : True })
+    # else:
+    #     return jsonify({ "isCorrect" : False })
     try:
         submit_answer_response = gameservice.send(msg)
         if isinstance(submit_answer_response,GameError):
@@ -426,6 +427,11 @@ def tile_placement():
 def game_board (gameId):
     friends = []
     board =[]
+    friends =[("qwe@asd.se", 1)]
+    #user_response= userservice.get_user(GetUserRequest(userId=1)
+    #if(isinstance(user_response, GetUserResponse)):
+
+
     return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
 
 @app.route('/test_board',methods=["GET"])

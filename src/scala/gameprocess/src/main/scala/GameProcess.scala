@@ -8,6 +8,10 @@ import scala.concurrent.Future
 import scala.collection.JavaConverters._
 import scala.collection.mutable.HashMap
 
+import akka.pattern.ask
+import scala.concurrent.duration._
+
+
 class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
 {
     println("Creating worker #" + n + ".")
@@ -47,24 +51,30 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
 
 class GameCache extends Actor
 {
-    var hashMap = new HashMap[Int, ActorRef]
+    var hashMap = new HashMap[Int, (ActorRef, Array[Int])]
     var highestId = 0
-    
+       
     def receive =
     {
         case CreateGameRequest (players) =>
             println("GameCache received creategame")
             highestId = highestId + 1
             val game = context.system.actorOf(Props(classOf[Game], highestId, players))
-            hashMap.put(highestId, game)
+            hashMap.put(highestId, (game, players))
             // game forward GameInfoRequest(highestId)
             sender ! CreateGameResponse (highestId)
+        case GameListRequest (player) =>
+            // TODO: HACK: Make this a database query function in a brokerworker instead
+            // right now this is horribly unparallel and also returns no info in the games object of the list
+            // other than the game ids
+            val games = hashMap.filter({case (x, (a, r)) => (r contains player)}).map({ case (x, (a, r)) => x })
+            sender ! GameListResponse(games.map(a => GameMessage(a, Nil, new Array[Int](8*8))).toList)
         case x: GameRequestMessage =>
             val game = hashMap.get(x.gameId)
             game match
             {
                 case None => sender ! GameError("There exists no such game.", 200)
-                case Some(g) => g forward x 
+                case Some((g,r)) => g forward x 
             }
     }
 }
