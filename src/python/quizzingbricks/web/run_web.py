@@ -265,7 +265,7 @@ def start_game(game_type,lobby_id):
         print start_game_response
         
         print "gameId:", gameId
-        friends = [("David@test.se", 2)]
+        friends = [("asd@asd.se", 2)]
         
         players =[session['userId'],2]
         msg = CreateGameRequest(players=players)
@@ -363,7 +363,7 @@ def get_question():
         if isinstance(get_question_response, GameError):
             return jsonify(result=(get_question_response.description, get_question_response.code)) 
         else:
-            return jsonify({ "question" : get_question_response.question, "alternatives" : [a for a in get_question_response.alternatives] })
+            return jsonify({ "isQuestion": True, "question" : get_question_response.question, "alternatives" : [a for a in get_question_response.alternatives] })
     except TimeoutError as e:
         return jsonify(result = "Timeout")
 
