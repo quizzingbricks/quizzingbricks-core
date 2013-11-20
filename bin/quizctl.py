@@ -4,16 +4,18 @@
 import argparse
 import sys
 import os
+from werkzeug.debug import DebuggedApplication
 
 class QuizzingBricksCLI(object):
     def _run_web(self, port):
+        # https://coderwall.com/p/q2mrbw
         port = port or 5000
 
         print "starting web server on", port
         from quizzingbricks.web.run_web import app
         from gevent.wsgi import WSGIServer
 
-        http_server = WSGIServer(('', port), app)
+        http_server = WSGIServer(('', port), DebuggedApplication(app))
         http_server.serve_forever()
 
     def _run_webapi(self, port):
@@ -22,7 +24,7 @@ class QuizzingBricksCLI(object):
         from gevent.wsgi import WSGIServer
         from quizzingbricks.webapi import app
 
-        http_server = WSGIServer(('', port), app)
+        http_server = WSGIServer(('', port), DebuggedApplication(app))
         http_server.serve_forever()
 
     def _run_userservice(self, port):

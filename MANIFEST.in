@@ -1,0 +1,4 @@
+include setup.py README.md MANIFEST.in
+recursive-include src/python/quizzingbricks/web/templates *
+recursive-include src/python/quizzingbricks/web/static *
+global-exclude *~
