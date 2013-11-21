@@ -59,4 +59,11 @@ def set_current_user():
     else:
         g.user = None
 
+@app.route("/")
+def api_index():
+    return jsonify({
+        "api": "Quizzing Bricks",
+        "endpoints": map(lambda x: x.rule, app.url_map.iter_rules())
+    })
+
 from quizzingbricks.webapi import users, games, friends
