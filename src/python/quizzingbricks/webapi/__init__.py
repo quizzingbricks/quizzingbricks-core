@@ -63,7 +63,7 @@ def set_current_user():
 def api_index():
     return jsonify({
         "api": "Quizzing Bricks",
-        "endpoints": map(lambda x: x.rule, app.url_map.iter_rules())
+        "endpoints": map(lambda x: {"endpoint": x.rule, "method": list(x.methods)}, app.url_map.iter_rules())
     })
 
 from quizzingbricks.webapi import users, games, friends
