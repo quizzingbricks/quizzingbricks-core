@@ -60,3 +60,6 @@ project/plugins/project/
 
 # Vagrant
 .vagrant/
+
+# lobby "save-file"
+*.save
