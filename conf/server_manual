@@ -1,0 +1,25 @@
+Installation manual for server
+==============================
+
+ 1. download the bootstrap-dev.sh from quizzingbricks-core @ github and chmod +x bootstrap-dev.sh
+ 2. Install all system requirements via "sudo bootstrap-dev.sh"
+ 3. Install other system requirements that isn't installed via the vagrant provisioning file.
+
+Applications that needs to be installed and configured
+that doesn't get installed via the provision file.
+
+ * nginx
+    - add nginx config files for web and webapi
+      move files in conf/nginx/ to /etc/nginx/sites-available/
+
+      be inside the folder /etc/ngingx/sites-enabled and
+      execute "sudo ln -s ../sites-available/FILENAME"
+      where FILENAME is either qb-web or qb-webapi
+    - execute "sudo service nginx reload"
+ * supervisord
+    - copy conf/supervisord.conf to /etc/supervisord.conf
+    - execute "supervisord" to start the service
+    - execute "supervisordctl status" to the status
+    - execute "supervisordctl reload" to start all services
+
+ * TODO ...

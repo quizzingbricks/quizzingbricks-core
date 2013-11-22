@@ -27,5 +27,6 @@ setup(
         "bcrypt",
         "protobuf",
         "gunicorn",
+        "gevent-websocket",
     ]
 )
