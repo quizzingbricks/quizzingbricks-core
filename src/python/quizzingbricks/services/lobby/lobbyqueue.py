@@ -22,13 +22,6 @@ gameservice = GameServiceClient("tcp://*:1234")
 random_list_1 = [1]*5 + [2]*4 + [3]*1 	#gives a weighted randomness to the first queue
 random_list_2 = [1]*1 + [2]*2 			#gives a weighted randomness to the second queue
 
-queue1 = pickle.load( open( "queue1.save", "rb" ) )
-queue2 = pickle.load( open( "queue2.save", "rb" ) )
-queue3 = pickle.load( open( "queue3.save", "rb" ) )
-queue4 = pickle.load( open( "queue4.save", "rb" ) )
-queue21= pickle.load( open( "queue21.save","rb" ) )
-queue22= pickle.load( open( "queue22.save","rb" ) )
-
 #dev functions
 def emptyqueues():
 	global queue1
@@ -45,13 +38,6 @@ def emptyqueues():
 	queue22= LinkedList()
 	dumpstate()
 
-def dumpstate():
-	pickle.dump( queue1, open( "queue1.save", "wb" ) )
-	pickle.dump( queue2, open( "queue2.save", "wb" ) )
-	pickle.dump( queue3, open( "queue3.save", "wb" ) )
-	pickle.dump( queue4, open( "queue4.save", "wb" ) )
-	pickle.dump( queue21,open( "queue21.save","wb" ) )
-	pickle.dump( queue22,open( "queue22.save","wb" ) )
 
 def display_list_length():
 	print "queue 1: " +str(queue1.length)
@@ -61,12 +47,40 @@ def display_list_length():
 	print "queue 21: "+str(queue21.length)
 	print "queue 22: "+str(queue22.length)
 
+#Handle state
+def dumpstate():
+	pickle.dump( queue1, open( "queue1.save", "wb" ) )
+	pickle.dump( queue2, open( "queue2.save", "wb" ) )
+	pickle.dump( queue3, open( "queue3.save", "wb" ) )
+	pickle.dump( queue4, open( "queue4.save", "wb" ) )
+	pickle.dump( queue21,open( "queue21.save","wb" ) )
+	pickle.dump( queue22,open( "queue22.save","wb" ) )
 
-# class LobbyQueueService(NunciusService):
-	# name = "lobbyqueueservice"
-	# protocol_mapper = p_mapper
+def loadstate():
+	global queue1
+	global queue2
+	global queue3
+	global queue4
+	global queue21
+	global queue22
+	try:
+		queue1 = pickle.load( open( "queue1.save", "rb" ) )
+		queue2 = pickle.load( open( "queue2.save", "rb" ) )
+		queue3 = pickle.load( open( "queue3.save", "rb" ) )
+		queue4 = pickle.load( open( "queue4.save", "rb" ) )
+		queue21= pickle.load( open( "queue21.save","rb" ) )
+		queue22= pickle.load( open( "queue22.save","rb" ) )
+	except IOError:
+		queue1 = LinkedList()
+		queue2 = LinkedList()
+		queue3 = LinkedList()
+		queue4 = LinkedList()
+		queue21 = LinkedList()
+		queue22 = LinkedList()
+		dumpstate()
 
-	# @expose("addtoqueue")
+
+#Main program
 def addtoqueue(id, max_players, current_players):
 	if max_players == 2:
 		if len(current_players) == 1:
@@ -85,6 +99,7 @@ def addtoqueue(id, max_players, current_players):
 			addLast(queue4, id, max_players, current_players)
 	dumpstate()
 
+#Works
 def worker():
 
 	work = True
@@ -121,6 +136,7 @@ def worker():
 			if fill_lobby_22(a):
 				b = True
 
+		#if fail 100 times in a row: execute
 		if not b:
 			kill+=1
 			if kill == 100: 
@@ -177,22 +193,23 @@ def start_game(lobby):
 	#debugging:
 	print "started lobby: ID: "+ str(lobby.id) +" max_players: "+ str(lobby.max_players) +" current_players: [%s]" % ", ".join(map(str, lobby.current_players))
 
-	#send off the lobby id to gameprocess
+	#send off the lobby to gameprocess
 	players = lobby.current_players
 	msg = CreateGameRequest(players=players)
 	try:
 		create_game_response = gameservice.send(msg)
 		if isinstance(create_game_response, GameError):
 			print "Error", create_game_response.description, " code: ", create_game_response.code
+			#we want to keep the lobby
 			addtoqueue(lobby.id, lobby.max_players, lobby.current_players)
 		else:
 			print "gameId", create_game_response.gameId
 			gameId= create_game_response.gameId
 			dumpstate()
-			#TODO: shall I insert this somewhere?
 
 	except TimeoutError as e:
 		print "Timeout"
+		#we want to keep the lobby
 		addtoqueue(lobby.id, lobby.max_players, lobby.current_players)
 
 def fill_lobby_1(lobby):
@@ -202,6 +219,7 @@ def fill_lobby_1(lobby):
 	# 2
 	# 1
 	r = random.choice(random_list_1)
+	#merge lobbies, if success: insert new lobby, else: insert old lobby, merge inserts the second lobby in another place if that happens
 	if r == 1:
 		#grab 1 from queue1
 		ml = merge_lobbies(lobby, fetch_lobby(1))
@@ -284,3 +302,4 @@ def fill_lobby_22(lobby):
 	start_game(lobby)
 	return True
 
+loadstate()
