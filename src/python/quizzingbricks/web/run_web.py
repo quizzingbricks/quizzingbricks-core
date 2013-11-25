@@ -3,6 +3,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 import sys, traceback
 
+from collections import namedtuple
+
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.lobby import LobbyServiceClient
@@ -71,7 +73,7 @@ def remove_friend():
     friends_list = []
     if request.method == 'POST':    # removes selected friend and fetches the rest of the friendslist again if more is to be removed
         try:
-            remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =session['userId'],friend_email=request.form['friend']))
+            remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =session['userId'],friendId=request.form['friend']))
             if (isinstance(remove_friend_response, RemoveFriendResponse)):
                 print "remove response", remove_friend_response
                 friends_list = get_friends_list()
@@ -521,9 +523,10 @@ if __name__ == '__main__':
 
 def get_friends_list():
     friends_list=[]
+    Friend = namedtuple("Friend", ("id", "email"))
     friends_response = friendservice.get_friends(GetFriendsRequest(userId=session['userId']), timeout=5000)  #hard coded userId
     if (isinstance(friends_response,GetFriendsResponse)):
         for friend in friends_response.friends:
-            friends_list=friends_list+ [friend.email]
+            friends_list.append(Friend(friend.id, friend.email))
     return friends_list
 

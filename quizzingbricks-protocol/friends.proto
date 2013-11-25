@@ -21,8 +21,8 @@ message AddFriendResponse {
 }
 
 message RemoveFriendRequest {
-    required int32 userId =1;
-    required string friend_email = 2;
+    required int32 userId = 1;
+    required int32 friendId = 2;
 }
 
 message RemoveFriendResponse {

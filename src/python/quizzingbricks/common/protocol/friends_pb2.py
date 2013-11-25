@@ -14,7 +14,7 @@ import users_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='friends.proto',
   package='',
-  serialized_pb='\n\rfriends.proto\x1a\x0busers.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\",\n\x12GetFriendsResponse\x12\x16\n\x07\x66riends\x18\x01 \x03(\x0b\x32\x05.User\"8\n\x10\x41\x64\x64\x46riendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\";\n\x13RemoveFriendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
+  serialized_pb='\n\rfriends.proto\x1a\x0busers.proto\"#\n\x11GetFriendsRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\",\n\x12GetFriendsResponse\x12\x16\n\x07\x66riends\x18\x01 \x03(\x0b\x32\x05.User\"8\n\x10\x41\x64\x64\x46riendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x14\n\x0c\x66riend_email\x18\x02 \x02(\t\")\n\x11\x41\x64\x64\x46riendResponse\x12\x14\n\x0c\x66riend_added\x18\x01 \x02(\x08\"7\n\x13RemoveFriendRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\x10\n\x08\x66riendId\x18\x02 \x02(\x05\".\n\x14RemoveFriendResponse\x12\x16\n\x0e\x66riend_removed\x18\x01 \x02(\x08')
 
 
 
@@ -153,9 +153,9 @@ _REMOVEFRIENDREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='friend_email', full_name='RemoveFriendRequest.friend_email', index=1,
-      number=2, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=unicode("", "utf-8"),
+      name='friendId', full_name='RemoveFriendRequest.friendId', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -169,7 +169,7 @@ _REMOVEFRIENDREQUEST = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=214,
-  serialized_end=273,
+  serialized_end=269,
 )
 
 
@@ -196,8 +196,8 @@ _REMOVEFRIENDRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=275,
-  serialized_end=321,
+  serialized_start=271,
+  serialized_end=317,
 )
 
 _GETFRIENDSRESPONSE.fields_by_name['friends'].message_type = users_pb2._USER
