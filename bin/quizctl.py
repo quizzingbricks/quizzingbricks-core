@@ -43,6 +43,11 @@ class QuizzingBricksCLI(object):
         # TODO: this is just temporary
         #   to experiment with websockets, will be moved into games.py later
 
+        # https://gist.github.com/abhinavsingh/6378134
+        # https://github.com/heroku-examples/python-websockets-chat/blob/master/chat.py
+        # https://gist.github.com/lrvick/1185629
+        # http://toastdriven.com/blog/2011/jul/31/gevent-long-polling-you/
+
         @app.route("/ws/<int:game_id>/")
         def test_ws(game_id):
             if request.environ.get('wsgi.websocket'):

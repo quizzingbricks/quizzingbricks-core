@@ -8,13 +8,16 @@ from quizzingbricks.webapi import app, api_error, api_errors, token_required
 from quizzingbricks.client.games import GameServiceClient
 from quizzingbricks.client.exceptions import TimeoutError
 
+from quizzingbricks.common.protocol import (
+    GameError, GameInfoRequest, GameInfoResponse
+)
+
 gameservice = GameServiceClient("tcp://*:1234")
 
-@app.route("/api/game/<int:gameid>", methods=["POST"])
-def request_info(gameid):
-    msg = GameInfoRequest()
-    msg.gameId = gameid
-
+@app.route("/api/games/<int:game_id>/", methods=["POST"])
+@token_required
+def game_details(game_id):
+    msg = GameInfoRequest(gameId=game_id)
 
     try:
         rep = gameservice.send(msg)
@@ -34,50 +37,50 @@ def request_info(gameid):
     except TimeoutError as e:
         return api_error("Game service not available", 500)
 
-@app.route("/api/game/<int:gameid>/play/move", methods=["POST"])
-def player_move(gameid):
-    msg = PlayerMove()
-    msg.x = request.form.get("x", None) # I have no idea if this is the correct way of getting this info
-    msg.y = request.form.get("y", None)
-    msg.gameId = gameid
-    msg.userId = g.user.id # I have no idea if this is the correct way of getting this info
-
-    try:
-        rep = gameservice.send(msg)
-        if isinstance(rep, GameError):
-            return api_error(rep.description, rep.code)
-        else:
-            return "" # assuming this returns 200 OK
-    except TimeoutError as e:
-        return api_error("Game service not available", 500)
-
-@app.route("/api/game/<int:gameid>/play/question", methods=["POST"])
-def question(gameid):
-    msg = QuestionRequest()
-    msg.gameId = gameid
-    msg.userId = g.user.id
-
-    try:
-        rep = gameservice.send(msg)
-        if isinstance(rep, GameError):
-            return api_error(rep.description, rep.code)
-        else:
-            return jsonify({ "question" : rep.question, "alternatives" : [a for a in rep.alternatives] })
-    except TimeoutError as e:
-        return api_error("Game service not available", 500)
-
-@app.route("/api/game/<g_id>/play/answer")
-def answer(gameid):
-    msg = AnswerRequest()
-    msg.gameId = gameId
-    msg.userId = g.user.id
-    msg.answer = request.form.get("answer", None)
-
-    try:
-        rep = gameservice.send(msg)
-        if isinstance(rep, GameError):
-            return api_error(rep.description, rep.code)
-        else:
-            return jsonify({ "isCorrect" : rep.isCorrect })
-    except TimeoutError as e:
-        return api_error("Game service not available", 500)
+#@app.route("/api/games/<int:gameid>/play/move", methods=["POST"])
+#def player_move(gameid):
+#    msg = PlayerMove()
+#    msg.x = request.form.get("x", None) # I have no idea if this is the correct way of getting this info
+#    msg.y = request.form.get("y", None)
+#    msg.gameId = gameid
+#    msg.userId = g.user.id # I have no idea if this is the correct way of getting this info
+#
+#    try:
+#        rep = gameservice.send(msg)
+#        if isinstance(rep, GameError):
+#            return api_error(rep.description, rep.code)
+#        else:
+#            return "" # assuming this returns 200 OK
+#    except TimeoutError as e:
+#        return api_error("Game service not available", 500)
+#
+#@app.route("/api/games/<int:gameid>/play/question", methods=["POST"])
+#def question(gameid):
+#    msg = QuestionRequest()
+#    msg.gameId = gameid
+#    msg.userId = g.user.id
+#
+#    try:
+#        rep = gameservice.send(msg)
+#        if isinstance(rep, GameError):
+#            return api_error(rep.description, rep.code)
+#        else:
+#            return jsonify({ "question" : rep.question, "alternatives" : [a for a in rep.alternatives] })
+#    except TimeoutError as e:
+#        return api_error("Game service not available", 500)
+#
+#@app.route("/api/games/<g_id>/play/answer")
+#def answer(gameid):
+#    msg = AnswerRequest()
+#    msg.gameId = gameId
+#    msg.userId = g.user.id
+#    msg.answer = request.form.get("answer", None)
+#
+#    try:
+#        rep = gameservice.send(msg)
+#        if isinstance(rep, GameError):
+#            return api_error(rep.description, rep.code)
+#        else:
+#            return jsonify({ "isCorrect" : rep.isCorrect })
+#    except TimeoutError as e:
+#        return api_error("Game service not available", 500)

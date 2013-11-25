@@ -24,7 +24,7 @@
                 {% if friends_list %}
                     {% set i = 1 %}
                     {% for friend in friends_list %}
-                      {{friend}}  <input type="radio" name=friend value='{{friend}}' ><br>
+                      {{ friend.email }}  <input type="radio" name=friend value='{{ friend.id }}' ><br>
                        {% set i = i+1%} 
                     {% endfor %}
                 {% endif%} 

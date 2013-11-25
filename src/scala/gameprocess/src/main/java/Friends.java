@@ -2089,20 +2089,15 @@ public final class Friends {
      */
     int getUserId();
 
-    // required string friend_email = 2;
+    // required int32 friendId = 2;
     /**
-     * <code>required string friend_email = 2;</code>
+     * <code>required int32 friendId = 2;</code>
      */
-    boolean hasFriendEmail();
+    boolean hasFriendId();
     /**
-     * <code>required string friend_email = 2;</code>
+     * <code>required int32 friendId = 2;</code>
      */
-    java.lang.String getFriendEmail();
-    /**
-     * <code>required string friend_email = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getFriendEmailBytes();
+    int getFriendId();
   }
   /**
    * Protobuf type {@code RemoveFriendRequest}
@@ -2160,9 +2155,9 @@ public final class Friends {
               userId_ = input.readInt32();
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              friendEmail_ = input.readBytes();
+              friendId_ = input.readInt32();
               break;
             }
           }
@@ -2221,52 +2216,25 @@ public final class Friends {
       return userId_;
     }
 
-    // required string friend_email = 2;
-    public static final int FRIEND_EMAIL_FIELD_NUMBER = 2;
-    private java.lang.Object friendEmail_;
+    // required int32 friendId = 2;
+    public static final int FRIENDID_FIELD_NUMBER = 2;
+    private int friendId_;
     /**
-     * <code>required string friend_email = 2;</code>
+     * <code>required int32 friendId = 2;</code>
      */
-    public boolean hasFriendEmail() {
+    public boolean hasFriendId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string friend_email = 2;</code>
+     * <code>required int32 friendId = 2;</code>
      */
-    public java.lang.String getFriendEmail() {
-      java.lang.Object ref = friendEmail_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          friendEmail_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string friend_email = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getFriendEmailBytes() {
-      java.lang.Object ref = friendEmail_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        friendEmail_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getFriendId() {
+      return friendId_;
     }
 
     private void initFields() {
       userId_ = 0;
-      friendEmail_ = "";
+      friendId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2277,7 +2245,7 @@ public final class Friends {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasFriendEmail()) {
+      if (!hasFriendId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2292,7 +2260,7 @@ public final class Friends {
         output.writeInt32(1, userId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getFriendEmailBytes());
+        output.writeInt32(2, friendId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2309,7 +2277,7 @@ public final class Friends {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getFriendEmailBytes());
+          .computeInt32Size(2, friendId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2429,7 +2397,7 @@ public final class Friends {
         super.clear();
         userId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        friendEmail_ = "";
+        friendId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -2466,7 +2434,7 @@ public final class Friends {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.friendEmail_ = friendEmail_;
+        result.friendId_ = friendId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2486,10 +2454,8 @@ public final class Friends {
         if (other.hasUserId()) {
           setUserId(other.getUserId());
         }
-        if (other.hasFriendEmail()) {
-          bitField0_ |= 0x00000002;
-          friendEmail_ = other.friendEmail_;
-          onChanged();
+        if (other.hasFriendId()) {
+          setFriendId(other.getFriendId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2500,7 +2466,7 @@ public final class Friends {
           
           return false;
         }
-        if (!hasFriendEmail()) {
+        if (!hasFriendId()) {
           
           return false;
         }
@@ -2559,76 +2525,35 @@ public final class Friends {
         return this;
       }
 
-      // required string friend_email = 2;
-      private java.lang.Object friendEmail_ = "";
+      // required int32 friendId = 2;
+      private int friendId_ ;
       /**
-       * <code>required string friend_email = 2;</code>
+       * <code>required int32 friendId = 2;</code>
        */
-      public boolean hasFriendEmail() {
+      public boolean hasFriendId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string friend_email = 2;</code>
+       * <code>required int32 friendId = 2;</code>
        */
-      public java.lang.String getFriendEmail() {
-        java.lang.Object ref = friendEmail_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          friendEmail_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getFriendId() {
+        return friendId_;
       }
       /**
-       * <code>required string friend_email = 2;</code>
+       * <code>required int32 friendId = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getFriendEmailBytes() {
-        java.lang.Object ref = friendEmail_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          friendEmail_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string friend_email = 2;</code>
-       */
-      public Builder setFriendEmail(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        friendEmail_ = value;
+      public Builder setFriendId(int value) {
+        bitField0_ |= 0x00000002;
+        friendId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string friend_email = 2;</code>
+       * <code>required int32 friendId = 2;</code>
        */
-      public Builder clearFriendEmail() {
+      public Builder clearFriendId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        friendEmail_ = getDefaultInstance().getFriendEmail();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string friend_email = 2;</code>
-       */
-      public Builder setFriendEmailBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        friendEmail_ = value;
+        friendId_ = 0;
         onChanged();
         return this;
       }
@@ -3092,10 +3017,9 @@ public final class Friends {
       "esponse\022\026\n\007friends\030\001 \003(\0132\005.User\"8\n\020AddFr" +
       "iendRequest\022\016\n\006userId\030\001 \002(\005\022\024\n\014friend_em" +
       "ail\030\002 \002(\t\")\n\021AddFriendResponse\022\024\n\014friend" +
-      "_added\030\001 \002(\010\";\n\023RemoveFriendRequest\022\016\n\006u" +
-      "serId\030\001 \002(\005\022\024\n\014friend_email\030\002 \002(\t\".\n\024Rem" +
-      "oveFriendResponse\022\026\n\016friend_removed\030\001 \002(" +
-      "\010"
+      "_added\030\001 \002(\010\"7\n\023RemoveFriendRequest\022\016\n\006u" +
+      "serId\030\001 \002(\005\022\020\n\010friendId\030\002 \002(\005\".\n\024RemoveF" +
+      "riendResponse\022\026\n\016friend_removed\030\001 \002(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3131,7 +3055,7 @@ public final class Friends {
           internal_static_RemoveFriendRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RemoveFriendRequest_descriptor,
-              new java.lang.String[] { "UserId", "FriendEmail", });
+              new java.lang.String[] { "UserId", "FriendId", });
           internal_static_RemoveFriendResponse_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_RemoveFriendResponse_fieldAccessorTable = new

@@ -62,16 +62,12 @@ class FriendService(NunciusService):
     def remove_friend(self, request):
         print "in remove_friend"
         with db(session):
-            try:
-                friend = User.query.filter(User.email==request.friend_email).first()
-                print friend.email
-                print friend.id
-                Friendship.query.filter(Friendship.friend_id==friend.id).delete()
+            friendship = Friendship.query.get((request.userId, request.friendId)) # (user_id, friend_id)
+            if friendship:
+                session.delete(friendship)
                 session.commit()
                 return RemoveFriendResponse(friend_removed=True)
-            except Exception as e:
-                session.rollback()
-                return RemoveFriendResponse(friend_removed=False)
+            return RemoveFriendResponse(friend_removed=False)
 
     @expose("get_friends")
     def get_friends(self, request):
