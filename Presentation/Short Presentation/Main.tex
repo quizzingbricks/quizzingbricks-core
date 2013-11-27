@@ -1,0 +1,40 @@
+\documentclass[11pt]{article}
+%Gummi|063|=)
+
+\usepackage{textcomp}		  	%no idea  
+\usepackage[latin1]{inputenc} 	%for swedish
+\usepackage[T1]{fontenc}	  	%just font
+\usepackage[parfill]{parskip} 	%skip that irritating indenting on newline
+\usepackage[hyphens]{url}  	  	%hantering av url
+\newcommand{\tab}{\hspace*{2em}}%make a custom tab command
+\usepackage{fancyhdr} 			%same footer every page
+
+\pagestyle{fancy}
+	\fancyhead{} 						% clear all header fields
+	\renewcommand{\headrulewidth}{0pt} 	% no line in header area
+	\fancyfoot{} 						% clear all footer fields -- destroys pagenumber
+	%\fancyfoot[LE,LO]{\thepage}		%fancys answer to pagenr 
+	\fancyfoot[RE,RO]{Quizzing Bricks\\D7017E} %foot on Right Even, Right Odd
+	
+\title{\textbf{Quizzing Bricks, \\* \small short presentation of a D7017E project}} 
+
+\author{
+David Eriksson,
+Niklas Frisk,
+Linus Hedenberg, \\
+Andreas Hägglund, 
+Simon Hietala,
+Martin Winbjörk, \\
+Peter  Otrebus-Larsson,
+William Gustafsson,
+Mikael Åhlen \footnote{\tt{daveri-9@student.ltu.se, nikfri-9@student.ltu.se, hedlin-9@student.ltu.se, andhgg-9@student.ltu.se, simhie-9@student.ltu.se, winmar-9@student.ltu.se, petotr-1@student.ltu.se, wilgus-9@student.ltu.se, mikhln-9@student.ltu.se}}
+}
+
+
+\begin{document}
+
+	\maketitle
+	\thispagestyle{empty}
+	\include{information}
+
+\end{document}

@@ -1,0 +1,30 @@
+Quizzing Bricks
+short presentation of a D7017E project
+
+Authors
+
+David Eriksson daveri-9@student.ltu.se,
+Niklas Frisk nikfri-9@student.ltu.se,
+Linus Hedenberg hedlin-9@student.ltu.se, 
+Andreas Hägglund andhgg-9@student.ltu.se, 
+Simon Hietala simhie-9@student.ltu.se,
+Martin Winbjörk winmar-9@student.ltu.se,
+Peter  Otrebus-Larsson petotr-1@student.ltu.se,
+William Gustafsson wilgus-9@student.ltu.se,
+Mikael Åhlen mikhln-9@student.ltu.se
+
+
+Quizzing bricks is a quizzing game that allows the user to both answer questions in a 4 choices fashion while also allowing strategic play with a gameboard and tile-placement.
+With cross-platform compatibility between all platforms supporting web browsing and native applications for both Android and iPhone allowing multi-platform games and seamless change of devices. So you can sit in the couch playing a game on the smart-TV and then seamlessly take your game to your mobile device on the bus.
+
+We recognise that a problem with many games on the mobile market today has the problem of not allowing you to play with friends while still allowing for the full user experience. So we decided to use a lobby system which allows you to invite your companions and then search for other lobbies to join the game.
+
+An idea of the project posed was to make the individual parts general enough to reuse in later applications. This allows the backend to be modified to allow all sorts of games and http request services and thus becoming a useful source of inspiration and code in the future.
+
+The technologies used are varied and everyone has had an opportunity to learn new tools. The base of the backend is using Scala under the guidance of Akka and Python with the event loop of Gevent. All parts of the backend is communicating with each other through ZeroMQ and Protocol Buffers. The clients communicate with the backend via a RESTful API and can such be ported to more devices and platforms if so wanted.
+
+Read More
+
+Visit out project page https://sites.google.com/site/d7017e/ or the Github project page https://github.com/quizzingbricks.
+	
+Should any questions appear feel free to contact via https://groups.google.com/forum/#!contactowner/d7017e.
