@@ -59,7 +59,7 @@ class QuizzingBricksCLI(object):
                 ctx = zmq.Context(1)
                 sock = ctx.socket(zmq.SUB)
                 sock.connect("tcp://*:5202")
-                sock.setsockopt(zmq.SUBSCRIBE, "")#"game-%d" % game_id)
+                sock.setsockopt(zmq.SUBSCRIBE, "game-1")#"game-%d" % game_id)
                 while True:
                     #message = ws.receive()
                     #ws.send(json.dumps({"game_id": game_id, "data": message}))

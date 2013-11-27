@@ -2,6 +2,9 @@
 """
     Copyright (C) Quizzingbricks
 """
+
+import sys, traceback
+
 from flask import request, jsonify, g
 
 from quizzingbricks.webapi import app, api_error, api_errors, token_required
@@ -9,78 +12,100 @@ from quizzingbricks.client.games import GameServiceClient
 from quizzingbricks.client.exceptions import TimeoutError
 
 from quizzingbricks.common.protocol import (
-    GameError, GameInfoRequest, GameInfoResponse
-)
+    GameError, GameInfoRequest, GameInfoResponse,
+    MoveRequest,
+    QuestionRequest, AnswerRequest)
 
 gameservice = GameServiceClient("tcp://*:1234")
 
-@app.route("/api/games/<int:game_id>/", methods=["POST"])
+@app.route("/api/games/<int:game_id>/", methods=["GET"])
 @token_required
 def game_details(game_id):
     msg = GameInfoRequest(gameId=game_id)
 
     try:
-        rep = gameservice.send(msg)
+        rep = gameservice.send(msg, timeout=5000)
         if isinstance(rep, GameError):
             return api_error(rep.description, rep.code)
         else:
-            return jsonify({ "gameId" : rep.gameId,
+            return jsonify({ "gameId" : rep.game.gameId,
                              "players" : [ { "userId" : player.userId,
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
                                             "question" : player.question,
                                             "alternatives" : [a for a in player.alternatives],
-                                            "answeredCorrectly" : player.answeredCorrectly } for player in rep.players ],
-                             "board" : [ b for b in rep.board ]
+                                            "answeredCorrectly" : player.answeredCorrectly } for player in rep.game.players ],
+                             "board" : [ b for b in rep.game.board ]
                           })
     except TimeoutError as e:
         return api_error("Game service not available", 500)
 
-#@app.route("/api/games/<int:gameid>/play/move", methods=["POST"])
-#def player_move(gameid):
-#    msg = PlayerMove()
-#    msg.x = request.form.get("x", None) # I have no idea if this is the correct way of getting this info
-#    msg.y = request.form.get("y", None)
-#    msg.gameId = gameid
-#    msg.userId = g.user.id # I have no idea if this is the correct way of getting this info
-#
-#    try:
-#        rep = gameservice.send(msg)
-#        if isinstance(rep, GameError):
-#            return api_error(rep.description, rep.code)
-#        else:
-#            return "" # assuming this returns 200 OK
-#    except TimeoutError as e:
-#        return api_error("Game service not available", 500)
-#
-#@app.route("/api/games/<int:gameid>/play/question", methods=["POST"])
-#def question(gameid):
-#    msg = QuestionRequest()
-#    msg.gameId = gameid
-#    msg.userId = g.user.id
-#
-#    try:
-#        rep = gameservice.send(msg)
-#        if isinstance(rep, GameError):
-#            return api_error(rep.description, rep.code)
-#        else:
-#            return jsonify({ "question" : rep.question, "alternatives" : [a for a in rep.alternatives] })
-#    except TimeoutError as e:
-#        return api_error("Game service not available", 500)
-#
-#@app.route("/api/games/<g_id>/play/answer")
-#def answer(gameid):
-#    msg = AnswerRequest()
-#    msg.gameId = gameId
-#    msg.userId = g.user.id
-#    msg.answer = request.form.get("answer", None)
-#
-#    try:
-#        rep = gameservice.send(msg)
-#        if isinstance(rep, GameError):
-#            return api_error(rep.description, rep.code)
-#        else:
-#            return jsonify({ "isCorrect" : rep.isCorrect })
-#    except TimeoutError as e:
-#        return api_error("Game service not available", 500)
+@app.route("/api/games/<int:game_id>/play/move/", methods=["POST"])
+@token_required
+def player_move(game_id):
+
+    if None in ([request.form.get("x"), request.form.get("y")]):
+        return api_error("Some of the required parameters x and y are missing", 004), 400
+
+    try:
+        req = MoveRequest(
+            x=request.form.get("x", None, type=int),
+            y=request.form.get("y", None, type=int),
+            gameId=game_id,
+            userId=g.user.id
+        )
+
+        rep = gameservice.send(req, timeout=5000)
+        if isinstance(rep, GameError):
+            return api_error(rep.description, rep.code)
+        else:
+            return "" # assuming this returns 200 OK
+    except TimeoutError as e:
+        return api_error("Game service not available", 500), 500
+    except Exception as e:
+        return api_error("Service not available", 500), 500
+
+@app.route("/api/games/<int:game_id>/play/question/", methods=["POST"])
+@token_required
+def question(game_id):
+    try:
+        req = QuestionRequest(
+            gameId=game_id,
+            userId=g.user.id
+        )
+
+        rep = gameservice.send(req)
+        if isinstance(rep, GameError):
+            return api_error(rep.description, rep.code)
+        else:
+            return jsonify({ "question" : rep.question, "alternatives" : [a for a in rep.alternatives] })
+    except TimeoutError as e:
+        return api_error("Game service not available", 500)
+    except Exception as e:
+        traceback.print_exc(sys.stdout)
+        return api_error("Service not available", 500), 500
+
+@app.route("/api/games/<int:game_id>/play/answer/", methods=["POST"])
+@token_required
+def answer(game_id):
+    try:
+        answer = request.form.get("answer", type=int)
+        if not answer:
+            return api_error("Missing required parameter answer", 400), 400
+
+        req = AnswerRequest(
+            gameId=game_id,
+            userId=g.user.id,
+            answer=answer
+        )
+
+        rep = gameservice.send(req)
+        if isinstance(rep, GameError):
+            return api_error(rep.description, rep.code)
+        else:
+            return jsonify({ "isCorrect" : rep.isCorrect })
+    except TimeoutError as e:
+        return api_error("Game service not available", 500)
+    except Exception as e:
+        return api_error("Service not available", 500), 500
