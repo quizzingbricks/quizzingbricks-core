@@ -43,16 +43,15 @@ def index():
 
 @app.route('/about')
 def about():
-	return render_template('about.html')
+    return render_template('about.html')
 
 @app.route('/contact')
 def contact():	
-	return render_template('contact.html')
+    return render_template('contact.html')
 
 
 @app.route('/add_friend', methods=['GET', 'POST'])
 def add_friend():
-    friends_list = []
     if request.method == 'POST':
         friend_Email = request.form['friend_email']
         if(friend_Email!= ""):
@@ -438,7 +437,7 @@ def game_board (gameId):
 
 @app.route('/test_board',methods=["GET"])
 def test_board ():
-	return render_template('test_board.html')	
+    return render_template('test_board.html')
 
 @app.route('/register_user',methods=['GET', 'POST'])
 def register_user():
