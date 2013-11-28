@@ -4,10 +4,11 @@
 """
 
 import sys, traceback
+import json
+from flask import request, jsonify, g, abort
+import zmq.green as zmq
 
-from flask import request, jsonify, g
-
-from quizzingbricks.webapi import app, api_error, api_errors, token_required
+from quizzingbricks.webapi import app, api_error, api_errors, token_required, zmq_ctx
 from quizzingbricks.client.games import GameServiceClient
 from quizzingbricks.client.exceptions import TimeoutError
 
@@ -16,7 +17,7 @@ from quizzingbricks.common.protocol import (
     MoveRequest,
     QuestionRequest, AnswerRequest)
 
-gameservice = GameServiceClient("tcp://*:1234")
+gameservice = GameServiceClient("tcp://*:1234", zmq_context=zmq_ctx)
 
 @app.route("/api/games/<int:game_id>/", methods=["GET"])
 @token_required
@@ -109,3 +110,18 @@ def answer(game_id):
         return api_error("Game service not available", 500)
     except Exception as e:
         return api_error("Service not available", 500), 500
+
+
+@app.route("/api/games/<int:game_id>/events/")
+def game_listener(game_id):
+    if request.environ.get('wsgi.websocket'):
+        ws = request.environ['wsgi.websocket']
+
+        sock = zmq_ctx.socket(zmq.SUB)
+        sock.connect("tcp://*:5202")
+        sock.setsockopt(zmq.SUBSCRIBE, "") #"game-%d" % game_id)
+
+        while True:
+            message_type, message = sock.recv_multipart()
+            ws.send(json.dumps({"msg": message}))
+    abort(404) # only accessible from websockets

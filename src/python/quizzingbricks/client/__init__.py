@@ -11,9 +11,9 @@ from quizzingbricks.common.protocol import protocol_inverse_mapper, protocol_map
 from quizzingbricks.client.exceptions import TimeoutError
 
 class BaseClient(object):
-    def __init__(self, uri):
+    def __init__(self, uri, zmq_context=None):
         self.uri = uri
-        self.zmq_ctx = zmq.Context()
+        self.zmq_ctx = zmq_context or zmq.Context()
 
     @contextmanager
     def rpc_call(self, method, request, timeout):

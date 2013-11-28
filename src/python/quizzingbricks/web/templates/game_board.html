@@ -203,3 +203,10 @@
     
 
 {% endblock %}
+
+{% block js_footer %}
+<script type="text/javascript">
+    var gameBoard = new QuizzingBricks.GameBoard("10.10.10.25:8100", {{ gameId }});
+    gameBoard.init();
+</script>
+{% endblock %}
