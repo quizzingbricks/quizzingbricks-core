@@ -53,7 +53,10 @@ protocol_mapper = {
     39: GetMultipleUsersRequest,
     40: GetMultipleUsersResponse,
     41: GameListRequest,
-    42: GameListResponse
+    42: GameListResponse,
+
+    70: BoardChangePubSubMessage,
+    71: NewRoundPubSubMessage,
 }
 
 protocol_inverse_mapper = {v.__name__: k for k, v in protocol_mapper.iteritems()}
