@@ -95,10 +95,11 @@ message GameError
    optional GameInfoResponse gameinforeply = 3;
 }
 
-/*message BoardChangePubSubMessage {
-
+// we may add more fields.
+message BoardChangePubSubMessage {
+    required Game game = 1;
 }
 
 message NewRoundPubSubMessage {
 
-}*/
+}

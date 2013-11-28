@@ -4,7 +4,11 @@
 """
 
 import gevent
+import json
+import random
 import zmq.green as zmq
+from quizzingbricks.common.protocol import BoardChangePubSubMessage, Game, protocol_inverse_mapper
+
 
 def main():
     ctx = zmq.Context()
@@ -12,9 +16,20 @@ def main():
     sock.connect("tcp://*:5201")
 
     while True:
-        gevent.sleep(10)
-        sock.send_multipart(["1", "hello"])
+        game = Game(
+            gameId = 1,
+            board = [random.choice([1,2,0,0,0]) for x in xrange(64)]
+        )
+
+        req = BoardChangePubSubMessage(game=game)
+
+        sock.send_multipart([
+            "game-1",
+            str(protocol_inverse_mapper[req.__class__.__name__]),
+            req.SerializeToString()
+        ])
         print "publisher sent!"
+        gevent.sleep(10)
 
 if __name__ == "__main__":
     main()
