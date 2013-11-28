@@ -3,7 +3,7 @@
     Copyright (C) QuizzingBricks
 """
 
-from quizzingbricks.web.run_web import app
+from quizzingbricks.web import app
 from werkzeug.debug import DebuggedApplication
 
 app.debug = True
