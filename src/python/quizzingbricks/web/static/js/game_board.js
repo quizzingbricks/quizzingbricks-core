@@ -198,4 +198,38 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
   //  }
 }
 
+var QuizzingBricks = QuizzingBricks || {};
 
+QuizzingBricks.GameBoard = function(server_url, game_id) {
+    // "fields"
+    this.server_url = server_url;
+    this.game_id = game_id;
+
+    this._setup_websocket_listener = function() {
+        if (window.WebSocket == undefined) {
+            console.log("Websockets is not available in your browser");
+        }
+        var ws = new WebSocket("ws://" + this.server_url + "/api/games/" + this.game_id + "events/");
+        ws.onmessage = this._onReceiveEvent;
+        ws.onerror = this._onSocketError;
+        ws.onclose = this._onSocketClose;
+    }
+
+
+    this._onReceiveEvent = function(event) {
+        console.log(event.data);
+    }
+
+    this._onSocketError = function(error) {
+        console.log(error);
+    }
+
+    this._onSocketClose = function(e) {
+        console.log("socket closed");
+    }
+
+    this.init = function() {
+        // setup eventlisteners
+        this._setup_websocket_listener();
+    }
+};

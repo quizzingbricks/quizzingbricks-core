@@ -63,3 +63,5 @@ project/plugins/project/
 
 # lobby "save-file"
 *.save
+
+.DS_Store
