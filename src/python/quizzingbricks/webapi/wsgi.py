@@ -6,7 +6,15 @@
 from quizzingbricks.webapi import app
 from werkzeug.debug import DebuggedApplication
 
-# TODO: use WebSocketDebuggedApplication (found in bin/quizctl.py)
+class WebSocketDebuggedApplication(DebuggedApplication):
+    """http://stackoverflow.com/a/18552263"""
+    def __call__(self, environ, start_response):
+        # check if websocket call
+        if "wsgi.websocket" in environ and not environ["wsgi.websocket"] is None:
+            # a websocket call, no debugger ;)
+            return self.app(environ, start_response)
+        # else go on with debugger
+        return DebuggedApplication.__call__(self, environ, start_response)
 
 app.debug = True
-app = DebuggedApplication(app)
+app = WebSocketDebuggedApplication(app)
