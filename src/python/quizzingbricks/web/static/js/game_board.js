@@ -209,7 +209,7 @@ QuizzingBricks.GameBoard = function(server_url, game_id) {
         if (window.WebSocket == undefined) {
             console.log("Websockets is not available in your browser");
         }
-        var ws = new WebSocket("ws://" + this.server_url + "/api/games/" + this.game_id + "/events/");
+        var ws = new WebSocket("ws://" + this.server_url + "/game_board/" + this.game_id + "/events/");
         ws.onmessage = this._onReceiveEvent;
         ws.onerror = this._onSocketError;
         ws.onclose = this._onSocketClose;

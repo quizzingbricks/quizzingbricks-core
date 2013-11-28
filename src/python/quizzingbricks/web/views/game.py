@@ -1,12 +1,13 @@
 
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, jsonify
+import json
 
 import sys, traceback
 
 from collections import namedtuple
-from quizzingbricks.web import app, gameservice
-
+import zmq.green as zmq
+from quizzingbricks.web import app, gameservice, zmq_ctx
 
 
 from quizzingbricks.client.exceptions import TimeoutError
@@ -14,16 +15,12 @@ from quizzingbricks.common.protocol import (
     CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
     MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse, \
-    GetUserRequest, GetUserResponse
-    )
+    GetUserRequest, GetUserResponse,
+    BoardChangePubSubMessage, NewRoundPubSubMessage,
+    protocol_mapper)
 
 
-
-
-
-
-
-@app.route('/active_games')     
+@app.route('/active_games')
 def active_games():  
     #TODO: fetch list of active games
     return render_template('active_games.html')
@@ -144,3 +141,27 @@ def game_board (gameId):
 
 
     return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
+
+@app.route("/game_board/<int:game_id>/events/")
+def game_listener(game_id):
+    if request.environ.get('wsgi.websocket'):
+        ws = request.environ['wsgi.websocket']
+
+        sock = zmq_ctx.socket(zmq.SUB)
+        sock.connect("tcp://*:5202")
+        sock.setsockopt(zmq.SUBSCRIBE, "game-%d" % game_id)
+
+        while True:
+            print "started websocket listener"
+            game_id, msg_type, msg = sock.recv_multipart()
+            cls = protocol_mapper.get(int(msg_type))
+            message = cls.FromString(msg)
+            print "deseralized type: %s" % message.__class__.__name__
+
+            if isinstance(message, BoardChangePubSubMessage):
+                ws.send(json.dumps({"type": "board_change", "payload": {"board": list(message.game.board)}}))
+            elif isinstance(message, NewRoundPubSubMessage):
+                ws.send(json.dumps({"type": "new_round", "payload": {}}))
+            else:
+                ws.send(json.dumps({"type": "unknown", "payload": {"msg_type": msg_type}})) # only used to debug
+    abort(404) # only accessible from websockets
