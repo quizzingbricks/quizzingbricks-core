@@ -15,7 +15,9 @@ from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.common.protocol import (
     GameError, GameInfoRequest, GameInfoResponse,
     MoveRequest,
-    QuestionRequest, AnswerRequest)
+    QuestionRequest, AnswerRequest,
+    BoardChangePubSubMessage, NewRoundPubSubMessage)
+from quizzingbricks.common.protocol import protocol_mapper
 
 gameservice = GameServiceClient("tcp://*:1234", zmq_context=zmq_ctx)
 
@@ -119,9 +121,19 @@ def game_listener(game_id):
 
         sock = zmq_ctx.socket(zmq.SUB)
         sock.connect("tcp://*:5202")
-        sock.setsockopt(zmq.SUBSCRIBE, "") #"game-%d" % game_id)
+        sock.setsockopt(zmq.SUBSCRIBE, "game-%d" % game_id)
 
         while True:
-            message_type, message = sock.recv_multipart()
-            ws.send(json.dumps({"msg": message}))
+            print "started websocket listener"
+            game_id, msg_type, msg = sock.recv_multipart()
+            cls = protocol_mapper.get(int(msg_type))
+            message = cls.FromString(msg)
+            print "deseralized type: %s" % message.__class__.__name__
+
+            if isinstance(message, BoardChangePubSubMessage):
+                ws.send(json.dumps({"type": "board_change", "payload": {"board": list(message.game.board)}}))
+            elif isinstance(message, NewRoundPubSubMessage):
+                ws.send(json.dumps({"type": "new_round", "payload": {}}))
+            else:
+                ws.send(json.dumps({"type": "unknown", "payload": {"msg_type": msg_type}})) # only used to debug
     abort(404) # only accessible from websockets
