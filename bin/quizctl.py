@@ -23,12 +23,13 @@ class QuizzingBricksCLI(object):
         port = port or 5000
 
         print "starting web server on", port
+        from geventwebsocket.handler import WebSocketHandler
         from quizzingbricks.web import app
-        from gevent.wsgi import WSGIServer
+        from gevent.pywsgi import WSGIServer
 
         app.debug =True
 
-        http_server = WSGIServer(('', port), DebuggedApplication(app))
+        http_server = WSGIServer(('', port), WebSocketDebuggedApplication(app), handler_class=WebSocketHandler)
         http_server.serve_forever()
 
     def _run_webapi(self, port):

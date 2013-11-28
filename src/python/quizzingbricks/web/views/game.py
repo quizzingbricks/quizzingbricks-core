@@ -151,6 +151,8 @@ def game_listener(game_id):
         sock.connect("tcp://*:5202")
         sock.setsockopt(zmq.SUBSCRIBE, "game-%d" % game_id)
 
+        print "REQ-DIR", dir(request)
+
         while True:
             print "started websocket listener"
             game_id, msg_type, msg = sock.recv_multipart()
