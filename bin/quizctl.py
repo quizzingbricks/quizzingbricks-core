@@ -23,8 +23,10 @@ class QuizzingBricksCLI(object):
         port = port or 5000
 
         print "starting web server on", port
-        from quizzingbricks.web.run_web import app
+        from quizzingbricks.web import app
         from gevent.wsgi import WSGIServer
+
+        app.debug =True
 
         http_server = WSGIServer(('', port), DebuggedApplication(app))
         http_server.serve_forever()
