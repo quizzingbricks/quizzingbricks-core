@@ -21,7 +21,7 @@ def login():
     password = request.form.get("password", None)
 
     if None in (email, password):
-        return api_error("E-mail or password is missing, check your data", 1) # TODO: define a error code list
+        return api_error("E-mail or password is missing, check your data", 1), 400 # TODO: define a error code list
 
     login_req = LoginRequest(email=email, password=password)
 
@@ -37,7 +37,7 @@ def login():
                 5: {"message": "Wrong email or password", "code": "010"},
             }
 
-            return api_error(**errors.get(response.error_code, {"message": "Error code not defined"}))
+            return api_error(**errors.get(response.error_code, {"message": "Error code not defined"})), 400
         #return api_error("Wrong password", 501)
     except TimeoutError as e:
         return api_error("Service not available", 500) # ???
@@ -48,7 +48,7 @@ def create_user():
     password = request.form.get("password")
 
     if not (password or email):
-        return api_error("Missing email or password", 102)
+        return api_error("Missing email or password", 102), 400
 
     try:
         response = userservice.create_user(RegistrationRequest(email=email, password=password), timeout=5000) # timeout after 5 sec
@@ -61,7 +61,7 @@ def create_user():
                 11: {"message": "This mail is already taken", "code": "101"},
             }
 
-            return api_error(**errors.get(response.error_code, {"message": "Error code not defined"}))
+            return api_error(**errors.get(response.error_code, {"message": "Error code not defined"})), 400
     except TimeoutError as e:
         return api_error("Service not available", 500)
 

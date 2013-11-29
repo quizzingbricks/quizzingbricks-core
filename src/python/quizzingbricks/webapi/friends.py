@@ -53,15 +53,11 @@ def add_friend():
         traceback.print_exc()
         return api_error("Service not available", 500), 500
 
-@app.route("/api/users/me/friends/", methods=["DELETE"])
+@app.route("/api/users/me/friends/<int:friend_id>/", methods=["DELETE"])
 @token_required
-def delete_friend():
+def delete_friend(friend_id):
     try:
-        friend_email = request.args.get("friend")
-        if not friend_email:
-            return api_error("Missing required friend parameter", 004), 400
-
-        response = friendservice.remove_friend(RemoveFriendRequest(userId=g.user.id, friend_email=friend_email), timeout=5000)
+        response = friendservice.remove_friend(RemoveFriendRequest(userId=g.user.id, friendId=friend_id), timeout=5000)
         if not isinstance(response, RemoveFriendResponse):
             return api_error("Internal service error", 500), 500 # probably return RpcError
         return "OK" if response.friend_removed else (api_error("No such user exists", "011"), 200)

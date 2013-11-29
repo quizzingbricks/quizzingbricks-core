@@ -10,6 +10,11 @@ message CreateGameResponse
    required int32 gameId = 1;
 }
 
+/*
+    TODO
+    ====
+    - We may add deadline for the current round, either on the Game message or another
+*/
 message Game
 {
    required int32 gameId = 1;
@@ -88,4 +93,13 @@ message GameError
    required string description = 1;
    required int32 code = 2;
    optional GameInfoResponse gameinforeply = 3;
+}
+
+// we may add more fields.
+message BoardChangePubSubMessage {
+    required Game game = 1;
+}
+
+message NewRoundPubSubMessage {
+
 }

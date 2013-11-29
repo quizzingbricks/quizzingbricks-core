@@ -8,3 +8,4 @@ redis
 bcrypt
 protobuf
 gunicorn
+gevent-websocket

@@ -33,13 +33,10 @@ $ python /bin/quizctl.py -h
 Note: & attach the process to background, use jobs to list all current jobs
 or fg to resume to latest.
 
+To run the JVM-based gameprocess, you can start it by be in the folder src/scala/gameprocess
+and execute
 
-How to run webapi (flask)
--------------------------
-1. in folder src/python
-2. $ gunicorn quizzingbricks.webapi:app -b "0.0.0.0:8100" -k gevent -w 3
-
-This starts the RESTful API on port 8100.
+$ _JAVA_OPTIONS="-Xms256M -Xmx512M -Xss1M -XX:+CMSClassUnloadingEnabled" sbt "run-main GameProcess"
 
 Database migrations
 ===================

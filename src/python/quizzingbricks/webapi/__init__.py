@@ -6,6 +6,7 @@
 from itsdangerous import URLSafeTimedSerializer
 from functools import wraps
 from flask import Flask, jsonify, request, g
+import zmq.green as zmq
 
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.client.users import UserServiceClient
@@ -16,7 +17,9 @@ app.secret_key = "dev-key-123"
 
 token_signer = URLSafeTimedSerializer("dev-key-abc123")
 
-userservice = UserServiceClient("tcp://*:5551")
+zmq_ctx = zmq.Context(1)
+
+userservice = UserServiceClient("tcp://*:5551", zmq_context=zmq_ctx)
 
 def token_required(f):
     @wraps(f)
@@ -58,5 +61,12 @@ def set_current_user():
             g.user = None
     else:
         g.user = None
+
+@app.route("/")
+def api_index():
+    return jsonify({
+        "api": "Quizzing Bricks",
+        "endpoints": map(lambda x: {"endpoint": x.rule, "method": list(x.methods)}, app.url_map.iter_rules())
+    })
 
 from quizzingbricks.webapi import users, games, friends
