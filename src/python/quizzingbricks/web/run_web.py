@@ -12,7 +12,7 @@ from quizzingbricks.common.protocol import (
     LoginRequest, LoginResponse, RegistrationRequest, RegistrationResponse , \
      CreateLobbyRequest, CreateLobbyResponse, GetFriendsRequest, GetFriendsResponse, \
      AddFriendRequest, AddFriendResponse, RemoveFriendRequest, RemoveFriendResponse, \
-     GetLobbyStateRequest, GetLobbyStateResponse, AcceptLobbyInviteRequest, AcceptLobbyInviteResponse, \
+     GetLobbyStateRequest, GetLobbyStateResponse, AnswerLobbyInviteRequest, AnswerLobbyInviteResponse, \
      InviteLobbyRequest, InviteLobbyResponse, RemoveLobbyRequest, RemoveLobbyResponse, \
      StartGameRequest, StartGameResponse, GetLobbyListRequest, GetLobbyListResponse, \
      CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \

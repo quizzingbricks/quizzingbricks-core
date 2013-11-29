@@ -17,8 +17,8 @@ class LobbyServiceClient(BaseClient):
         with self.rpc_call("get_lobby_state", request, timeout) as response:
             return response
 
-    def acceptLobbyInvite(self, request, timeout=None):
-        with self.rpc_call("accept_lobby_invite", request, timeout) as response:
+    def answerLobbyInvite(self, request, timeout=None):
+        with self.rpc_call("answer_lobby_invite", request, timeout) as response:
             return response
 
     def inviteToLobby(self, request, timeout=None):
@@ -31,4 +31,8 @@ class LobbyServiceClient(BaseClient):
    
     def startGame(self, request, timeout=None):
         with self.rpc_call("start_game", request, timeout) as response:
+            return response
+            
+    def createLobby(self, request, timeout=None):
+        with self.rpc_call("create_lobby", request, timeout) as response:
             return response
