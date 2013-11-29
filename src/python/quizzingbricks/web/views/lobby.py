@@ -13,7 +13,7 @@ from quizzingbricks.web.views.utils import get_friends_list
 from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.common.protocol import (
     CreateLobbyRequest, CreateLobbyResponse, GetLobbyStateRequest, GetLobbyStateResponse, \
-    AcceptLobbyInviteRequest, AcceptLobbyInviteResponse, InviteLobbyRequest, InviteLobbyResponse, \
+    AnswerLobbyInviteRequest, AnswerLobbyInviteResponse, InviteLobbyRequest, InviteLobbyResponse, \
     RemoveLobbyRequest, RemoveLobbyResponse, StartGameRequest, StartGameResponse,\
     GetLobbyListRequest, GetLobbyListResponse,CreateGameRequest, CreateGameResponse,\
     GameError
@@ -140,7 +140,7 @@ def get_friends(game_type):
     lobby_id = None
     friends_list = []
     try:
-        response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
+        response = lobbyservice.createLobby(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
     except:
         print "Exception in user code:"
         print '-'*60
