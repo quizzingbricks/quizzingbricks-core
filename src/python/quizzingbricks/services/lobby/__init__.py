@@ -298,10 +298,10 @@ class LobbyService(NunciusService):
             return RpcError(message="Wrong message type, expecting StartGameRequest")
 
         with db(session):
-            lobbyservice = LobbyServiceClient("tcp://*:5552")
+            #lobbyservice = LobbyServiceClient("tcp://*:5552")
             lobbyQuery = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
             
-            if lobbyQuery.owner_id == request.userID:
+            if lobbyQuery.owner_id == request.userId:
                 lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id == request.lobbyId).filter(LobbyMembership.status=="Accept").all()
                 users = map(lambda i:i.user_id, lobbyMembershipQuery)
                 
@@ -312,7 +312,7 @@ class LobbyService(NunciusService):
                 
                 
                 # remove lobby from database
-                removed = lobbyservice.removeLobby(RemoveLobbyRequest(userId=request.userId, lobbyId=request.lobbyId), timeout=5000)
+                removed = self.remove_lobby(RemoveLobbyRequest(userId=request.userId, lobbyId=request.lobbyId))
                 
                 if removed.lobby_removed:
                     return StartGameResponse(isCreated=True) #temporary test variable
