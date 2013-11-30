@@ -31,7 +31,7 @@ class LobbyMembership(Base):
     
     lobby_id = sa.Column(sa.Integer, sa.ForeignKey("lobbies.lobby_id"), primary_key=True)
     status = sa.Column(sa.String, nullable=False, index=True)
-    user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), primary_key=True)
     
     user = relationship(User, backref="lobbymemberships", foreign_keys=[user_id])
     lobby = relationship(Lobby, backref="lobbymemberships", foreign_keys=[lobby_id] )
