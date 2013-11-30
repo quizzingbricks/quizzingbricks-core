@@ -30,7 +30,7 @@ def active_games():
             return jsonify(result=(game_list_response.description, game_list_response.code))
         else:
             #print "game info this one", game_list_response.games
-            return jsonify({"games":[{ "gameId" : game.gameId} for game in game_info_response.games] }) 
+            return jsonify({"games":[{ "gameId" : game.gameId} for game in game_list_response.games] }) 
                              # "players" : [ { "userId" : player.userId,
                              #                "state" : player.state,
                              #                "x" : player.x,
