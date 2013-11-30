@@ -69,4 +69,4 @@ def api_index():
         "endpoints": map(lambda x: {"endpoint": x.rule, "method": list(x.methods)}, app.url_map.iter_rules())
     })
 
-from quizzingbricks.webapi import users, games, friends
+from quizzingbricks.webapi import users, games, friends, lobby
