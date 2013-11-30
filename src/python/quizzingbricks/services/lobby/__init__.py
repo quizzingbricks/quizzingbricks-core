@@ -4,7 +4,7 @@
 """
 
 import sqlalchemy as sa
-import quizzingbricks.services.lobby.lobbyqueue as lobbyqueue
+from quizzingbricks.services.lobby import lobbyqueue
 
 from quizzingbricks.nuncius import NunciusService, expose
 from quizzingbricks.common.db import session
