@@ -13,7 +13,9 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='games.proto',
   package='',
+
   serialized_pb='\n\x0bgames.proto\"$\n\x11\x43reateGameRequest\x12\x0f\n\x07players\x18\x01 \x03(\x05\"$\n\x12\x43reateGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"?\n\x04Game\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x18\n\x07players\x18\x02 \x03(\x0b\x32\x07.Player\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"!\n\x0fGameInfoRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"\'\n\x10GameInfoResponse\x12\x13\n\x04game\x18\x01 \x02(\x0b\x32\x05.Game\"!\n\x0fGameListRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"(\n\x10GameListResponse\x12\x14\n\x05games\x18\x01 \x03(\x0b\x32\x05.Game\"\x80\x01\n\x06Player\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\r\n\x05state\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x01(\x05\x12\t\n\x01y\x18\x04 \x01(\x05\x12\x10\n\x08question\x18\x05 \x01(\t\x12\x14\n\x0c\x61lternatives\x18\x06 \x03(\t\x12\x19\n\x11\x61nsweredCorrectly\x18\x07 \x01(\x08\"C\n\x0bMoveRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"\x0e\n\x0cMoveResponse\"1\n\x0fQuestionRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\":\n\x10QuestionResponse\x12\x10\n\x08question\x18\x01 \x02(\t\x12\x14\n\x0c\x61lternatives\x18\x02 \x03(\t\"?\n\rAnswerRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x05\"#\n\x0e\x41nswerResponse\x12\x11\n\tisCorrect\x18\x01 \x02(\x08\"X\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12\x0c\n\x04\x63ode\x18\x02 \x02(\x05\x12(\n\rgameinforeply\x18\x03 \x01(\x0b\x32\x11.GameInfoResponse\"/\n\x18\x42oardChangePubSubMessage\x12\x13\n\x04game\x18\x01 \x02(\x0b\x32\x05.Game\"\x17\n\x15NewRoundPubSubMessageB\x0e\x42\x0cGameprotocol')
+
 
 
 
@@ -602,7 +604,9 @@ _GAME.fields_by_name['players'].message_type = _PLAYER
 _GAMEINFORESPONSE.fields_by_name['game'].message_type = _GAME
 _GAMELISTRESPONSE.fields_by_name['games'].message_type = _GAME
 _GAMEERROR.fields_by_name['gameinforeply'].message_type = _GAMEINFORESPONSE
+
 _BOARDCHANGEPUBSUBMESSAGE.fields_by_name['game'].message_type = _GAME
+
 DESCRIPTOR.message_types_by_name['CreateGameRequest'] = _CREATEGAMEREQUEST
 DESCRIPTOR.message_types_by_name['CreateGameResponse'] = _CREATEGAMERESPONSE
 DESCRIPTOR.message_types_by_name['Game'] = _GAME
@@ -618,8 +622,10 @@ DESCRIPTOR.message_types_by_name['QuestionResponse'] = _QUESTIONRESPONSE
 DESCRIPTOR.message_types_by_name['AnswerRequest'] = _ANSWERREQUEST
 DESCRIPTOR.message_types_by_name['AnswerResponse'] = _ANSWERRESPONSE
 DESCRIPTOR.message_types_by_name['GameError'] = _GAMEERROR
+
 DESCRIPTOR.message_types_by_name['BoardChangePubSubMessage'] = _BOARDCHANGEPUBSUBMESSAGE
 DESCRIPTOR.message_types_by_name['NewRoundPubSubMessage'] = _NEWROUNDPUBSUBMESSAGE
+
 
 class CreateGameRequest(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType

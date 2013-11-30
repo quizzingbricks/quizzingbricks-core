@@ -4,10 +4,51 @@
 """
 
 import sqlalchemy as sa
+import quizzingbricks.services.lobby.lobbyqueue
 
 from quizzingbricks.nuncius import NunciusService, expose
 from quizzingbricks.common.db import session
 from quizzingbricks.services.lobby.models import Lobby # .servives.lobby
+from quizzingbricks.services.lobby.models import LobbyMembership
+from quizzingbricks.services.users.models import User
+from quizzingbricks.client.users import UserServiceClient
+
+
+
+from quizzingbricks.common.protocol import (
+    protocol_mapper as p_mapper,
+    protocol_inverse_mapper,
+    RpcError,
+    CreateLobbyRequest,
+    CreateLobbyResponse,
+    GetLobbyStateRequest,
+    GetLobbyStateResponse,
+    AnswerLobbyInviteRequest,
+    AnswerLobbyInviteResponse,
+    InviteLobbyRequest,
+    InviteLobbyResponse,
+    RemoveLobbyRequest,
+    RemoveLobbyResponse,
+    StartGameRequest,
+    StartGameResponse,
+    GetLobbyListRequest,
+    GetLobbyListResponse,
+    GetMultipleUsersRequest,
+    GetMultipleUsersResponse,
+    GetUserRequest,
+    GetUserResponse,
+    LobbyMembershipn,
+    Lobbyn
+)
+
+# Test commands
+"""
+import sqlalchemy as sa
+
+from quizzingbricks.nuncius import NunciusService, expose
+from quizzingbricks.common.db import session
+from quizzingbricks.services.lobby.models import Lobby # .servives.lobby
+from quizzingbricks.services.lobby.models import LobbyMembership
 
 from quizzingbricks.common.protocol import (
     protocol_mapper as p_mapper,
@@ -27,8 +68,24 @@ from quizzingbricks.common.protocol import (
     StartGameResponse,
     GetLobbyListRequest,
     GetLobbyListResponse,
-    User as ProtoUser,
+    GetMultipleUsersRequest,
+    GetMultipleUsersResponse,
+    GetUserRequest,
+    LobbyMembership,
+    Lobby
 )
+lobbyservice = LobbyServiceClient("tcp://*:5552")
+
+request = CreateLobbyRequest(gameType=4, userId=2)
+
+lobby = Lobby(game_type= request.gameType, owner_id = request.userId)
+session.add(lobby)
+session.commit()
+CreateLobbyResponse(lobbyId=lobby.lobby_id)                    
+                    
+                    
+"""
+
 
 # TODO: add the type-checking in a decorator or directly in expose?
 
@@ -45,16 +102,32 @@ def db(session):
 class LobbyService(NunciusService):
     name = "lobbyservice"
     protocol_mapper = p_mapper
-
+    
+    @expose("create_lobby")
+    def create_lobby(self, request):
+        lobby = Lobby(game_type = request.gameType, owner_id = request.userId)
+        session.add(lobby)
+        session.commit()
+        return CreateLobbyResponse(lobbyId=lobby.lobby_id)
+            
+    # TODO implement correctly if needed? Where is it used?        
     @expose("get_lobby_id")
     def get_lobby_id(self, request):
-        if (request.gameType == 4):
-            return CreateLobbyResponse(lobbyId=123456)      #save gameType togther with the lobbyId
-        if (request.gameType == 2):
-            return CreateLobbyResponse(lobbyId=654321)
-        else:
-            return CreateLobbyResponse(lobbyId=123321)
-
+        print "get_lobby_id"
+        
+        lobby_query = Lobby.query.filter(Lobby.owner_id==request.userId).all()
+        lobby_ids = map(lambda l:l.lobby_id, lobby_query)
+        
+        return CreateLobbyResponse(lobbyId=lobby_ids[0])
+    # Test for get_lobby_list
+    """
+    with db(session):
+        request = GetLobbyListRequest(userId=2)  
+        lobbyQuery = LobbyMembership.query.filter(LobbyMembership.user_id==request.userId).all()  
+        lobby_ids = map(lambda l:l.lobby_id, lobbyQuery)
+        lobby_status = map(lambda s:s.status, lobbyQuery)
+        lobby_owner = Lobby.query.filter(Lobby.owner_id.in_(map(lambda o:o.owner_id, lobby_ids)))
+    """
     @expose("get_lobby_list")
     def get_lobby_list(self, request):
         print "get_lobby_list"
@@ -63,82 +136,96 @@ class LobbyService(NunciusService):
         #used to get the status for a specific user in all the lobbies that the user is part off
         #status = Invited, Member
         #owner = userId of lobby owner
-        test_lobby_1 = 123
-        test_lobby_2 = 456
-        test_lobby_3 = 789
-        test_lobby_list = [test_lobby_1,test_lobby_2,test_lobby_3]
-        test_lobby_1_status = "Member"
-        test_lobby_2_status = "Invited"
-        test_lobby_3_status = "Invited"
-        status_list =[test_lobby_1_status, test_lobby_2_status, test_lobby_3_status]
-        # test_lobby_1_owner = "Anton@test.se"
-        # test_lobby_2_owner = "David@test.se"
-        # test_lobby_3_owner = "Linus@test.se"
-        test_owner_user_1  = ProtoUser(
-                    id=11,
-                    email="Anton@test.se",
-                    username="Anton@test.se")
-
-        test_owner_user_2  = ProtoUser(
-                    id=22,
-                    email="David@test.se",
-                    username="David@test.se")
-
-        test_owner_user_3  = ProtoUser(
-                    id=33,
-                    email="Linus@test.se",
-                    username="Linus@test.se")
-
-        # owner_list = [test_lobby_1_owner, test_lobby_2_owner, test_lobby_3_owner]
-        test_owner_list = [test_owner_user_1, test_owner_user_2, test_owner_user_3]
-        return GetLobbyListResponse(lobbyIds=test_lobby_list, status=status_list, owner=test_owner_list)
+        with db(session):
+            userservice = UserServiceClient("tcp://*:5551")
+            # Get all the lobbies that the user with userId is in
+            lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.user_id==request.userId).all()
+            
+            if(lobbyMembershipQuery == []):
+                return GetLobbyListResponse(lobbies=[])
+            else:
+                lobbies_list = [] # List for lobbies to be returned
+                for lobby in lobbyMembershipQuery:
+                    # Get the owner_id and game_type of the lobby
+                    lobbyQuery = Lobby.query.filter(Lobby.lobby_id==lobby.lobby_id).first()
+                    lobby_owner=userservice.get_user(GetUserRequest(userId=lobbyQuery.owner_id), timeout=5000)
+                    # Get all the players that are in the lobby
+                    lobbyMembersQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id==lobby.lobby_id).all()
+                    lobbymemb_list = [] # List for lobby memberships for the inner loop
+                    for member in lobbyMembersQuery:
+                        # Create lobby membership
+                        user_request=userservice.get_user(GetUserRequest(userId=member.user_id), timeout=5000)
+                        the_actual_user = user_request.user
+                        lobbym = LobbyMembershipn(user=the_actual_user, status=member.status) 
+                        lobbymemb_list.append(lobbym) 
+                    
+                    lobby_i = Lobbyn(lobbyId=lobby.lobby_id, owner=lobby_owner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
+                    lobbies_list.append(lobby_i) # Append lobby to return list
+                return GetLobbyListResponse(lobbies=lobbies_list)
 
 
     @expose("get_lobby_state")
     def get_lobby_state(self, request):
         print "get_lobby_state"
+
+        #with db(session):
         #input : lobbyId=1
         #return: friend_email=1, answer=2, gameType=3  
         #query with request.lobbyId
-        # test_friend_1 = "Anton@test.se"
-        # test_friend_2 = "David@test.se"
-        # test_friend_3 = "Linus@test.se"
-        # test_friend_list = [test_friend_1,test_friend_2,test_friend_3]
-        test_user_1  = ProtoUser(
-                    id=11,
-                    email="Anton@test.se",
-                    username="Anton@test.se")
-
-        test_user_2  = ProtoUser(
-                    id=22,
-                    email="David@test.se",
-                    username="David@test.se")
-
-        test_user_3  = ProtoUser(
-                    id=33,
-                    email="Linus@test.se",
-                    username="Linus@test.se")
-
-        # owner_list = [test_lobby_1_owner, test_lobby_2_owner, test_lobby_3_owner]
-        test_user_list = [test_user_1, test_user_2, test_user_3]
-        test_friend_1_answer = "Accept"
-        test_friend_2_answer = "Deny"
-        test_friend_3_answer = "None"
-        answer_list = [test_friend_1_answer,test_friend_2_answer,test_friend_3_answer]
-        test_gameType = 2 
-        return GetLobbyStateResponse(users=test_user_list, answer=answer_list, gameType=test_gameType)
+        
+       
+        with db(session):
+            userservice = UserServiceClient("tcp://*:5551")
+            lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).all()
+            lobbyQuery = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
+            lobbyOwner = userservice.get_user(GetUserRequest(userId=lobbyQuery.owner_id), timeout=5000)
+            
+            lobbymemb_list = []
+            for member in lobbyMembershipQuery:
+                userInLobby = userservice.get_user(GetUserRequest(userId=member.user_id), timeout=5000)
+                lobbym = LobbyMembershipn(user=userInLobby.user, status=member.status) 
+                lobbymemb_list.append(lobbym)
+            
+            lobby_return = Lobbyn(lobbyId=request.lobbyId, owner=lobbyOwner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
+                    
+            return GetLobbyStateResponse(lobby=lobby_return)
 
 
-
-
-
-    @expose("accept_lobby_invite")
-    def accept_lobby_invite(self, request):
+    @expose("answer_lobby_invite")
+    def answer_lobby_invite(self, request):
         print "accept_lobby_invite"
         #input : userId=1, lobbyId=2
         #return: answer=1
         #check user with request.userId and request.lobbyId also save answer in lobby state for this user
-        return AcceptLobbyInviteResponse(answer="Accept")
+        
+        with db(session):
+            accepted_count = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.status=="Member").count()
+            query_type = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
+            
+            if(request.answer == "Accept"):
+                if(query_type.game_type > accepted_count + 1):
+                    user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
+                    session.delete(user_lobby)
+                    #user_lobby.status = "Member"
+                    session.add(LobbyMembership(lobby_id=user_lobby.lobby_id, status="Member", user_id=user_lobby.user_id))
+                    session.commit()
+                    return AnswerLobbyInviteResponse(answer=True)
+                else:
+                    user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
+                    session.delete(user_lobby)
+                    session.commit()
+                    return AnswerLobbyInviteResponse(answer=False)
+                    
+            elif(request.answer == "Deny"):
+                try:
+                    user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
+                    session.delete(user_lobby)
+                    session.commit()
+                    return AnswerLobbyInviteResponse(answer=True)
+            
+                except Exception as e:
+                    return AnswerLobbyInviteResponse(answer=False)
+     
 
     @expose("invite_to_lobby")
     def invite_to_lobby(self, request):
@@ -146,7 +233,39 @@ class LobbyService(NunciusService):
         #input : userId=1, lobbyId=2, invite_emails=3
         #return: friends_invited =1
         #invite all the friends listed to lobbyId
-        return InviteLobbyResponse(friends_invited=True)
+        with db(session):
+            # Clearing out duplicates from invited list
+            users = User.query.filter(User.email.in_(request.invite_emails)).all()
+            users = set(users)
+            uids = map(lambda u:u.id, users)
+            
+            # Check to make sure the lobby owner does not get invited
+            for user in users:
+                if(user.id == request.userId):
+                    users.remove(user)
+                    break
+            
+            # Check and remove invited users who has previously been invited
+            already_invited = LobbyMembership.query.filter(LobbyMembership.user_id.in_(uids)).filter(LobbyMembership.lobby_id==request.lobbyId).all()
+            for invited in already_invited:
+                for person in users:
+                    if(invited.user_id==person.id):
+                        users.remove(person)
+                        break
+                    
+                    
+            print users
+            if(users == set([])):
+                return InviteLobbyResponse(friends_invited=False)
+            
+            else:
+                for invited in users:
+                    lobby_membership = LobbyMembership(lobby_id = request.lobbyId, status = "Invited" , user_id = invited.id)
+                    session.add(lobby_membership)
+                
+                session.commit()               
+                return InviteLobbyResponse(friends_invited=True)   
+                
 
     @expose("remove_lobby")
     def remove_lobby(self, request):
@@ -154,20 +273,50 @@ class LobbyService(NunciusService):
         #input : userId=1, lobbyId=2
         #return: lobby_removed =1
         #removes the lobby
-        return RemoveLobbyResponse(lobby_removed=True)
+        
+        try:
+            with db(session):
+                # Delete from Lobby table
+                lobby = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).filter(Lobby.owner_id==request.userId).first()
+                session.delete(lobby)
+            
+                # Delete from LobbyMembership
+                lobby_membership = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).all()
+                for member in lobby_membership:
+                    session.delete(member)
+                
+                session.commit()
+                return RemoveLobbyResponse(lobby_removed=True)
+                
+        except Exception as e:
+            return RemoveLobbyResponse(lobby_removed=False)
+        
 
     @expose("start_game")
     def start_game(self, request):
-        return StartGameResponse(isCreated=True)
+        if not isinstance(request, StartGameRequest):
+            return RpcError(message="Wrong message type, expecting StartGameRequest")
 
-    # @expose("start_game")         #Williams function suppose to be used
-    # def start_game(self, request):
-    #     if not isinstance(request, StartGameRequest):
-    #        return RpcError(message="Wrong message type, expecting StartGameRequest")
-
-    #     with db(session):
-    #         if lobby.check_owner(request.userID): #TODO: this function
-    #             # TODO send lobbyID to handlers addtoqueue
-    #             return StartGameResponse(gameId=765432) #temporary test variable
-    #     return RpcError(message="Incorrect user or lobby") 
+        with db(session):
+            #lobbyservice = LobbyServiceClient("tcp://*:5552")
+            lobbyQuery = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
+            
+            if lobbyQuery.owner_id == request.userId:
+                lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id == request.lobbyId).filter(LobbyMembership.status=="Accept").all()
+                users = map(lambda i:i.user_id, lobbyMembershipQuery)
+                
+                # TODO send lobbyID to handlers addtoqueue
+                lobbyqueue.addtoqueue(request.lobbyId, lobbyQuery.game_type, users)
+                lobbyqueue.worker()
+                
+                
+                
+                # remove lobby from database
+                removed = self.remove_lobby(RemoveLobbyRequest(userId=request.userId, lobbyId=request.lobbyId))
+                
+                if removed.lobby_removed:
+                    return StartGameResponse(isCreated=True) #temporary test variable
+                else:
+                    return StartGameResponse(isCreated=False)
+        return RpcError(message="Incorrect user or lobby") 
 
