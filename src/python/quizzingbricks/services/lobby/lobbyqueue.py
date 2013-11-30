@@ -83,6 +83,7 @@ def loadstate():
 #Main program
 def addtoqueue(id, max_players, current_players):
 	if max_players == 2:
+		print "in addtoqeue 2player"
 		if len(current_players) == 1:
 			addLast(queue21, id, max_players, current_players)
 		elif len(current_players) == 2:
@@ -101,7 +102,6 @@ def addtoqueue(id, max_players, current_players):
 
 #Works
 def worker():
-
 	work = True
 	kill = 0
 	while (work):

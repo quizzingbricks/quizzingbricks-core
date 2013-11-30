@@ -15,15 +15,37 @@ from quizzingbricks.common.protocol import (
     CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
     MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse, \
-    GetUserRequest, GetUserResponse,
-    BoardChangePubSubMessage, NewRoundPubSubMessage,
-    protocol_mapper)
+    GetUserRequest, GetUserResponse, BoardChangePubSubMessage, NewRoundPubSubMessage, \
+    GameListRequest, GameListResponse,protocol_mapper )
 
 
 @app.route('/active_games')
 def active_games():  
     #TODO: fetch list of active games
-    return render_template('active_games.html')
+    msg = GameListRequest()
+    msg.userId = session['userId']
+    try:
+        game_list_response = gameservice.send(msg)
+        if isinstance(game_list_response, GameError):
+            return jsonify(result=(game_list_response.description, game_list_response.code))
+        else:
+            #print game_list_response
+            return render_template('active_games.html', games= game_list_response.games ) 
+            #print "game info this one", game_list_response.games
+            #return jsonify({"games":[{ "gameId" : game.gameId} for game in game_list_response.games] }) 
+                             # "players" : [ { "userId" : player.userId,
+                             #                "state" : player.state,
+                             #                "x" : player.x,
+                             #                "y" : player.y,
+                             #                "question" : player.question,
+                             #                "alternatives" : [a for a in player.alternatives],
+                             #                "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.game.players ],
+                             # "board" : [b for b in game_info_response.game.board ]
+                             #  })
+        
+    except TimeoutError as e:
+        return jsonify(result = "Timeout")
+    
 
 # @app.route('/choose_color', methods=["POST"])
 # def choose_color():
@@ -43,7 +65,6 @@ def game_info():
         if isinstance(game_info_response, GameError):
             return jsonify(result=(game_info_response.description, game_info_response.code))
         else:
-            print "game info this one", game_info_response.game
             return jsonify({ "gameId" : game_info_response.game.gameId,
                              "players" : [ { "userId" : player.userId,
                                             "state" : player.state,

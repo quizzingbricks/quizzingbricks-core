@@ -75,7 +75,7 @@ def logout():
     #session.pop('on_update', None)
     #session.clear()
     print "inside logout"
-    flash('You were logged out')
+    #flash('You were logged out')
     return redirect(url_for('index'))
 
 
