@@ -197,7 +197,7 @@ def start_game(lobby):
 	players = lobby.current_players
 	msg = CreateGameRequest(players=players)
 	try:
-		create_game_response = gameservice.send(msg)
+		create_game_response = gameservice.send(msg, timeout=3000)
 		if isinstance(create_game_response, GameError):
 			print "Error", create_game_response.description, " code: ", create_game_response.code
 			#we want to keep the lobby
