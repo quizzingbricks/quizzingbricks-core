@@ -11,7 +11,7 @@ from quizzingbricks.client.exceptions import TimeoutError
 from quizzingbricks.common.protocol import (
     RpcError, GetLobbyListRequest, GetLobbyListResponse,
     CreateLobbyRequest, CreateLobbyResponse, GetLobbyStateRequest, GetLobbyStateResponse,
-    AnswerLobbyInviteRequest, InviteLobbyRequest, InviteLobbyResponse, StartGameRequest)
+    AnswerLobbyInviteRequest, InviteLobbyRequest, InviteLobbyResponse, StartGameRequest, RemoveLobbyRequest, RemoveLobbyResponse)
 
 lobbyservice = LobbyServiceClient("tcp://*:5552")
 
@@ -192,5 +192,13 @@ def start_lobby(lobby_id):
 @app.route("/api/games/lobby/<int:lobby_id>/end/", methods=["POST"])
 @token_required
 def end_lobby(lobby_id):
-    pass
+    try:
+        response = lobbyservice.remove_lobby(RemoveLobbyRequest(userId=g.user.id, lobbyId=lobby_id), timeout=5000)
+
+        # TODO: add RpcError check!
+        if isinstance(response, RemoveLobbyResponse):
+            if response.lobby_removed: return "OK"
+        return api_error("You are not permitted to that lobby", 42), 400 # assume until usage of RpcError
+    except TimeoutError as e:
+        return api_error("Service is not available", 500, 500)
 

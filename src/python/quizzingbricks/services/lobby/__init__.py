@@ -319,7 +319,7 @@ class LobbyService(NunciusService):
                 return RpcError(message="Lobby does not exists", error_code=002)
 
             if lobbyQuery.owner_id == request.userId:
-                lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id == request.lobbyId).filter(LobbyMembership.status=="accept").all()
+                lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id == request.lobbyId).filter(LobbyMembership.status=="member").all()
                 users = map(lambda i:i.user_id, lobbyMembershipQuery)
                 
                 # TODO send lobbyID to handlers addtoqueue
