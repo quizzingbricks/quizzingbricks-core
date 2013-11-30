@@ -10,7 +10,7 @@ message Lobby {
 
 message LobbyMembership {
 	required User user = 1;
-	required string status = 2 [default = "Invited"];
+	required string status = 2 [default = "invited"];
 }
 
 
@@ -61,7 +61,7 @@ message AnswerLobbyInviteRequest {
 	required int32 lobbyId = 2;
     required string answer = 3;
 }
-// (Accept = change status in lobby from Invited to Member, Deny = Remove lobbyId from LobbyList)
+// (accept = change status in lobby from invited to member, deny = Remove lobbyId from LobbyList)
 message AnswerLobbyInviteResponse {
 	required bool answer = 1;
 }
