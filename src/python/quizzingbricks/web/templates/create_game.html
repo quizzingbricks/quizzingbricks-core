@@ -30,32 +30,30 @@
 
       
        
-        <p class="lead">
-          </div>
+          
+
+        <br>
+          <div class="container" style="background-color:teal;">
+          <Strong>Owner: </Strong> <br>
+            {% if owner %}    
+            <b>Email:</b>  {{owner.email}} <br>
+            {% endif %}                                             
+          </div> 
+
+          <br>
+          
+          <div class="container" style="background-color:yellow;">
+          <Strong>Membership status: </Strong> <br>
+            {% for member in lobby_members %}    
+               <b>Member:</b> {{member.user.email}}  <br>
+               <b>Status:</b> {{member.status}}  <br>
+               <br>
+            {% endfor %}                                             
+          </div> 
+
 
         
-          <div class="container">
-          <b>Accepted: </b> <br>
-            {% for friend in accept_friends%}    
-              {{friend}} <br>
-            {% endfor %}                                             
-          </div> 
-
-          <div class="container">
-          <b>Declined: </b> <br>
-            {% for friend in deny_friends%}    
-              {{friend}} <br>
-            {% endfor %}                                             
-          </div> 
-
-          <div class="container">
-          <b>Havn't answered: </b> <br>
-            {% for friend in none_friends%}    
-              {{friend}} <br>
-            {% endfor %}                                             
-          </div> 
         
-      
 
         <form action = "{{ url_for('lobby_state', game_type=game_type, lobby_id=lobby_id) }}" method=post>
           <button type=submit> Update State </button>
@@ -65,12 +63,13 @@
           <button type=submit> Lobby List </button>
         </form> 
         <b>Game invitation from:</b>
-        {% for lobby in invited_lobbies %}
-        <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-          <input name=accepted_invite value='{{lobby[0]}}' hidden ><br>
-          {{lobby[1]}} <button type=submit> Accept invite </button>
-          
-        </form> 
+        {% for lobby in lobby_list %}
+          {% if lobby.owner.id !=  session['userId'] %}
+            <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+              <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden ><br>
+              {{lobby.owner.email}} <button name="accepted_invite" type=submit> Accept invite </button> <button name="declined_invite" type=submit> Decline </button>
+            </form> 
+          {% endif %}  
         {% endfor %}
 
         <form action = "{{ url_for('remove_lobby', game_type=game_type, lobby_id=lobby_id) }}" method=post>
@@ -86,7 +85,7 @@
           <button type=submit> Start Game </button>
         </form> 
 
-
+        </div>
     </div><!-- /.container -->
 
 {% endblock %}
