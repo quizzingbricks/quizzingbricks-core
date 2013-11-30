@@ -4,7 +4,7 @@
 """
 
 import sqlalchemy as sa
-import quizzingbricks.services.lobby.lobbyqueue
+import quizzingbricks.services.lobby.lobbyqueue as lobbyqueue
 
 from quizzingbricks.nuncius import NunciusService, expose
 from quizzingbricks.common.db import session
@@ -37,8 +37,8 @@ from quizzingbricks.common.protocol import (
     GetMultipleUsersResponse,
     GetUserRequest,
     GetUserResponse,
-    LobbyMembershipn,
-    Lobbyn
+    LobbyMembership as ProtoLobbyMembership,
+    Lobby as ProtoLobby
 )
 
 # Test commands
@@ -156,10 +156,10 @@ class LobbyService(NunciusService):
                         # Create lobby membership
                         user_request=userservice.get_user(GetUserRequest(userId=member.user_id), timeout=5000)
                         the_actual_user = user_request.user
-                        lobbym = LobbyMembershipn(user=the_actual_user, status=member.status) 
+                        lobbym = ProtoLobbyMembership(user=the_actual_user, status=member.status) 
                         lobbymemb_list.append(lobbym) 
                     
-                    lobby_i = Lobbyn(lobbyId=lobby.lobby_id, owner=lobby_owner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
+                    lobby_i = ProtoLobby(lobbyId=lobby.lobby_id, owner=lobby_owner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
                     lobbies_list.append(lobby_i) # Append lobby to return list
                 return GetLobbyListResponse(lobbies=lobbies_list)
 
@@ -183,10 +183,10 @@ class LobbyService(NunciusService):
             lobbymemb_list = []
             for member in lobbyMembershipQuery:
                 userInLobby = userservice.get_user(GetUserRequest(userId=member.user_id), timeout=5000)
-                lobbym = LobbyMembershipn(user=userInLobby.user, status=member.status) 
+                lobbym = ProtoLobbyMembership(user=userInLobby.user, status=member.status) 
                 lobbymemb_list.append(lobbym)
             
-            lobby_return = Lobbyn(lobbyId=request.lobbyId, owner=lobbyOwner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
+            lobby_return = ProtoLobby(lobbyId=request.lobbyId, owner=lobbyOwner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
                     
             return GetLobbyStateResponse(lobby=lobby_return)
 
@@ -233,9 +233,12 @@ class LobbyService(NunciusService):
         #input : userId=1, lobbyId=2, invite_emails=3
         #return: friends_invited =1
         #invite all the friends listed to lobbyId
+        if not request.invites:
+            return InviteLobbyResponse(friends_invited=False)
+
         with db(session):
             # Clearing out duplicates from invited list
-            users = User.query.filter(User.email.in_(request.invite_emails)).all()
+            users = User.query.filter(User.id.in_(request.invites)).all()
             users = set(users)
             uids = map(lambda u:u.id, users)
             
