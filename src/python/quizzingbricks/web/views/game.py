@@ -29,7 +29,7 @@ def active_games():
         if isinstance(game_list_response, GameError):
             return jsonify(result=(game_list_response.description, game_list_response.code))
         else:
-            print game_list_response
+            #print game_list_response
             return render_template('active_games.html', games= game_list_response.games ) 
             #print "game info this one", game_list_response.games
             #return jsonify({"games":[{ "gameId" : game.gameId} for game in game_list_response.games] }) 
