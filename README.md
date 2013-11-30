@@ -9,12 +9,14 @@ Manual
 Setup Vagrant
 -------------
 $ vagrant up dev
+
 $ vagrant ssh dev
 
 
 Setup development environment for python
 ----------------------------------------
 $ cd /vagrant/
+
 $ sudo python setup.py develop
 
 This install required packages and make our packages available in the environment
