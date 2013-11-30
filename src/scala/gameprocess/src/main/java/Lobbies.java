@@ -1098,17 +1098,17 @@ public final class Lobbies {
      */
     Users.UserOrBuilder getUserOrBuilder();
 
-    // required string status = 2 [default = "Invited"];
+    // required string status = 2 [default = "invited"];
     /**
-     * <code>required string status = 2 [default = "Invited"];</code>
+     * <code>required string status = 2 [default = "invited"];</code>
      */
     boolean hasStatus();
     /**
-     * <code>required string status = 2 [default = "Invited"];</code>
+     * <code>required string status = 2 [default = "invited"];</code>
      */
     java.lang.String getStatus();
     /**
-     * <code>required string status = 2 [default = "Invited"];</code>
+     * <code>required string status = 2 [default = "invited"];</code>
      */
     com.google.protobuf.ByteString
         getStatusBytes();
@@ -1244,17 +1244,17 @@ public final class Lobbies {
       return user_;
     }
 
-    // required string status = 2 [default = "Invited"];
+    // required string status = 2 [default = "invited"];
     public static final int STATUS_FIELD_NUMBER = 2;
     private java.lang.Object status_;
     /**
-     * <code>required string status = 2 [default = "Invited"];</code>
+     * <code>required string status = 2 [default = "invited"];</code>
      */
     public boolean hasStatus() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string status = 2 [default = "Invited"];</code>
+     * <code>required string status = 2 [default = "invited"];</code>
      */
     public java.lang.String getStatus() {
       java.lang.Object ref = status_;
@@ -1271,7 +1271,7 @@ public final class Lobbies {
       }
     }
     /**
-     * <code>required string status = 2 [default = "Invited"];</code>
+     * <code>required string status = 2 [default = "invited"];</code>
      */
     public com.google.protobuf.ByteString
         getStatusBytes() {
@@ -1289,7 +1289,7 @@ public final class Lobbies {
 
     private void initFields() {
       user_ = Users.User.getDefaultInstance();
-      status_ = "Invited";
+      status_ = "invited";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1461,7 +1461,7 @@ public final class Lobbies {
           userBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
-        status_ = "Invited";
+        status_ = "invited";
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -1683,16 +1683,16 @@ public final class Lobbies {
         return userBuilder_;
       }
 
-      // required string status = 2 [default = "Invited"];
-      private java.lang.Object status_ = "Invited";
+      // required string status = 2 [default = "invited"];
+      private java.lang.Object status_ = "invited";
       /**
-       * <code>required string status = 2 [default = "Invited"];</code>
+       * <code>required string status = 2 [default = "invited"];</code>
        */
       public boolean hasStatus() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string status = 2 [default = "Invited"];</code>
+       * <code>required string status = 2 [default = "invited"];</code>
        */
       public java.lang.String getStatus() {
         java.lang.Object ref = status_;
@@ -1706,7 +1706,7 @@ public final class Lobbies {
         }
       }
       /**
-       * <code>required string status = 2 [default = "Invited"];</code>
+       * <code>required string status = 2 [default = "invited"];</code>
        */
       public com.google.protobuf.ByteString
           getStatusBytes() {
@@ -1722,7 +1722,7 @@ public final class Lobbies {
         }
       }
       /**
-       * <code>required string status = 2 [default = "Invited"];</code>
+       * <code>required string status = 2 [default = "invited"];</code>
        */
       public Builder setStatus(
           java.lang.String value) {
@@ -1735,7 +1735,7 @@ public final class Lobbies {
         return this;
       }
       /**
-       * <code>required string status = 2 [default = "Invited"];</code>
+       * <code>required string status = 2 [default = "invited"];</code>
        */
       public Builder clearStatus() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1744,7 +1744,7 @@ public final class Lobbies {
         return this;
       }
       /**
-       * <code>required string status = 2 [default = "Invited"];</code>
+       * <code>required string status = 2 [default = "invited"];</code>
        */
       public Builder setStatusBytes(
           com.google.protobuf.ByteString value) {
@@ -5380,7 +5380,7 @@ public final class Lobbies {
    * Protobuf type {@code AnswerLobbyInviteResponse}
    *
    * <pre>
-   * (Accept = change status in lobby from Invited to Member, Deny = Remove lobbyId from LobbyList)
+   * (accept = change status in lobby from invited to member, deny = Remove lobbyId from LobbyList)
    * </pre>
    */
   public static final class AnswerLobbyInviteResponse extends
@@ -5609,7 +5609,7 @@ public final class Lobbies {
      * Protobuf type {@code AnswerLobbyInviteResponse}
      *
      * <pre>
-     * (Accept = change status in lobby from Invited to Member, Deny = Remove lobbyId from LobbyList)
+     * (accept = change status in lobby from invited to member, deny = Remove lobbyId from LobbyList)
      * </pre>
      */
     public static final class Builder extends
@@ -8724,7 +8724,7 @@ public final class Lobbies {
       "\007lobbyId\030\001 \002(\005\022\024\n\005owner\030\002 \002(\0132\005.User\022&\n\014" +
       "lobbymembers\030\003 \003(\0132\020.LobbyMembership\022\020\n\010" +
       "gameType\030\004 \002(\005\"?\n\017LobbyMembership\022\023\n\004use" +
-      "r\030\001 \002(\0132\005.User\022\027\n\006status\030\002 \002(\t:\007Invited\"" +
+      "r\030\001 \002(\0132\005.User\022\027\n\006status\030\002 \002(\t:\007invited\"" +
       "6\n\022CreateLobbyRequest\022\016\n\006userId\030\001 \002(\005\022\020\n" +
       "\010gameType\030\002 \002(\005\"&\n\023CreateLobbyResponse\022\017" +
       "\n\007lobbyId\030\001 \002(\005\"%\n\023GetLobbyListRequest\022\016" +

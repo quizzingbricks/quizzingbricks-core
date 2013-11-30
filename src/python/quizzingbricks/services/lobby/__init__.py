@@ -107,7 +107,7 @@ class LobbyService(NunciusService):
     def create_lobby(self, request):
         lobby = Lobby(game_type = request.gameType, owner_id = request.userId)
         member = LobbyMembership(
-            status="Member",
+            status="member",
             user_id=request.userId
         )
         lobby.lobbymemberships.append(member)
@@ -182,8 +182,10 @@ class LobbyService(NunciusService):
        
         with db(session):
             userservice = UserServiceClient("tcp://*:5551")
-            lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).all()
             lobbyQuery = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
+            if not lobbyQuery:
+                return RpcError(message="Lobby does not exists", error_code=2)
+            lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).all()
             lobbyOwner = userservice.get_user(GetUserRequest(userId=lobbyQuery.owner_id), timeout=5000)
             
             lobbymemb_list = []
@@ -205,26 +207,29 @@ class LobbyService(NunciusService):
         #check user with request.userId and request.lobbyId also save answer in lobby state for this user
         
         with db(session):
-            accepted_count = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.status=="Member").count()
             query_type = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
-            
-            if(request.answer == "Accept"):
+            if not query_type:
+                return RpcError(message="Lobby does not exists", error_code=2)
+            accepted_count = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.status=="member").count()
+
+            user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
+            if not user_lobby:
+                return RpcError(message="Not permitted to the lobby", error_code=30)
+
+            if(request.answer == "accept"):
                 if(query_type.game_type > accepted_count + 1):
-                    user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
                     session.delete(user_lobby)
                     #user_lobby.status = "Member"
-                    session.add(LobbyMembership(lobby_id=user_lobby.lobby_id, status="Member", user_id=user_lobby.user_id))
+                    session.add(LobbyMembership(lobby_id=user_lobby.lobby_id, status="member", user_id=user_lobby.user_id))
                     session.commit()
                     return AnswerLobbyInviteResponse(answer=True)
                 else:
-                    user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
                     session.delete(user_lobby)
                     session.commit()
                     return AnswerLobbyInviteResponse(answer=False)
                     
-            elif(request.answer == "Deny"):
+            elif(request.answer == "deny"):
                 try:
-                    user_lobby = LobbyMembership.query.filter(LobbyMembership.lobby_id==request.lobbyId).filter(LobbyMembership.user_id==request.userId).first()
                     session.delete(user_lobby)
                     session.commit()
                     return AnswerLobbyInviteResponse(answer=True)
@@ -269,7 +274,7 @@ class LobbyService(NunciusService):
             
             else:
                 for invited in users:
-                    lobby_membership = LobbyMembership(lobby_id = request.lobbyId, status = "Invited" , user_id = invited.id)
+                    lobby_membership = LobbyMembership(lobby_id = request.lobbyId, status = "invited" , user_id = invited.id)
                     session.add(lobby_membership)
                 
                 session.commit()               
@@ -309,9 +314,12 @@ class LobbyService(NunciusService):
         with db(session):
             #lobbyservice = LobbyServiceClient("tcp://*:5552")
             lobbyQuery = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
-            
+
+            if not lobbyQuery:
+                return RpcError(message="Lobby does not exists", error_code=002)
+
             if lobbyQuery.owner_id == request.userId:
-                lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id == request.lobbyId).filter(LobbyMembership.status=="Accept").all()
+                lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id == request.lobbyId).filter(LobbyMembership.status=="accept").all()
                 users = map(lambda i:i.user_id, lobbyMembershipQuery)
                 
                 # TODO send lobbyID to handlers addtoqueue
@@ -327,5 +335,5 @@ class LobbyService(NunciusService):
                     return StartGameResponse(isCreated=True) #temporary test variable
                 else:
                     return StartGameResponse(isCreated=False)
-        return RpcError(message="Incorrect user or lobby") 
+        return RpcError(message="No permission to manage the game", error_code=35)
 
