@@ -1,14 +1,14 @@
 
 import "users.proto";
 
-message Lobbyn {
+message Lobby {
 	required int32 lobbyId = 1;
 	required User owner = 2;
-	repeated LobbyMembershipn lobbymembers = 3;
+	repeated LobbyMembership lobbymembers = 3;
 	required int32 gameType = 4;
 }
 
-message LobbyMembershipn {
+message LobbyMembership {
 	required User user = 1;
 	required string status = 2 [default = "Invited"];
 }
@@ -38,7 +38,7 @@ message GetLobbyListRequest {
 }
 
 message GetLobbyListResponse {
-    repeated Lobbyn lobbies = 1;
+    repeated Lobby lobbies = 1;
 
 }
 
@@ -51,7 +51,7 @@ message GetLobbyStateRequest {
 
 // 2 lists 1 with emails of the friends and 1 with answers corresponding to the same index in the email list
 message GetLobbyStateResponse {
-    required Lobbyn lobby = 1;
+    required Lobby lobby = 1;
 }
 
 //************* Accept invite ***************
@@ -70,7 +70,7 @@ message AnswerLobbyInviteResponse {
 message InviteLobbyRequest {
 	required int32 userId = 1;
 	required int32 lobbyId = 2;
-	repeated string invite_emails = 3;
+	repeated int32 invites = 3;
 }
 
 message InviteLobbyResponse {
