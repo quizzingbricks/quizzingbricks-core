@@ -20,7 +20,7 @@
                 {% if friends_list %}
                     {% set i = 1 %}
                     {% for friend in friends_list %}
-                      {{friend}}  <input type="checkbox" name=friend_{{i}} value='{{friend}}' ><br>
+                      {{friend.email}}  <input type="checkbox" name=friend_{{i}} value='{{friend.id}}' ><br>
                        {% set i = i+1%} 
                     {% endfor %}
                 {% endif%} 
