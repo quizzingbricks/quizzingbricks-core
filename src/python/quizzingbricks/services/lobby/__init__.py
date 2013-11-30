@@ -106,6 +106,12 @@ class LobbyService(NunciusService):
     @expose("create_lobby")
     def create_lobby(self, request):
         lobby = Lobby(game_type = request.gameType, owner_id = request.userId)
+        member = LobbyMembership(
+            status="Member",
+            user_id=request.userId
+        )
+        lobby.lobbymemberships.append(member)
+
         session.add(lobby)
         session.commit()
         return CreateLobbyResponse(lobbyId=lobby.lobby_id)
