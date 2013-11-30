@@ -32,6 +32,7 @@ def lobby_invite(game_type,lobby_id):
             for value in f.getlist(key):
                 if not value ==''  :
                     friends=friends+[value]
+                    print friends
     lobby_invite_response = lobbyservice.inviteToLobby(InviteLobbyRequest(userId=session['userId'],lobbyId=lobby_id, invite_emails=friends))
     if (isinstance(lobby_invite_response, InviteLobbyResponse)):
         print lobby_invite_response
@@ -54,16 +55,16 @@ def lobby_state(game_type, lobby_id):
     lobby_state_response = lobbyservice.getLobbyState(GetLobbyStateRequest(lobbyId=lobby_id))
     if (isinstance(lobby_state_response, GetLobbyStateResponse)):
         print lobby_state_response
-        print len(lobby_state_response.users)
+        #print len(lobby_state_response.users)
         #print lobby_state_response.friend_email[0]
-        for x in range(0, len(lobby_state_response.users)):
-            print lobby_state_response.users[x].email, lobby_state_response.answer[x]
-            if (lobby_state_response.answer[x] == "Accept"):
-                accept_friends = accept_friends + [lobby_state_response.users[x].email]
-            if (lobby_state_response.answer[x] == "Deny"):
-                deny_friends = deny_friends + [lobby_state_response.users[x].email]
-            if (lobby_state_response.answer[x] == "None"):  
-                none_friends = none_friends + [lobby_state_response.users[x].email]
+        # for x in range(0, len(lobby_state_response.users)):
+        #     print lobby_state_response.users[x].email, lobby_state_response.answer[x]
+        #     if (lobby_state_response.answer[x] == "Accept"):
+        #         accept_friends = accept_friends + [lobby_state_response.users[x].email]
+        #     if (lobby_state_response.answer[x] == "Deny"):
+        #         deny_friends = deny_friends + [lobby_state_response.users[x].email]
+        #     if (lobby_state_response.answer[x] == "None"):  
+        #         none_friends = none_friends + [lobby_state_response.users[x].email]
 
 
     return render_template('create_game.html' ,none_friends = none_friends, deny_friends = deny_friends, accept_friends = accept_friends,friends=friends, friends_list=friends_list, game_type=game_type, lobby_id=lobby_id) 
@@ -82,11 +83,11 @@ def lobby_list(game_type, lobby_id):
     #lobby_list_response = lobbyservice.getLobbyList(GetLobbyListRequest(userId=session['userId']))
     if (isinstance(lobby_list_response, GetLobbyListResponse)):
 
-        #print lobby_list_response
-        for x in range(0, len(lobby_list_response.lobbyIds)):
-            print lobby_list_response.lobbyIds[x], lobby_list_response.status[x], lobby_list_response.owner[x]
-            if (lobby_list_response.status[x] == "Invited"):
-                invited_lobbies = invited_lobbies + [(lobby_list_response.lobbyIds[x],lobby_list_response.owner[x].email)]
+        print lobby_list_response
+        # for x in range(0, len(lobby_list_response.lobbyIds)):
+        #     print lobby_list_response.lobbyIds[x], lobby_list_response.status[x], lobby_list_response.owner[x]
+        #     if (lobby_list_response.status[x] == "Invited"):
+        #         invited_lobbies = invited_lobbies + [(lobby_list_response.lobbyIds[x],lobby_list_response.owner[x].email)]
 
     return render_template('create_game.html' ,invited_lobbies=invited_lobbies, friends_list=friends_list, game_type=game_type, lobby_id=lobby_id)
 
@@ -132,8 +133,8 @@ def remove_lobby(game_type,lobby_id):
     return render_template('create_game.html',friends_list=friends_list,game_type=game_type,lobby_id=lobby_id)
 
 
-@app.route('/get_friends/<int:game_type>',methods=['GET'])
-def get_friends(game_type):
+@app.route('/create_lobby/<int:game_type>',methods=['GET'])
+def create_lobby(game_type):
     print "get_friends test 2p"
     print game_type
     print session['userId']
