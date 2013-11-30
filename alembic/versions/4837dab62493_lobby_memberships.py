@@ -19,7 +19,7 @@ def upgrade():
     op.create_table(
         "lobbymemberships",
         sa.Column("lobby_id", sa.Integer, sa.ForeignKey("lobbies.lobby_id"), primary_key=True),
-        sa.Column("user_id",sa.Integer, sa.ForeignKey("users.id"), nullable=False),
+        sa.Column("user_id",sa.Integer, sa.ForeignKey("users.id"), primary_key=True),
         sa.Column("status", sa.String, nullable=False, index=True),
         
         sa.Column("created_at", sa.DateTime, default=datetime.datetime.utcnow, nullable=False),
