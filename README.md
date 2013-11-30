@@ -50,9 +50,11 @@ use the following commando
 Which would generate a file under the alembic folder.
 
 1. To upgrade to the latest revision/migration, use
-        $ alembic upgrade head
+
+    $ alembic upgrade head
 
 2. To downgrade (redo, delete previous revision), use
-        $ alembic downgrade -1
+
+    $ alembic downgrade -1
 
 Example can be found in alembic/versions/3899a0e148d3_create_initial_user_.py
