@@ -40,7 +40,7 @@ function assign_colors(friends, userId,gameId) {
     element = null;
     teststring = ""
     for (var i = 0; i < length; i++) {
-        element = friends[i]; 
+        element = friends[i];
         teststring = teststring + element + " i: "+ i + "\n";
         if (i==0) { TOKEN.YELLOW.userId = element }
         if (i==1) { TOKEN.BLUE.userId   = element }

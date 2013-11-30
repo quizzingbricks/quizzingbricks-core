@@ -9,7 +9,7 @@
 
 
       {% for game in games %}
-        <b> Game: </b> {{game.gameId}} <br>	
+        <b> Game: </b> <a href="/game_board/{{game.gameId}}"> {{game.gameId}} </a> <br>	
 
       {% endfor %}
 

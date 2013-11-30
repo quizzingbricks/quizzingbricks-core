@@ -35,9 +35,11 @@
               <div  >
                GameId = <b> {{gameId}} </b> 
                <!--<strong> Players: </strong>  -->
+
+
                 <div class="row">
                   <div class="player_container" >
-                    <br>You: <img  onload="assign_colors({{friends}},{{userId}},{{gameId}})"  onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
+                    <br>You: <img  onload="assign_colors([{{friends | map(attribute= "id") | join(",") }}],{{userId}},{{gameId}})"  onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
                     <div id="status_id_{{userId}}" >
                     
                     </div> 
@@ -49,8 +51,8 @@
                 {% if i== 1%}
                   <div class="row">
                     <div class="player_container"  >
-                      {{friend[0]|truncate(20, True) }} : <img src="/static/img/BoardCell_Yellow.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
-                      <div id ="status_id_{{friend[1]}}">
+                      {{friend.email |truncate(20, True) }} : <img src="/static/img/BoardCell_Yellow.png" id="{{friend.id}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
+                      <div id ="status_id_{{friend.id}}">
                         
                       </div>
                     </div>
@@ -62,8 +64,8 @@
                 {% if i== 2%}
                   <div class="row">
                     <div class="player_container" >
-                      {{friend[0]|truncate(20, True) }} : <img src="/static/img/BoardCell_Blue.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
-                      <div id ="status_id_{{friend[1]}}" > 
+                      {{friend.email |truncate(20, True) }} : <img src="/static/img/BoardCell_Blue.png" id="{{friend.id}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
+                      <div id ="status_id_{{friend.id}}"> 
                       
                       </div>
                     </div>
@@ -73,8 +75,8 @@
                 {% if i== 3%}
                   <div class="row">
                     <div class="player_container" >
-                      {{friend[0]|truncate(20, True) }} : <img src="/static/img/BoardCell_Green.png" id="{{friend[0]}}" onclick='test_userId(TOKEN.GREEN)' width="64" />
-                      <div id ="status_id_{{friend[1]}}">
+                      {{friend.email |truncate(20, True) }} : <img src="/static/img/BoardCell_Green.png" id="{{friend.id}}" onclick='test_userId(TOKEN.GREEN)' width="64" />
+                      <div id ="status_id_{{friend.id}}">
                         
                       </div>
                     </div>

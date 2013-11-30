@@ -7,7 +7,7 @@ import sys, traceback
 
 from collections import namedtuple
 import zmq.green as zmq
-from quizzingbricks.web import app, gameservice, zmq_ctx
+from quizzingbricks.web import app, gameservice, zmq_ctx, userservice
 
 
 from quizzingbricks.client.exceptions import TimeoutError
@@ -154,14 +154,39 @@ def tile_placement():
 
 @app.route('/game_board/<int:gameId>',methods=["GET"])          #changed so I can test a gameId with 
 def game_board (gameId):
-    friends = []
-    board =[]
-    friends =[("qwe@asd.se", 1)]
-    #user_response= userservice.get_user(GetUserRequest(userId=1)
-    #if(isinstance(user_response, GetUserResponse)):
+    memberIds = []
 
 
-    return render_template('game_board.html',friends=friends,board=board, gameId=gameId, userId=session['userId'])
+
+    msg = GameInfoRequest()
+    msg.gameId = gameId
+    try:
+        game_info_response = gameservice.send(msg)
+        if isinstance(game_info_response, GameError):
+            return jsonify(result=(game_info_response.description, game_info_response.code))
+        else:
+            for player in game_info_response.game.players:
+                if player.userId != session['userId']:
+                    memberIds.append(player.userId)
+            multiple_player_response = userservice.get_multiple_users(GetMultipleUsersRequest(userIds=memberIds))
+            if (isinstance(multiple_player_response, GetMultipleUsersResponse)):
+                print multiple_player_response
+                pass
+
+            # return jsonify({ "gameId" : game_info_response.game.gameId,
+            #                  "players" : [ { "userId" : player.userId,
+            #                                 "state" : player.state,
+            #                                 "x" : player.x,
+            #                                 "y" : player.y,
+            #                                 "question" : player.question,
+            #                                 "alternatives" : [a for a in player.alternatives],
+            #                                 "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.game.players ],
+            #                  "board" : [b for b in game_info_response.game.board ]
+            #               })
+    except TimeoutError as e:
+        return jsonify(result = "Timeout")
+
+    return render_template('game_board.html',friends=list(multiple_player_response.users), gameId=gameId, userId=session['userId'])
 
 @app.route("/game_board/<int:game_id>/events/")
 def game_listener(game_id):
