@@ -1,84 +1,13 @@
-import org.zeromq.ZMQ
-import org.zeromq.ZeroMQ
 import akka.actor._
 import akka.zeromq._
 import akka.util.ByteString
 import org.zeromq._
-import scala.concurrent.Future
-import scala.collection.JavaConverters._
-import scala.collection.mutable.HashMap
-
-import akka.pattern.ask
-import scala.concurrent.duration._
+import scala.slick.driver.PostgresDriver.simple._
 
 
-class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
-{
-    println("Creating worker #" + n + ".")
-   
-    val socket = ZeroMQExtension(context.system).newReqSocket(
-                        Array(Connect("tcp://127.0.0.1:1235"), Listener(self)))
-                        
-    Thread.sleep(1000)
-    
-    //val worker = context.actorOf(Props(classOf[Worker], n, gameCache))
-    
-    var senderId = ByteString()
-    
-    override def preStart() 
-    {
-        socket ! ZMQMessage(ByteString("READY"))
-        println("Worker #" + n + " sent READY.")
-    }
-
-    def receive = 
-    {
-        case m: ZMQMessage =>
-            assert(m.frames.length == 4) // backend hash id | 0 | protocol id | protocol message
-            senderId = m.frames(0)
-            val id = m.frames(2).decodeString("UTF-8").toInt
-            val msgByteString = m.frames(3)
-            var msg = MessageTranslator.translate(id, msgByteString)
-
-            println("BrokerWorker #" + n + " passing on a message to the game cache: " + msg)
-            gameCache ! msg
-        case m: Message =>
-            val (i, b) = MessageTranslator.translate(m)
-            socket ! ZMQMessage(senderId, ByteString(), ByteString(i.toString), b)
-            println("BrokerWorker #" + n + " got back a message and passed it on: " + m)
-    }
-}
-
-class GameCache extends Actor
-{
-    var hashMap = new HashMap[Int, (ActorRef, Array[Int])]
-    var highestId = 0
-       
-    def receive =
-    {
-        case CreateGameRequest (players) =>
-            println("GameCache received creategame")
-            highestId = highestId + 1
-            val game = context.system.actorOf(Props(classOf[Game], highestId, players))
-            hashMap.put(highestId, (game, players))
-            // game forward GameInfoRequest(highestId)
-            sender ! CreateGameResponse (highestId)
-        case GameListRequest (player) =>
-            // TODO: HACK: Make this a database query function in a brokerworker instead
-            // right now this is horribly unparallel and also returns no info in the games object of the list
-            // other than the game ids
-            val games = hashMap.filter({case (x, (a, r)) => (r contains player)}).map({ case (x, (a, r)) => x })
-            sender ! GameListResponse(games.map(a => GameMessage(a, Nil, new Array[Int](8*8))).toList)
-        case x: GameRequestMessage =>
-            val game = hashMap.get(x.gameId)
-            game match
-            {
-                case None => sender ! GameError("There exists no such game.", 200)
-                case Some((g,r)) => g forward x 
-            }
-    }
-}
-
+/**
+ * The messaging broker main loop and entry point of the game process.
+ */
 object GameProcess
 {
     def main(args: Array[String]) 
@@ -103,16 +32,24 @@ object GameProcess
         
         val gameCache = system.actorOf(Props(classOf[GameCache]))
         
+        val db = Database.forURL("jdbc:postgresql://localhost:5432/quizzingbricks_dev",
+                                 driver = "org.postgresql.Driver", user = "qb", password = "qb123")
+        
         for (i <- 0 to 9)
         {
             system.actorOf(Props(classOf[BrokerWorker], i, gameCache))
         }    
 
+        // Main message loop
         while (true) 
         {
+            // Blocking poll until we receive a message
             items.poll
             if(items.pollin(back)) 
             {
+                // The message format from the back is:
+                // worker hash address | 0 | client hash address | message | message | ...
+              
                 println("Backend received a message!")
                 val workerAddr = backend.recv(0)
                 assert(backend.hasReceiveMore())
@@ -124,6 +61,8 @@ object GameProcess
                 {
                     val nil = backend.recv(0)
                     assert(new String(nil) == "" && backend.hasReceiveMore())
+                    // Pass on the message to the client, the message now is:
+                    // client hash address | 0 | message | message | ...
                     frontend.send(clientAddr, ZMQ.SNDMORE)
                     frontend.send("".getBytes, ZMQ.SNDMORE)
                     println("Sent to frontend!")
@@ -138,20 +77,25 @@ object GameProcess
                     assert(new String(clientAddr) == "READY")
                     println("Received ready!")
                 }
+                // Enqueue the worker hash address for use in the next if statement                
                 workerQ.enqueue(workerAddr)
             }
             if(items.pollin(front) && !workerQ.isEmpty)
             {
+                // The message format from the front is:
+                // client hash address | 0 | message | message | ...
                 println("Frontend received a message")
                 val clientAddr = frontend.recv(0)
                 assert(frontend.hasReceiveMore())
                 val nil = frontend.recv(0)
                 assert(frontend.hasReceiveMore() && new String(nil) == "")
 
+                // We dequeue a worker and use its address to construct a new message like this:
+                // worker hash address | 0 | client hash address | 0 | message | message | ...
                 backend.send(workerQ.dequeue, ZMQ.SNDMORE)
                 backend.send("".getBytes, ZMQ.SNDMORE)
                 backend.send(clientAddr, ZMQ.SNDMORE)
-                backend.send("".getBytes, ZMQ.SNDMORE)
+                //backend.send("".getBytes, ZMQ.SNDMORE)
                 println("Sent to backend!")                
                 do
                 {

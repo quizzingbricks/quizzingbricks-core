@@ -12,7 +12,7 @@ object TestClient
             case 1 => 
                 GameInfoRequest(args(0).toInt)
             case 2 =>
-                CreateGameRequest(args map(_.toInt))
+                CreateGameRequest(args.toList.map(_.toInt))
             case 3 =>
                 MoveRequest(args(0).toInt, args(1).toInt, args(2).toInt, args(3).toInt)
             case 4 =>

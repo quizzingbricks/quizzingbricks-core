@@ -1,5 +1,20 @@
 import akka.actor._
 
+/**
+ * Case class representing a question from the database.
+ * @param question The question.
+ * @param alternatives The alternatives.
+ * @param correctAnswer The correct alternative.
+ */
+case class Question(question: String, alternatives: List[String], correctAnswer: Int)
+{
+    override def toString() = "Question { question: " + question + ", alternatives: " + 
+                              alternatives.mkString(", ") + ", correctAnswer: " + correctAnswer + " }"
+}
+
+/**
+ * Static variables of the player class.
+ */
 object Player
 {
     val PLACING = 0
@@ -19,9 +34,26 @@ object Player
     
 }
 
+/**
+ * Class representing a player in a game.
+ * @param userId The user id of this player.
+ * @param state The current state of the player in the game.
+ */
 class Player (var userId: Int, var state: Int) 
 {
+    /**
+     * @return The information about this player as a Protobuf message represented as a case class.
+     */
+    def toMessage() : PlayerMessage =
+    {
+        PlayerMessage(userId, state, x, y, question.question, question.alternatives, 
+                      answer == question.correctAnswer && state == Player.ANSWERED)
+    }    
     
+    /**
+     * Resets the state of this player and the internal variables.
+     * @param toState The state to reset to.
+     */
     def resetTo(toState: Int) =
     {
         state = toState
@@ -49,5 +81,6 @@ class Player (var userId: Int, var state: Int)
     
     var pendingTimeout: Cancellable = null
     
-    override def toString = "Player { userId: " + userId + " state: " + Player.stateToString(state) + ", x: " + x + ", y: " + y + ", question: " + question + ", answer: " + answer + "}"
+    override def toString = "Player { userId: " + userId + " state: " + Player.stateToString(state) + 
+                                    ", x: " + x + ", y: " + y + ", question: " + question + ", answer: " + answer + "}"
 }

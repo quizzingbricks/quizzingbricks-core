@@ -1,5 +1,8 @@
 import akka.util.ByteString
 
+/**
+ * Static object acting as the translator between Protobuf and the internal case class representation. 
+ */
 object MessageTranslator
 {
     val GAMEINFOREQUEST = 11
@@ -16,16 +19,10 @@ object MessageTranslator
     val GAMELISTREQUEST = 41
     val GAMELISTRESPONSE = 42
     
-    def javaListToArray (l: java.util.List[Integer]): Array[Int] =
-    {
-        var ret: Array[Int] = Array[Int]()
-        for (i <- 0 to l.size()-1)
-        {
-            ret :+= l.get(i).intValue()
-        }
-        ret
-    }
-    
+    /**
+     * Transforms a Java list to a Scala list.
+     * @param l The list to transform.
+     */
     def javaListToList [A](l: java.util.List[A]): List[A] =
     {
         var ret: List[A] = Nil
@@ -34,18 +31,28 @@ object MessageTranslator
         ret
     }
     
+    /**
+     * Transforms a Java list of Protobuf Player messages to a Scala list of player messages.
+     * @param l The list of Player messages to translate. 
+     */
     def playerMsgArrayToPlayerList (l: java.util.List[Gameprotocol.Player]) : List[PlayerMessage]=
     {
         var ret: List[PlayerMessage] = List[PlayerMessage]()
         for (i <- 0 to l.size()-1)
         { 
-            var p = new PlayerMessage(l.get(i).getUserId(), l.get(i).getState(), l.get(i).getX(), l.get(i).getY(), l.get(i).getQuestion(), javaListToList(l.get(i).getAlternativesList()), l.get(i).getAnsweredCorrectly())
+            var p = new PlayerMessage(l.get(i).getUserId(), l.get(i).getState(), l.get(i).getX(), 
+                                      l.get(i).getY(), l.get(i).getQuestion(), 
+                                      javaListToList(l.get(i).getAlternativesList()), l.get(i).getAnsweredCorrectly())
 
             ret = ret ++ List[PlayerMessage](p)
         }
         ret
     }
     
+    /**
+     * Transforms a Java list of Protobuf Game messages to a Scala list of game messages.
+     * @param l The list of Game messages to translate. 
+     */
     def gameMsgArrayToGameList (l: java.util.List[Gameprotocol.Game]) : List[GameMessage] = 
     {
         var ret: List[GameMessage] = List[GameMessage]()
@@ -54,12 +61,19 @@ object MessageTranslator
         {
             val protGame = l.get(i)
             
-            var p = new GameMessage(protGame.getGameId(), playerMsgArrayToPlayerList(protGame.getPlayersList()), javaListToArray(protGame.getBoardList()))
+            var p = new GameMessage(protGame.getGameId(), playerMsgArrayToPlayerList(protGame.getPlayersList()), 
+                                    javaListToList(protGame.getBoardList()).map(a => a.toInt).toArray)
             ret = ret ++ List[GameMessage](p)
         }
         ret
     }
     
+    /**
+     * Translates a Protobuf message to an internal case class Message.
+     * @param typ Integer conveying the message type of the bytestring to translate.
+     * @param msgByteString The the message to translate.
+     * @return The case class message representing the translated message.
+     */
     def translate (typ: Int, msgByteString: ByteString): Message = 
     {
         typ match 
@@ -69,12 +83,16 @@ object MessageTranslator
                 GameInfoRequest(info.getGameId())
             case GAMEINFORESPONSE =>
                 val info = Gameprotocol.GameInfoResponse.newBuilder().mergeFrom(msgByteString.toArray).build()                
-                GameInfoResponse(GameMessage(info.getGame().getGameId(), playerMsgArrayToPlayerList(info.getGame().getPlayersList()), javaListToArray(info.getGame().getBoardList())))
+                GameInfoResponse(GameMessage(info.getGame().getGameId(), 
+                                             playerMsgArrayToPlayerList(info.getGame().getPlayersList()), 
+                                             javaListToList(info.getGame().getBoardList()).map(a => a.toInt).toArray))
             case CREATEGAMEREQUEST =>
-                val createGameRequest = Gameprotocol.CreateGameRequest.newBuilder().mergeFrom(msgByteString.toArray).build()
-                CreateGameRequest(javaListToArray(createGameRequest.getPlayersList()))
+                val createGameRequest = Gameprotocol.CreateGameRequest.newBuilder()
+                                                    .mergeFrom(msgByteString.toArray).build()
+                CreateGameRequest(javaListToList(createGameRequest.getPlayersList()).map(_.toInt))
             case CREATEGAMERESPONSE =>
-                val createGameResponse = Gameprotocol.CreateGameResponse.newBuilder().mergeFrom(msgByteString.toArray).build()
+                val createGameResponse = Gameprotocol.CreateGameResponse.newBuilder()
+                                                     .mergeFrom(msgByteString.toArray).build()
                 CreateGameResponse(createGameResponse.getGameId())
             case GAMEERROR =>
                 val fail = Gameprotocol.GameError.newBuilder().mergeFrom(msgByteString.toArray).build()
@@ -101,11 +119,18 @@ object MessageTranslator
                 val gameListRequest = Gameprotocol.GameListRequest.newBuilder().mergeFrom(msgByteString.toArray).build()
                 GameListRequest(gameListRequest.getUserId())
             case GAMELISTRESPONSE =>
-                val gameListResponse = Gameprotocol.GameListResponse.newBuilder().mergeFrom(msgByteString.toArray).build()
+                val gameListResponse = Gameprotocol.GameListResponse.newBuilder()
+                                                   .mergeFrom(msgByteString.toArray).build()
                 GameListResponse(gameMsgArrayToGameList(gameListResponse.getGamesList()))                
         }
     }
     
+    /**
+     * Translates a case class message to a Protobuf message.
+     * @param message The case class of the message to translate.
+     * @param msgByteString A pair where the first part is the message type as an integer and the second part
+     *                      is the Protobuf string.
+     */
     def translate (m: Message): (Int, ByteString) =
     {
         val ret = m match {
@@ -122,7 +147,9 @@ object MessageTranslator
                 for(p <- players)
                 {
                     var playerBuilder = Gameprotocol.Player.newBuilder()
-                    playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y).setAnsweredCorrectly(p.answeredCorrectly).setQuestion(p.question).clearAlternatives()
+                    playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
+                                                 .setAnsweredCorrectly(p.answeredCorrectly)
+                                                 .setQuestion(p.question).clearAlternatives()
                     for(a <- p.alternatives)
                     {
                         playerBuilder = playerBuilder.addAlternatives(a)
@@ -131,7 +158,7 @@ object MessageTranslator
                 }
                 gameInfoResponseBuilder.setGame(gameBuilder.build())
                 (GAMEINFORESPONSE, gameInfoResponseBuilder.build())
-            case CreateGameRequest (players: Array[Int]) =>
+            case CreateGameRequest (players: List[Int]) =>
                 var createGameBuilder = Gameprotocol.CreateGameRequest.newBuilder()
                 for (p <- players)
                     createGameBuilder = createGameBuilder.addPlayers(p)
@@ -142,7 +169,8 @@ object MessageTranslator
                 (CREATEGAMERESPONSE, createGameBuilder.build())                
                 
             case MoveRequest (gameId: Int, userId: Int, x: Int, y: Int) =>
-                (MOVEREQUEST, Gameprotocol.MoveRequest.newBuilder().setGameId(gameId).setUserId(userId).setX(x).setY(y).build())
+                (MOVEREQUEST, Gameprotocol.MoveRequest.newBuilder().setGameId(gameId)
+                                          .setUserId(userId).setX(x).setY(y).build())
                 
             case MoveResponse () =>
                 (MOVERESPONSE, Gameprotocol.MoveResponse.newBuilder().build())
@@ -158,7 +186,8 @@ object MessageTranslator
                     builder = builder.addAlternatives(a)
                 (QUESTIONRESPONSE, builder.build())
             case AnswerRequest (gameId: Int, userId: Int, answer: Int) =>
-                var builder = Gameprotocol.AnswerRequest.newBuilder().setGameId(gameId).setUserId(userId).setAnswer(answer)
+                var builder = Gameprotocol.AnswerRequest.newBuilder().setGameId(gameId)
+                                                        .setUserId(userId).setAnswer(answer)
                 (ANSWERREQUEST, builder.build())
             case AnswerResponse (isCorrect: Boolean) =>
                 var builder = Gameprotocol.AnswerResponse.newBuilder().setIsCorrect(isCorrect)
@@ -177,7 +206,9 @@ object MessageTranslator
                     for(p <- game.players)
                     {
                         var playerBuilder = Gameprotocol.Player.newBuilder()
-                        playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y).setAnsweredCorrectly(p.answeredCorrectly).setQuestion(p.question).clearAlternatives()
+                        playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
+                                                     .setAnsweredCorrectly(p.answeredCorrectly).setQuestion(p.question)
+                                                     .clearAlternatives()
                         for(a <- p.alternatives)
                         {
                             playerBuilder = playerBuilder.addAlternatives(a)
