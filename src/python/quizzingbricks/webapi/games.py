@@ -16,10 +16,25 @@ from quizzingbricks.common.protocol import (
     GameError, GameInfoRequest, GameInfoResponse,
     MoveRequest,
     QuestionRequest, AnswerRequest,
-    BoardChangePubSubMessage, NewRoundPubSubMessage)
+    BoardChangePubSubMessage, NewRoundPubSubMessage, GameListRequest)
 from quizzingbricks.common.protocol import protocol_mapper
 
 gameservice = GameServiceClient("tcp://*:1234", zmq_context=zmq_ctx)
+
+@app.route("/api/games/", methods=["GET"])
+@token_required
+def list_games():
+    try:
+        response = gameservice.send(GameListRequest(userId=g.user.id), timeout=5000)
+        if isinstance(response, GameError):
+            return api_error(response.description, response.code), 400
+        return jsonify(games=[
+            game.gameId for game in list(response.games)
+        ])
+
+    except TimeoutError as e:
+        return api_error("Service is not available", 500), 500
+
 
 @app.route("/api/games/<int:game_id>/", methods=["GET"])
 @token_required
