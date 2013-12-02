@@ -193,6 +193,8 @@ class LobbyService(NunciusService):
                 userInLobby = userservice.get_user(GetUserRequest(userId=member.user_id), timeout=5000)
                 lobbym = ProtoLobbyMembership(user=userInLobby.user, status=member.status) 
                 lobbymemb_list.append(lobbym)
+                print "the user", userInLobby.user.email
+                print "status", member.status
             
             lobby_return = ProtoLobby(lobbyId=request.lobbyId, owner=lobbyOwner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
                     
@@ -217,7 +219,7 @@ class LobbyService(NunciusService):
                 return RpcError(message="Not permitted to the lobby", error_code=30)
 
             if(request.answer == "accept"):
-                if(query_type.game_type > accepted_count + 1):
+                if(query_type.game_type >= accepted_count + 1):
                     session.delete(user_lobby)
                     #user_lobby.status = "Member"
                     session.add(LobbyMembership(lobby_id=user_lobby.lobby_id, status="member", user_id=user_lobby.user_id))
