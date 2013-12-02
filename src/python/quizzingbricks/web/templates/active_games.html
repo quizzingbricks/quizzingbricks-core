@@ -5,40 +5,43 @@
 
       <div class="starter-template">
         <h1>Active Games</h1>
-      </div>
+      
 
 
-      {% for game in games %}
-        <b> Game: </b> <a href="/game_board/{{game.gameId}}"> {{game.gameId}} </a> <br>	
-
+      {% for game in games %} <!-- game[0] is the gameobject itself and game[1] is a list of opponents as User objects  -->
+        <hr>
+        <a href="/game_board/{{game[0].gameId}}">
+          <div style="text-align:left;">
+            <b> Game Id: </b>  {{game[0].gameId}}   <br>
+            <b>Opponents: </b><br>
+            {% for opponent in game[1]%}
+              {{opponent.email}} <br>
+            {% endfor %} 
+            {% for player in game[0].players %}
+              {% if player.userId == session['userId'] %}
+                {% if player.state == 0 %}
+                  <b>Your State: </b> Placing Tile 
+                {% elif player.state == 1 %}
+                  <b>Your State: </b> Have Question to Answer
+                {% elif player.state == 3 %}
+                  <b>Your State: </b> Answered Question
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+         
+          </div>
+        </a>
+         
       {% endfor %}
+<!--
+          0: Placing Tile 
+          1: Placed Tile 
+          2: Answering Question
+          3: Answered Question 
+-->
 
+    </div>
 
-	    <div id="your_turn"> <b>Your Turn</b>
-	    	<hr>
-	    	<li><a href="#">vs Gurr3</a></li>
-	    	<li><a href="#">vs KaemparLinus</a></li>
-	    	<!-- TODO auto generate list -->
-	    	
-	    </div>  
-	    <br>
-	    <br>
-	    <br>
-	    <div id="their_turn"> <b>Their Turn</b>
-	    	<hr>
-	    	<li><a href="#">vs David</a></li>
-	    	<li><a href="#">vs Anton</a></li>
-	    	<!-- TODO auto generate list -->
-	    </div>  
-	    <br>
-	    <br>
-	    <br>  
-	    <div id="finished_games"> <b>Finished Games</b>
-	    	<hr>
-	    	<li><a href="#">vs Linus</a></li>
-	    	<li><a href="#">vs William</a></li>
-	    	<!-- TODO auto generate list -->
-	    </div>  
     </div><!-- /.container -->
 
 
