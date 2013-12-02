@@ -147,12 +147,14 @@ def deny_invite(lobby_id):
 @token_required
 def lobby_invitation(lobby_id):
     try:
+        if not request.json:
+            return api_error("Required JSON body is missing or bad type, check your content-type")
+
         raw_user_ids = request.json.get("invite")
         if not raw_user_ids or not isinstance(raw_user_ids, list):
             return api_error("Required JSON body is missing or bad type", 004), 400
         user_ids = map(lambda x: int(x), raw_user_ids) # better method?
 
-        print "DEBUG!!!", g.user.id, user_ids
 
         response = lobbyservice.invite_to_lobby(
             InviteLobbyRequest(userId=g.user.id, lobbyId=lobby_id, invites=user_ids),

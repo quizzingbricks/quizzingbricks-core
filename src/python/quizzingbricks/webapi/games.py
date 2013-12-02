@@ -51,8 +51,8 @@ def game_details(game_id):
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
-                                            "question" : player.question,
-                                            "alternatives" : [a for a in player.alternatives],
+                                            #"question" : player.question,
+                                            #"alternatives" : [a for a in player.alternatives],
                                             "answeredCorrectly" : player.answeredCorrectly } for player in rep.game.players ],
                              "board" : [ b for b in rep.game.board ]
                           })
