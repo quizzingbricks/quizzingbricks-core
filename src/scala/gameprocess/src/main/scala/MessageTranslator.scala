@@ -42,7 +42,8 @@ object MessageTranslator
         { 
             var p = new PlayerMessage(l.get(i).getUserId(), l.get(i).getState(), l.get(i).getX(), 
                                       l.get(i).getY(), l.get(i).getQuestion(), 
-                                      javaListToList(l.get(i).getAlternativesList()), l.get(i).getAnsweredCorrectly())
+                                      javaListToList(l.get(i).getAlternativesList()), l.get(i).getAnsweredCorrectly(),
+                                      l.get(i).getScore())
 
             ret = ret ++ List[PlayerMessage](p)
         }
@@ -149,7 +150,7 @@ object MessageTranslator
                     var playerBuilder = Gameprotocol.Player.newBuilder()
                     playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
                                                  .setAnsweredCorrectly(p.answeredCorrectly)
-                                                 .setQuestion(p.question).clearAlternatives()
+                                                 .setQuestion(p.question).clearAlternatives().setScore(p.score)
                     for(a <- p.alternatives)
                     {
                         playerBuilder = playerBuilder.addAlternatives(a)
@@ -208,7 +209,7 @@ object MessageTranslator
                         var playerBuilder = Gameprotocol.Player.newBuilder()
                         playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
                                                      .setAnsweredCorrectly(p.answeredCorrectly).setQuestion(p.question)
-                                                     .clearAlternatives()
+                                                     .clearAlternatives().setScore(p.score)
                         for(a <- p.alternatives)
                         {
                             playerBuilder = playerBuilder.addAlternatives(a)

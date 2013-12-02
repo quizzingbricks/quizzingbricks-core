@@ -2,6 +2,7 @@
 """
     Copyright (C) Quizzingbricks
 """
+import random
 
 import sys, traceback
 import json
@@ -44,15 +45,16 @@ def game_details(game_id):
     try:
         rep = gameservice.send(msg, timeout=5000)
         if isinstance(rep, GameError):
-            return api_error(rep.description, rep.code)
+            return api_error(rep.description, rep.code), 400
         else:
             return jsonify({ "gameId" : rep.game.gameId,
                              "players" : [ { "userId" : player.userId,
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
-                                            "question" : player.question,
-                                            "alternatives" : [a for a in player.alternatives],
+                                            "score": player.score,
+                                            #"question" : player.question,
+                                            #"alternatives" : [a for a in player.alternatives],
                                             "answeredCorrectly" : player.answeredCorrectly } for player in rep.game.players ],
                              "board" : [ b for b in rep.game.board ]
                           })

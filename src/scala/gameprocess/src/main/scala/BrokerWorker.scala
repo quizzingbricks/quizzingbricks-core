@@ -48,12 +48,12 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
             {
                 val players = (for { p <- PlayersGamesTable if p.gameId === id } 
                                    yield (p.playerId, p.state, p.x, p.y, p.question, p.alt1, p.alt2, p.alt3,
-                                          p.alt4, p.correctAnswer, p.answer)).list
+                                          p.alt4, p.correctAnswer, p.answer, p.score)).list
                 val strBoard = (for { p <- GamesTable if p.gameId === id} yield (p.board)).list.head 
                 val intBoard = strBoard.split(",").map(_.toInt)
-                val playermsgs = players.map ({case (id, state, x, y, question, alt1, alt2, alt3, alt4, ans, corAns) 
+                val playermsgs = players.map ({case (id, state, x, y, question, alt1, alt2, alt3, alt4, ans, corAns, score) 
                                                => PlayerMessage(id, state, x, y, question, List(alt1, alt2, alt3, alt4),
-                                                                (if (ans == corAns) true else false))})
+                                                                (if (ans == corAns) true else false), score)})
                 l = l ::: List[GameMessage](GameMessage (id, playermsgs, intBoard))
             } 
 

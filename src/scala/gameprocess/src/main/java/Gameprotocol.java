@@ -3932,6 +3932,16 @@ public final class Gameprotocol {
      * <code>optional bool answeredCorrectly = 7;</code>
      */
     boolean getAnsweredCorrectly();
+
+    // required int32 score = 8;
+    /**
+     * <code>required int32 score = 8;</code>
+     */
+    boolean hasScore();
+    /**
+     * <code>required int32 score = 8;</code>
+     */
+    int getScore();
   }
   /**
    * Protobuf type {@code Player}
@@ -4020,6 +4030,11 @@ public final class Gameprotocol {
             case 56: {
               bitField0_ |= 0x00000020;
               answeredCorrectly_ = input.readBool();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              score_ = input.readInt32();
               break;
             }
           }
@@ -4218,6 +4233,22 @@ public final class Gameprotocol {
       return answeredCorrectly_;
     }
 
+    // required int32 score = 8;
+    public static final int SCORE_FIELD_NUMBER = 8;
+    private int score_;
+    /**
+     * <code>required int32 score = 8;</code>
+     */
+    public boolean hasScore() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required int32 score = 8;</code>
+     */
+    public int getScore() {
+      return score_;
+    }
+
     private void initFields() {
       userId_ = 0;
       state_ = 0;
@@ -4226,6 +4257,7 @@ public final class Gameprotocol {
       question_ = "";
       alternatives_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       answeredCorrectly_ = false;
+      score_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4237,6 +4269,10 @@ public final class Gameprotocol {
         return false;
       }
       if (!hasState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasScore()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4267,6 +4303,9 @@ public final class Gameprotocol {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBool(7, answeredCorrectly_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(8, score_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4309,6 +4348,10 @@ public final class Gameprotocol {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, answeredCorrectly_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, score_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4440,6 +4483,8 @@ public final class Gameprotocol {
         bitField0_ = (bitField0_ & ~0x00000020);
         answeredCorrectly_ = false;
         bitField0_ = (bitField0_ & ~0x00000040);
+        score_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -4498,6 +4543,10 @@ public final class Gameprotocol {
           to_bitField0_ |= 0x00000020;
         }
         result.answeredCorrectly_ = answeredCorrectly_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.score_ = score_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4544,6 +4593,9 @@ public final class Gameprotocol {
         if (other.hasAnsweredCorrectly()) {
           setAnsweredCorrectly(other.getAnsweredCorrectly());
         }
+        if (other.hasScore()) {
+          setScore(other.getScore());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4554,6 +4606,10 @@ public final class Gameprotocol {
           return false;
         }
         if (!hasState()) {
+          
+          return false;
+        }
+        if (!hasScore()) {
           
           return false;
         }
@@ -4907,6 +4963,39 @@ public final class Gameprotocol {
       public Builder clearAnsweredCorrectly() {
         bitField0_ = (bitField0_ & ~0x00000040);
         answeredCorrectly_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required int32 score = 8;
+      private int score_ ;
+      /**
+       * <code>required int32 score = 8;</code>
+       */
+      public boolean hasScore() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required int32 score = 8;</code>
+       */
+      public int getScore() {
+        return score_;
+      }
+      /**
+       * <code>required int32 score = 8;</code>
+       */
+      public Builder setScore(int value) {
+        bitField0_ |= 0x00000080;
+        score_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 score = 8;</code>
+       */
+      public Builder clearScore() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        score_ = 0;
         onChanged();
         return this;
       }
@@ -9758,22 +9847,23 @@ public final class Gameprotocol {
       "meInfoRequest\022\016\n\006gameId\030\001 \002(\005\"\'\n\020GameInf" +
       "oResponse\022\023\n\004game\030\001 \002(\0132\005.Game\"!\n\017GameLi" +
       "stRequest\022\016\n\006userId\030\001 \002(\005\"(\n\020GameListRes" +
-      "ponse\022\024\n\005games\030\001 \003(\0132\005.Game\"\200\001\n\006Player\022\016" +
+      "ponse\022\024\n\005games\030\001 \003(\0132\005.Game\"\217\001\n\006Player\022\016" +
       "\n\006userId\030\001 \002(\005\022\r\n\005state\030\002 \002(\005\022\t\n\001x\030\003 \001(\005" +
       "\022\t\n\001y\030\004 \001(\005\022\020\n\010question\030\005 \001(\t\022\024\n\014alterna",
-      "tives\030\006 \003(\t\022\031\n\021answeredCorrectly\030\007 \001(\010\"C" +
-      "\n\013MoveRequest\022\016\n\006gameId\030\001 \002(\005\022\016\n\006userId\030" +
-      "\002 \002(\005\022\t\n\001x\030\003 \002(\005\022\t\n\001y\030\004 \002(\005\"\016\n\014MoveRespo" +
-      "nse\"1\n\017QuestionRequest\022\016\n\006gameId\030\001 \002(\005\022\016" +
-      "\n\006userId\030\002 \002(\005\":\n\020QuestionResponse\022\020\n\010qu" +
-      "estion\030\001 \002(\t\022\024\n\014alternatives\030\002 \003(\t\"?\n\rAn" +
-      "swerRequest\022\016\n\006gameId\030\001 \002(\005\022\016\n\006userId\030\002 " +
-      "\002(\005\022\016\n\006answer\030\003 \002(\005\"#\n\016AnswerResponse\022\021\n" +
-      "\tisCorrect\030\001 \002(\010\"X\n\tGameError\022\023\n\013descrip" +
-      "tion\030\001 \002(\t\022\014\n\004code\030\002 \002(\005\022(\n\rgameinforepl",
-      "y\030\003 \001(\0132\021.GameInfoResponse\"/\n\030BoardChang" +
-      "ePubSubMessage\022\023\n\004game\030\001 \002(\0132\005.Game\"\027\n\025N" +
-      "ewRoundPubSubMessageB\016B\014Gameprotocol"
+      "tives\030\006 \003(\t\022\031\n\021answeredCorrectly\030\007 \001(\010\022\r" +
+      "\n\005score\030\010 \002(\005\"C\n\013MoveRequest\022\016\n\006gameId\030\001" +
+      " \002(\005\022\016\n\006userId\030\002 \002(\005\022\t\n\001x\030\003 \002(\005\022\t\n\001y\030\004 \002" +
+      "(\005\"\016\n\014MoveResponse\"1\n\017QuestionRequest\022\016\n" +
+      "\006gameId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\005\":\n\020Questio" +
+      "nResponse\022\020\n\010question\030\001 \002(\t\022\024\n\014alternati" +
+      "ves\030\002 \003(\t\"?\n\rAnswerRequest\022\016\n\006gameId\030\001 \002" +
+      "(\005\022\016\n\006userId\030\002 \002(\005\022\016\n\006answer\030\003 \002(\005\"#\n\016An" +
+      "swerResponse\022\021\n\tisCorrect\030\001 \002(\010\"X\n\tGameE" +
+      "rror\022\023\n\013description\030\001 \002(\t\022\014\n\004code\030\002 \002(\005\022",
+      "(\n\rgameinforeply\030\003 \001(\0132\021.GameInfoRespons" +
+      "e\"/\n\030BoardChangePubSubMessage\022\023\n\004game\030\001 " +
+      "\002(\0132\005.Game\"\027\n\025NewRoundPubSubMessageB\016B\014G" +
+      "ameprotocol"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9827,7 +9917,7 @@ public final class Gameprotocol {
           internal_static_Player_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Player_descriptor,
-              new java.lang.String[] { "UserId", "State", "X", "Y", "Question", "Alternatives", "AnsweredCorrectly", });
+              new java.lang.String[] { "UserId", "State", "X", "Y", "Question", "Alternatives", "AnsweredCorrectly", "Score", });
           internal_static_MoveRequest_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_MoveRequest_fieldAccessorTable = new

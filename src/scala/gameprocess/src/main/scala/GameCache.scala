@@ -27,7 +27,7 @@ class GameCache extends Actor
             id = GamesTable.autoInc.insert(board)
 			
             for(p <- players)
-                PlayersGamesTable.insert(p, id, 0, 0, 0, "", "", "", "", "", 0, 0)
+                PlayersGamesTable.insert(p, id, 0, 0, 0, "", "", "", "", "", 0, 0, 0)
         }
         val game = context.system.actorOf(Props(classOf[Game], id, players, Nil, null))
         hashMap.put(id, game)
@@ -57,7 +57,7 @@ class GameCache extends Actor
                         // Populate the player list of the game from the database
                         var l: List[Player] = Nil
                         for((playerId, gameId, state, x, y, question, 
-                             alt1, alt2, alt3, alt4, answer, correctAnswer) <- dbPlayers)
+                             alt1, alt2, alt3, alt4, answer, correctAnswer, score) <- dbPlayers)
                         {
                             var p: Player = new Player(playerId, state)
                             p.x = x

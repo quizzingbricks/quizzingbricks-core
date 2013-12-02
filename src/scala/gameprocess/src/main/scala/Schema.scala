@@ -14,7 +14,7 @@ object GamesTable extends Table[(Int, String)]("games") {
  * Junction table between games and their players.
  */
 object PlayersGamesTable extends Table[(Int, Int, Int, Int, Int, String, String, String, 
-                                        String, String, Int, Int)]("playersgames") {
+                                        String, String, Int, Int, Int)]("playersgames") {
     def playerId = column[Int]("playerid")
     def gameId = column[Int]("gameid")
     def state = column[Int]("state")
@@ -27,7 +27,8 @@ object PlayersGamesTable extends Table[(Int, Int, Int, Int, Int, String, String,
     def alt4 = column[String]("alt4")
     def correctAnswer = column[Int]("correctanswer")
     def answer = column[Int]("answer")
-    def * = playerId ~ gameId ~ state ~ x ~ y ~ question ~ alt1 ~ alt2 ~ alt3 ~ alt4 ~ correctAnswer ~ answer
+    def score = column[Int]("score")
+    def * = playerId ~ gameId ~ state ~ x ~ y ~ question ~ alt1 ~ alt2 ~ alt3 ~ alt4 ~ correctAnswer ~ answer ~ score
     
     def pk = primaryKey("pk", (playerId, gameId))
     def idx1 = index("playeridx", (playerId, gameId), unique = true)
