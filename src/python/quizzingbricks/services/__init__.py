@@ -6,7 +6,7 @@
     =============================
     Global                  1: Wrong message type
                             2: Object does not exists
-
+                            3: Wrong parameter 
     UserService
     -----------
     * authenticate          5: Wrong email or password

@@ -77,9 +77,9 @@ def accept_invite(game_type,lobby_id):
     print "accept invite"
     answer=""
     if(request.form.get('accepted_invite') == None):
-        answer="Deny"
+        answer="deny"
     else:
-        answer="Accept"
+        answer="accept"
 
     answer_invite_response = lobbyservice.answer_lobby_invite(AnswerLobbyInviteRequest( userId=session['userId'], 
                                                                                         lobbyId=int(request.form['invite_lobby_id']),

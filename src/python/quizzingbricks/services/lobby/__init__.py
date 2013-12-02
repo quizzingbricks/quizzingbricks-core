@@ -201,7 +201,7 @@ class LobbyService(NunciusService):
 
     @expose("answer_lobby_invite")
     def answer_lobby_invite(self, request):
-        print "accept_lobby_invite"
+        print "answer_lobby_invite"
         #input : userId=1, lobbyId=2
         #return: answer=1
         #check user with request.userId and request.lobbyId also save answer in lobby state for this user
@@ -236,6 +236,9 @@ class LobbyService(NunciusService):
             
                 except Exception as e:
                     return AnswerLobbyInviteResponse(answer=False)
+            
+            return RpcError(message="Unknown answer should be accept or deny", error_code=3)
+
      
 
     @expose("invite_to_lobby")
