@@ -67,6 +67,7 @@
           {% if lobby.owner.id !=  session['userId'] %}
             <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
               <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden ><br>
+              LobbyId: {{lobby.lobbyId}} <br>
               {{lobby.owner.email}} <button name="accepted_invite" type=submit> Accept invite </button> <button name="declined_invite" type=submit> Decline </button>
             </form> 
           {% endif %}  
