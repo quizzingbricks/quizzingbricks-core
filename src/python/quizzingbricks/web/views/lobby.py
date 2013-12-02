@@ -35,9 +35,8 @@ def lobby_invite(game_type,lobby_id):
                                                                             invites=friends))
     if (isinstance(lobby_invite_response, InviteLobbyResponse)):
         print "lobby_invite_response", lobby_invite_response 
-    return render_template('create_game.html',  friends_list=get_friends_list(),
-                                                game_type=game_type, 
-                                                lobby_id=lobby_id)
+    return redirect(url_for('lobby',game_type=game_type, 
+                                    lobby_id=lobby_id))
 
 @app.route('/lobby_state/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
 def lobby_state(game_type, lobby_id):
@@ -57,44 +56,6 @@ def lobby_state(game_type, lobby_id):
                                                 game_type=game_type, 
                                                 lobby_id=lobby_id) 
 
-@app.route('/lobby_list/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
-def lobby_list(game_type, lobby_id):
-    print "lobby list"  
-    print game_type
-    print lobby_id   
-    lobby_list_response = lobbyservice.get_lobbies(GetLobbyListRequest(userId=session['userId']))
-    if (isinstance(lobby_list_response, GetLobbyListResponse)):
-        #print "lobby list response", lobby_list_response
-        pass
-    return render_template('create_game.html',  lobby_list=lobby_list_response.lobbies, 
-                                                friends_list=get_friends_list(), 
-                                                game_type=game_type, 
-                                                lobby_id=lobby_id)
-
-#not sure how to probe if I got invitations /get notifications (not sure we got time to implement notification service)
-@app.route('/accept_invite/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
-def accept_invite(game_type,lobby_id):
-    print "accept invite"
-    answer=""
-    if(request.form.get('accepted_invite') == None):
-        answer="deny"
-    else:
-        answer="accept"
-
-    answer_invite_response = lobbyservice.answer_lobby_invite(AnswerLobbyInviteRequest( userId=session['userId'], 
-                                                                                        lobbyId=int(request.form['invite_lobby_id']),
-                                                                                        answer=answer))
-    if (isinstance(answer_invite_response, AnswerLobbyInviteResponse)):
-        pass
-    return render_template('create_game.html',  friends_list=get_friends_list(),
-                                                game_type=game_type,
-                                                lobby_id=lobby_id)
-
-# @app.route('/start_game/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
-# def start_game(game_type,lobby_id):
-#     print "start game"
-#     print game_type
-#     print lobby_id
 
 @app.route('/remove_lobby/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
 def remove_lobby(game_type,lobby_id):
@@ -117,9 +78,8 @@ def create_lobby(game_type):
     if (isinstance(response, CreateLobbyResponse)):
         pass
         #print response
-    return render_template('create_game.html',  friends_list=get_friends_list(),
-                                                game_type=game_type,
-                                                lobby_id=response.lobbyId)
+    return redirect(url_for('lobby', game_type=game_type,
+                                    lobby_id=response.lobbyId))
 
     
 #************************ AWESOME ERROR FINDER ************************************
@@ -136,6 +96,17 @@ def create_lobby(game_type):
 #TODO: Quick Join 2/4 player Should be easy just call create lobbyId and use that to call start game directly 
 
 
+@app.route('/lobby/<int:game_type>/<int:lobby_id>', methods=['GET'])
+def lobby(game_type, lobby_id,):
+    lobby_state_response = lobbyservice.get_lobby(GetLobbyStateRequest(lobbyId=lobby_id))
+    if (isinstance(lobby_state_response, GetLobbyStateResponse)):
+        pass
+    return render_template('create_game.html',  lobby_members=lobby_state_response.lobby.lobbymembers, 
+                                                friends_list=get_friends_list(),
+                                                game_type=game_type,
+                                                lobby_id=lobby_id)
+
+
 
 @app.route('/start_game/<int:game_type>/<int:lobby_id>',methods=['GET', 'POST'])
 def start_game(game_type,lobby_id):
@@ -145,38 +116,37 @@ def start_game(game_type,lobby_id):
         pass
     return redirect(url_for('index'))
 
-    #start_game_response = lobbyservice.startGame(StartGameRequest(userId=session['userId'], lobbyId=lobby_id))
-    # if (isinstance(start_game_response, StartGameResponse)):
-    #     print "test in isinstance"
-    #     #gameId = str(start_game_response).split(":")[1]
-    #     print start_game_response
-        
-    #     print "gameId:", gameId
-    #     friends = [("asd@asd.se", 2)]
-        
-    #     players =[session['userId'],2]
-    #     msg = CreateGameRequest(players=players)
-    #     try:
-    #         create_game_response = gameservice.send(msg)
-    #         if isinstance(create_game_response, GameError):
-    #             print "Error", create_game_response.description, " code: ", create_game_response.code 
-    #         else:
-    #             print "gameId", create_game_response.gameId
-    #             gameId= create_game_response.gameId
-    #     except TimeoutError as e:
-    #         print "Timeout"
-
-    #     #TODO: fetch friends from the gameId
-    #     #friends = email string fetch with get_user_by_id 
-    #     #also give userId
-        
-    #     board=[]
-    #     return render_template('game_board.html',friends=friends, board=board, gameId=gameId, userId=session['userId'])
-    # else:
-    #     return render_template('create_game.html',friends=friends,test=test, game_type=game_type)
 
 
 
+#********************************* Lobby List *****************************************************
 
+@app.route('/lobby_list', methods=['GET', 'POST'])
+def lobby_list():
+    print "lobby list"  
+  
+    lobby_list_response = lobbyservice.get_lobbies(GetLobbyListRequest(userId=session['userId']))
+    if (isinstance(lobby_list_response, GetLobbyListResponse)):
+        #print "lobby list response", lobby_list_response
+        pass
+    return render_template('lobby_list.html',  lobby_list=lobby_list_response.lobbies, 
+                                                friends_list=get_friends_list())
+
+#not sure how to probe if I got invitations /get notifications (not sure we got time to implement notification service)
+@app.route('/accept_invite/', methods=['GET', 'POST'])
+def accept_invite():
+    print "accept invite"
+    answer=""
+    if(request.form.get('accepted_invite') == None):
+        answer="deny"
+    else:
+        answer="accept"
+
+    answer_invite_response = lobbyservice.answer_lobby_invite(AnswerLobbyInviteRequest( userId=session['userId'], 
+                                                                                        lobbyId=int(request.form['invite_lobby_id']),
+                                                                                        answer=answer))
+    if (isinstance(answer_invite_response, AnswerLobbyInviteResponse)):
+        pass
+    return redirect(url_for('lobby_list'))
 
 

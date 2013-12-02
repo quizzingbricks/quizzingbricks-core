@@ -1,0 +1,70 @@
+{% extends "top_bar_layout.html" %}
+{% block body %} 
+
+
+      
+      <div class="row">
+        <div class="col-xs-12">
+          <b>Lobby invitation from:</b>
+          hmm
+          {% set row = 'odd' %}
+          {% for lobby in lobby_list %}
+            {{row}}
+            {% if lobby.owner.id !=  session['userId']  %}
+
+              {% for member  in lobby.lobbymembers %} 
+
+                {% if member.user.id == session['userId'] and member.status == "invited" %}
+
+                  
+                  {% if row == 'odd' %}
+                  
+                    <div class="row" id="row_odd"  >
+                    {% set row = 'even' %}
+                    {{row}}
+                  {% elif row == 'even'%}
+                    <div class="row" id="row_even"  >
+                    {%set row = 'odd'%}
+                  {% endif %}
+                    
+                
+                    
+                   
+                  
+                    <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+                      <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden ><br>
+                      LobbyId: {{lobby.lobbyId}} <br>
+                      {{lobby.owner.email}} <button name="accepted_invite" type=submit> Accept invite </button> <button name="declined_invite" type=submit> Decline </button>
+                    </form>
+                   
+                  </div> 
+                {% endif %}
+                
+                 
+              {% endfor %} 
+            {% endif %}
+            
+          {% endfor %}
+
+          <br>
+          <br>
+          <b>Your lobbies:</b>
+          {% for lobby in lobby_list %}
+            {% if lobby.owner.id ==  session['userId'] %}
+              <a href="/lobby/{{lobby.gameType}}/{{lobby.lobbyId}}">
+                <div style="text-align:left;">
+                 Lobby:Id   {{lobby.lobbyId}}
+                </div>
+              </a>
+            {% endif %}  
+          {% endfor %}  
+        </div>
+      </div>
+
+ 
+
+
+
+
+
+{% endblock %}
