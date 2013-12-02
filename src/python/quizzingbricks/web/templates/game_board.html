@@ -5,10 +5,6 @@
   <!-- My own scripts -->
  <script src="/static/js/game_board.js"></script>
 
- <div class="container">
-  <div class="starter-template">
-    <h1>Game board</h1>
-    <p class="lead"> Where the magic happens! :D </p>
       <!--<div class="choose_player">
           Choose Player:
           <img src="/static/img/Black_Token.png" onclick='selectToken(TOKEN.BLACK)'/>
@@ -27,10 +23,10 @@
 
 
 
-      <div class="row">
-        <div class="col-md-12"  >
+      <div class="row" id="board_row">
+        <div class="col-xs-12"  >
           <div  class="row">
-            <div class="col-md-4" style="background-color:#d3ffce;  " >
+            <div class="col-xs-4" style="background-color:#d3ffce; min-width:293px;  " >
               info
               <div  >
                GameId = <b> {{gameId}} </b> 
@@ -108,7 +104,7 @@
             </div>
 
 
-            <div class="col-md-8" >
+            <div class="col-xs-8" >
      
               <div id="board">
                 <div id ="square_div">
@@ -130,8 +126,7 @@
 
             </div>
           </div>
-        </div>
-      </div>  
+
 
 
  
