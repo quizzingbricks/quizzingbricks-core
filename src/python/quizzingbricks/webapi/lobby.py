@@ -2,6 +2,7 @@
 """
     Copyright (C) Quizzingbricks
 """
+from collections import Counter
 
 from flask import request, jsonify, g
 
@@ -25,7 +26,9 @@ def get_lobbies():
             {
                 "l_id": lobby.lobbyId,
                 "owner": True if g.user.id == lobby.owner.id else False,
-                "size": lobby.gameType
+                "size": lobby.gameType,
+                "invited_count": len(lobby.lobbymembers),
+                "accepted_count": len(filter(lambda p: p.status == "member", lobby.lobbymembers))
             }
             for lobby in response.lobbies
         ]
@@ -62,7 +65,7 @@ def create_lobby():
                 "size": lobby.gameType,
                 "owner": True if g.user.id == lobby.owner.id else False,
                 "players": [
-                    {"u_id": player.user.id, "u_mail": player.user.email, "status": "accepted" if player.status == "Member" else "Waiting"}
+                    {"u_id": player.user.id, "u_mail": player.user.email, "status": "accepted" if player.status == "member" else "waiting"}
                     for player in list(lobby.lobbymembers)
                 ]
             }
@@ -93,6 +96,8 @@ def get_lobby(id):
                 "l_id": lobby.lobbyId,
                 "size": lobby.gameType,
                 "owner": True if g.user.id == lobby.owner.id else False,
+                "invited_count": len(lobby.lobbymembers),
+                "accepted_count": len(filter(lambda p: p.status == "member", lobby.lobbymembers)),
                 "players": [
                     {"u_id": player.user.id, "u_mail": player.user.email, "status": "accepted" if player.status == "member" else "waiting"}
                     for player in list(lobby.lobbymembers)
