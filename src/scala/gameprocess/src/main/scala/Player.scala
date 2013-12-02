@@ -47,7 +47,7 @@ class Player (var userId: Int, var state: Int)
     def toMessage() : PlayerMessage =
     {
         PlayerMessage(userId, state, x, y, question.question, question.alternatives, 
-                      answer == question.correctAnswer && state == Player.ANSWERED)
+                      answer == question.correctAnswer && state == Player.ANSWERED, score)
     }    
     
     /**
@@ -72,6 +72,8 @@ class Player (var userId: Int, var state: Int)
             case _ =>
         }
     }
+    
+    var score: Int = 0
     
     var x: Int = 0
     var y: Int = 0

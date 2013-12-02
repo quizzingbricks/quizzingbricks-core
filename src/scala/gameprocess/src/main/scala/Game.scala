@@ -175,6 +175,12 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
      */
     def handleQuestionRequest(player: Int)
     {
+        // If the player is answering a question, we simply retransmit the question he is supposed to answer
+        if(playerMap(player).state == Player.ANSWERING)
+        {
+            sender ! QuestionResponse(playerMap(player).question.question, playerMap(player).question.alternatives)
+            return
+        }
         if(playerMap(player).state != Player.PLACED)
         {
             sender ! GameError("Question is not allowed in the present state", 300)

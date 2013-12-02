@@ -51,6 +51,7 @@ message Player
    optional string question = 5;
    repeated string alternatives = 6;
    optional bool answeredCorrectly = 7;
+   required int32 score = 8;
 }
 
 message MoveRequest

@@ -120,11 +120,11 @@ case class GameListResponse(gameList: List[GameMessage]) extends ReplyMessage
  * @param answeredCorrectly True if the player answered correctly, false if not. Only applicable if state is ANSWERED.                 
  */
 case class PlayerMessage(userId: Int, state: Int, x: Int, y: Int, 
-                         question: String, alternatives: List[String], answeredCorrectly: Boolean)
+                         question: String, alternatives: List[String], answeredCorrectly: Boolean, score: Int)
 {
     override def toString() = "player " + userId + " [" + Player.stateToString(state) + "]: " + "(" + x + "," + y + 
                               ")\n question: " + question.take(20) + "[...]" + "\n  alternatives: " + 
-                              alternatives.mkString + "\n  answeredCorrectly " + answeredCorrectly 
+                              alternatives.mkString + "\n  answeredCorrectly " + answeredCorrectly + "\n  score: " + score
 }
 
 /**

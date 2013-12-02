@@ -4,7 +4,6 @@ import akka.util.ByteString
 import org.zeromq._
 import scala.slick.driver.PostgresDriver.simple._
 
-
 /**
  * The messaging broker main loop and entry point of the game process.
  */
