@@ -70,8 +70,9 @@ def game_info():
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
-                                            "question" : player.question,
-                                            "alternatives" : [a for a in player.alternatives],
+                                            "score": player.score,
+                                            #"question" : player.question,
+                                            #"alternatives" : [a for a in player.alternatives],
                                             "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.game.players ],
                              "board" : [b for b in game_info_response.game.board ]
                           })
