@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='games.proto',
   package='',
-  serialized_pb='\n\x0bgames.proto\"$\n\x11\x43reateGameRequest\x12\x0f\n\x07players\x18\x01 \x03(\x05\"$\n\x12\x43reateGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"?\n\x04Game\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x18\n\x07players\x18\x02 \x03(\x0b\x32\x07.Player\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"!\n\x0fGameInfoRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"\'\n\x10GameInfoResponse\x12\x13\n\x04game\x18\x01 \x02(\x0b\x32\x05.Game\"!\n\x0fGameListRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"(\n\x10GameListResponse\x12\x14\n\x05games\x18\x01 \x03(\x0b\x32\x05.Game\"\x80\x01\n\x06Player\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\r\n\x05state\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x01(\x05\x12\t\n\x01y\x18\x04 \x01(\x05\x12\x10\n\x08question\x18\x05 \x01(\t\x12\x14\n\x0c\x61lternatives\x18\x06 \x03(\t\x12\x19\n\x11\x61nsweredCorrectly\x18\x07 \x01(\x08\"C\n\x0bMoveRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"\x0e\n\x0cMoveResponse\"1\n\x0fQuestionRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\":\n\x10QuestionResponse\x12\x10\n\x08question\x18\x01 \x02(\t\x12\x14\n\x0c\x61lternatives\x18\x02 \x03(\t\"?\n\rAnswerRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x05\"#\n\x0e\x41nswerResponse\x12\x11\n\tisCorrect\x18\x01 \x02(\x08\"X\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12\x0c\n\x04\x63ode\x18\x02 \x02(\x05\x12(\n\rgameinforeply\x18\x03 \x01(\x0b\x32\x11.GameInfoResponse\"/\n\x18\x42oardChangePubSubMessage\x12\x13\n\x04game\x18\x01 \x02(\x0b\x32\x05.Game\"\x17\n\x15NewRoundPubSubMessageB\x0e\x42\x0cGameprotocol')
+  serialized_pb='\n\x0bgames.proto\"$\n\x11\x43reateGameRequest\x12\x0f\n\x07players\x18\x01 \x03(\x05\"$\n\x12\x43reateGameResponse\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"?\n\x04Game\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x18\n\x07players\x18\x02 \x03(\x0b\x32\x07.Player\x12\r\n\x05\x62oard\x18\x03 \x03(\x05\"!\n\x0fGameInfoRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\"\'\n\x10GameInfoResponse\x12\x13\n\x04game\x18\x01 \x02(\x0b\x32\x05.Game\"!\n\x0fGameListRequest\x12\x0e\n\x06userId\x18\x01 \x02(\x05\"(\n\x10GameListResponse\x12\x14\n\x05games\x18\x01 \x03(\x0b\x32\x05.Game\"\x8f\x01\n\x06Player\x12\x0e\n\x06userId\x18\x01 \x02(\x05\x12\r\n\x05state\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x01(\x05\x12\t\n\x01y\x18\x04 \x01(\x05\x12\x10\n\x08question\x18\x05 \x01(\t\x12\x14\n\x0c\x61lternatives\x18\x06 \x03(\t\x12\x19\n\x11\x61nsweredCorrectly\x18\x07 \x01(\x08\x12\r\n\x05score\x18\x08 \x02(\x05\"C\n\x0bMoveRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\t\n\x01x\x18\x03 \x02(\x05\x12\t\n\x01y\x18\x04 \x02(\x05\"\x0e\n\x0cMoveResponse\"1\n\x0fQuestionRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\":\n\x10QuestionResponse\x12\x10\n\x08question\x18\x01 \x02(\t\x12\x14\n\x0c\x61lternatives\x18\x02 \x03(\t\"?\n\rAnswerRequest\x12\x0e\n\x06gameId\x18\x01 \x02(\x05\x12\x0e\n\x06userId\x18\x02 \x02(\x05\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x05\"#\n\x0e\x41nswerResponse\x12\x11\n\tisCorrect\x18\x01 \x02(\x08\"X\n\tGameError\x12\x13\n\x0b\x64\x65scription\x18\x01 \x02(\t\x12\x0c\n\x04\x63ode\x18\x02 \x02(\x05\x12(\n\rgameinforeply\x18\x03 \x01(\x0b\x32\x11.GameInfoResponse\"/\n\x18\x42oardChangePubSubMessage\x12\x13\n\x04game\x18\x01 \x02(\x0b\x32\x05.Game\"\x17\n\x15NewRoundPubSubMessageB\x0e\x42\x0cGameprotocol')
 
 
 
@@ -284,6 +284,13 @@ _PLAYER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='score', full_name='Player.score', index=7,
+      number=8, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -294,7 +301,7 @@ _PLAYER = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=310,
-  serialized_end=438,
+  serialized_end=453,
 )
 
 
@@ -342,8 +349,8 @@ _MOVEREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=440,
-  serialized_end=507,
+  serialized_start=455,
+  serialized_end=522,
 )
 
 
@@ -363,8 +370,8 @@ _MOVERESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=509,
-  serialized_end=523,
+  serialized_start=524,
+  serialized_end=538,
 )
 
 
@@ -398,8 +405,8 @@ _QUESTIONREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=525,
-  serialized_end=574,
+  serialized_start=540,
+  serialized_end=589,
 )
 
 
@@ -433,8 +440,8 @@ _QUESTIONRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=576,
-  serialized_end=634,
+  serialized_start=591,
+  serialized_end=649,
 )
 
 
@@ -475,8 +482,8 @@ _ANSWERREQUEST = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=636,
-  serialized_end=699,
+  serialized_start=651,
+  serialized_end=714,
 )
 
 
@@ -503,8 +510,8 @@ _ANSWERRESPONSE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=701,
-  serialized_end=736,
+  serialized_start=716,
+  serialized_end=751,
 )
 
 
@@ -545,8 +552,8 @@ _GAMEERROR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=738,
-  serialized_end=826,
+  serialized_start=753,
+  serialized_end=841,
 )
 
 
@@ -573,8 +580,8 @@ _BOARDCHANGEPUBSUBMESSAGE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=828,
-  serialized_end=875,
+  serialized_start=843,
+  serialized_end=890,
 )
 
 
@@ -594,8 +601,8 @@ _NEWROUNDPUBSUBMESSAGE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=877,
-  serialized_end=900,
+  serialized_start=892,
+  serialized_end=915,
 )
 
 _GAME.fields_by_name['players'].message_type = _PLAYER
