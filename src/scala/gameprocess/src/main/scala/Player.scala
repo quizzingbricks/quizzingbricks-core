@@ -29,9 +29,7 @@ object Player
         case Player.ANSWERING => "ANSWERING"
         case Player.ANSWERED => "ANSWERED"
         case _ => "INVALID STATE (BUG)"
-            
     }
-    
 }
 
 /**

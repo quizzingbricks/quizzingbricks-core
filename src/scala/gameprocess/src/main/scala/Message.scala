@@ -1,12 +1,12 @@
 /**
- * Abstract case class representing any network message.
+ * Abstract class representing any network message.
  */
 abstract class Message
 {
 }
 
 /**
- * Abstract case class representing any incoming messages that are addressed to a specific game.
+ * Abstract class representing any incoming messages that are addressed to a specific game.
  */
 abstract class GameRequestMessage extends Message
 {
@@ -14,7 +14,7 @@ abstract class GameRequestMessage extends Message
 }
 
 /**
- * Abstract case class representing any incoming messages that deal with a specific player in a specific game.
+ * Abstract class representing any incoming messages that deal with a specific player in a specific game.
  */
 abstract class PlayerRequestMessage extends GameRequestMessage
 {
@@ -124,7 +124,8 @@ case class PlayerMessage(userId: Int, state: Int, x: Int, y: Int,
 {
     override def toString() = "player " + userId + " [" + Player.stateToString(state) + "]: " + "(" + x + "," + y + 
                               ")\n question: " + question.take(20) + "[...]" + "\n  alternatives: " + 
-                              alternatives.mkString + "\n  answeredCorrectly " + answeredCorrectly + "\n  score: " + score
+                              alternatives.mkString + "\n  answeredCorrectly " + 
+                              answeredCorrectly + "\n  score: " + score
 }
 
 /**
@@ -176,7 +177,7 @@ case class QuestionResponse(question: String, alternatives: List[String]) extend
  */
 case class AnswerRequest(override val gameId: Int, override val userId: Int, answer: Int) extends PlayerRequestMessage
 {
-    override def toString() = "AnswerRequest { gameId: " + gameId + ", userId: " + userId + ", answer: " + answer + " }" 
+    override def toString() = "AnswerRequest { gameId: " + gameId + ", userId: " + userId + ", answer: " + answer + " }"
 }
 
 /**
@@ -198,8 +199,25 @@ case class GameError(description: String, code: Int) extends ReplyMessage
     override def toString() = "GameError { what: " + description + ", code: " + code + " }"
 }
 
+/**
+ * Abstract class representing any ZMQ Publish message.
+ */
+abstract class PublishMessage extends Message
 
+/**
+ * Case class representing the NewRoundPubSubMessage message.
+ * @param The new state of the game.
+ */
+case class NewRoundPubSubMessage(game: GameMessage) extends PublishMessage
+{
+    override def toString() = "NewRoundPubSubMEssage { game: " + game + " } " 
+}
 
-    
-
-
+/**
+ * Case class representing the PlayerStateChangePubSubMessage.
+ * @param The player whose state changed.
+ */
+case class PlayerStateChangePubSubMessage(player: PlayerMessage) extends PublishMessage
+{
+    override def toString() = "PlayerStateChangePubSubMessage { player : " + player + " } " 
+}
