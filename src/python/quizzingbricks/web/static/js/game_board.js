@@ -77,16 +77,20 @@ function updateStatus(players){
         element = players[i];
         if(element.state == 0 ){
             $("#status_id_"+element.userId).text("State: Placing Tile      ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 1 ){
             $("#status_id_"+element.userId).text("State: Placed Tile       ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
 
         }
         if(element.state == 2 ){
             $("#status_id_"+element.userId).text("State: Answering Question");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 3 ){
             $("#status_id_"+element.userId).text("State: Answered Question ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
             $('#question_button').show();
@@ -101,16 +105,19 @@ function updateStatus_test(player){
         element = player;
         if(element.state == 0 ){
             $("#status_id_"+element.userId).text("State: Placing Tile      ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 1 ){
             $("#status_id_"+element.userId).text("State: Placed Tile       ");
-
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 2 ){
             $("#status_id_"+element.userId).text("State: Answering Question");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 3 ){
             $("#status_id_"+element.userId).text("State: Answered Question ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
             $('#question_button').show();
@@ -198,10 +205,10 @@ function submitAnswer(gameId, answer){
     $.post($SCRIPT_ROOT + '/submit_answer', {gameId: gameId, answer: answer},
     function(data) {
         if(data.isCorrect){
-            $("#answer").text("Your answer was correct");
+            $("#answer").text("Your last answer was correct");
         }
         else{
-            $("#answer").text("Your answer was incorrect");
+            $("#answer").text("Your last answer was incorrect");
             last_marked_element.innerHTML= ""
         }
         last_marked_element=null;

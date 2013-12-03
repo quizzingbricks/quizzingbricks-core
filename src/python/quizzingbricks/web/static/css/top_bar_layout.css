@@ -83,3 +83,30 @@ body {
   padding:10px;
   font-size:medium;
 }
+
+#player_info_even {
+  font-size:medium;
+  background-color: #cccccc; 
+  width:293px;
+}
+
+#player_info_odd {
+  font-size:medium;
+  background-color: #dddddd; 
+  width:293px;
+}
+
+#answer {
+  float:right;
+  text-align:center; 
+  font-size:medium;"
+}
+
+#question_button{
+  float:right;
+  height:40px; 
+  background-color:#cccccc; 
+  text-align:center; 
+  font-size:medium; 
+  width:293px;
+}

@@ -35,11 +35,10 @@
 
 
                 <div class="row">
-                  <div class="player_container" >
+                  <div class="player_container" id="player_info_even">
                     <br>You: <img  onload="assign_colors([{{friends | map(attribute= "id") | join(",") }}],{{userId}},{{gameId}})"  onclick='test_userId(TOKEN.RED)' src="/static/img/BoardCell_Red.png" id="player_color" width="64" />
-                    <div id="status_id_{{userId}}" >
-                    
-                    </div> 
+                    <div id="status_id_{{userId}}" > </div>
+                    <div id="score_id_{{userId}}" > </div> 
                   </div>
                 </div>
               
@@ -47,11 +46,10 @@
               {% for friend in friends%} 
                 {% if i== 1%}
                   <div class="row">
-                    <div class="player_container"  >
+                    <div class="player_container" id="player_info_odd" >
                       {{friend.email |truncate(20, True) }} : <img src="/static/img/BoardCell_Yellow.png" id="{{friend.id}}" onclick='test_userId(TOKEN.YELLOW)' width="64" />
-                      <div id ="status_id_{{friend.id}}">
-                        
-                      </div>
+                      <div id ="status_id_{{friend.id}}"> </div>
+                      <div id ="score_id_{{friend.id}}"> </div>
                     </div>
                      
 
@@ -60,32 +58,30 @@
                 
                 {% if i== 2%}
                   <div class="row">
-                    <div class="player_container" >
+                    <div class="player_container" id="player_info_even"  >
                       {{friend.email |truncate(20, True) }} : <img src="/static/img/BoardCell_Blue.png" id="{{friend.id}}" onclick='test_userId(TOKEN.BLUE)' width="64" />
-                      <div id ="status_id_{{friend.id}}"> 
-                      
-                      </div>
+                      <div id ="status_id_{{friend.id}}"> </div>
+                      <div id ="score_id_{{friend.id}}"> </div>
                     </div>
                   </div>  
                 {% endif %}
                 
                 {% if i== 3%}
                   <div class="row">
-                    <div class="player_container" >
+                    <div class="player_container" id="player_info_odd" >
                       {{friend.email |truncate(20, True) }} : <img src="/static/img/BoardCell_Green.png" id="{{friend.id}}" onclick='test_userId(TOKEN.GREEN)' width="64" />
-                      <div id ="status_id_{{friend.id}}">
-                        
-                      </div>
+                      <div id ="status_id_{{friend.id}}"> </div>
+                      <div id ="score_id_{{friend.id}}"> </div>
                     </div>
                   </div>
                 {% endif %}
                 {% set i = i+1 %}
               {% endfor %}
               </div>
-              <div id="answer"  style="text-align:center; font-size:medium;">Answer
+              <div class="row" id="answer">
                 </div>
               
-                <div onclick="getQuestion({{gameId}})" id="question_button" style=" height:40px; background-color:#cccccc; text-align:center; font-size:medium; "> You got a question
+                <div class="row" onclick="getQuestion({{gameId}})" id="question_button" > Press to answer your question
                 </div>
                   <!--      <div id="question"> </div>
 
@@ -97,10 +93,10 @@
                 
               <!--  <div id="result"> 
                   
-                </div> --> 
-                <div onclick="drawBoard({{gameId}})" id="refresh_board_button" style="height:40px; background-color:#cccccc; text-align:center; font-size:medium;" >
+                </div>  -->
+               <!-- <div onclick="drawBoard({{gameId}})" id="refresh_board_button" style="height:40px; background-color:#cccccc; text-align:center; font-size:medium;" >
                   Refresh board
-                </div>
+                </div> -->
               
             </div>
 
