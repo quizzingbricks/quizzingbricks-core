@@ -1,6 +1,50 @@
 {% extends "top_bar_layout.html" %}
 {% block body %} 
 
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class ="row" style="font-size:x-large; ">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+              Active Games
+            </div>
+          </div>
+          <!--{% set row = 'odd' %} -->
+          {% set row_class = cycler('odd', 'even') %}
+          {% for game in games %} <!-- game[0] is the gameobject itself and game[1] is a list of opponents as User objects  -->
+            <div class="row"   >
+              <div class="col-xs-4"></div>
+              <div class="col-xs-4" id="row_{{ row_class.next() }}" > 
+            
+              
+                <b> Game Id: </b>  {{game[0].gameId}}   <br>
+                <b>Opponents: </b><br>
+                {% for opponent in game[1]%}
+                  {{opponent.email}} <br>
+                {% endfor %} 
+                {% for player in game[0].players %}
+                  {% if player.userId == session['userId'] %}
+                    {% if player.state == 0 %}
+                      <b>Your State: </b> Placing Tile 
+                    {% elif player.state == 1 %}
+                      <b>Your State: </b> Have Question to Answer
+                    {% elif player.state == 3 %}
+                      <b>Your State: </b> Answered Question
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+                <a href="/game_board/{{game[0].gameId}}">    
+                  <br> Click to Enter Game
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+<!--
     <div class="container">
 
       <div class="starter-template">
@@ -9,7 +53,7 @@
 
 
       {% for game in games %} <!-- game[0] is the gameobject itself and game[1] is a list of opponents as User objects  -->
-        <hr>
+    <!--    <hr>
         <a href="/game_board/{{game[0].gameId}}">
           <div style="text-align:left;">
             <b> Game Id: </b>  {{game[0].gameId}}   <br>
@@ -39,17 +83,17 @@
           2: Answering Question
           3: Answered Question 
 -->
-
+<!--
     </div>
 
     </div><!-- /.container -->
 
-
+<!--
      <style type="text/css">
  	hr {
  		border-color: black;
  	}
-  </style>
-
+  </style> -->
+ 
 
 {% endblock %}

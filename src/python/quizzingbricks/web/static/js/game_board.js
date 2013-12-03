@@ -91,47 +91,53 @@ function updateStatus(players){
 
 }
 
+
+function drawBoardHelper(data){
+    playerPos = data.board
+    for (var y =0; y<BOARD_HEIGHT; y++ ){
+        for (var x=0; x<BOARD_WIDTH; x++){
+            board_element = document.getElementById("square_"+ x+"_"+y);
+            index = y*BOARD_HEIGHT +x;
+
+
+
+            if(TOKEN.RED.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.RED,true));
+            }
+            else if(TOKEN.YELLOW.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.YELLOW,true));
+                //board_element.innerHTML = create_token(TOKEN.YELLOW).toString();
+            }
+            else if(TOKEN.BLUE.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.BLUE,true));
+                //board_element.innerHTML = create_token(TOKEN.BLUE);
+            }
+            else if(TOKEN.GREEN.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.GREEN,true));
+                //board_element.innerHTML = create_token(TOKEN.GREEN);
+            }
+            else if(board_element==last_marked_element){
+
+            }
+            else{
+                board_element.innerHTML = ""
+            }
+        }
+    }
+}
+
 function drawBoard(gameId){
     //playerPos = [] 
     $.post($SCRIPT_ROOT + '/game_info', {gameId: gameId},
     function(data) {
-        playerPos = data.board
         updateStatus(data.players);
+        drawBoardHelper(data)
        // $("#drawResult").text(playerPos[1]);
-        for (var y =0; y<BOARD_HEIGHT; y++ ){
-            for (var x=0; x<BOARD_WIDTH; x++){
-                board_element = document.getElementById("square_"+ x+"_"+y);
-                index = y*BOARD_HEIGHT +x;
 
-
-
-                if(TOKEN.RED.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.RED,true));
-                }
-                else if(TOKEN.YELLOW.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.YELLOW,true));
-                    //board_element.innerHTML = create_token(TOKEN.YELLOW).toString();
-                }
-                else if(TOKEN.BLUE.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.BLUE,true));
-                    //board_element.innerHTML = create_token(TOKEN.BLUE);
-                }
-                else if(TOKEN.GREEN.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.GREEN,true));
-                    //board_element.innerHTML = create_token(TOKEN.GREEN);
-                }
-                else if(board_element==last_marked_element){
-
-                }
-                else{
-                    board_element.innerHTML = ""
-                }
-            }
-        }
    //playerPos = data.board
    //$('#result').text(playerPos[1]);
   });
