@@ -15,7 +15,7 @@ from quizzingbricks.common.protocol import (
     CreateGameRequest, CreateGameResponse, GameInfoRequest, GameInfoResponse,  \
     MoveRequest, MoveResponse, QuestionRequest, QuestionResponse, GameError, \
     AnswerRequest, AnswerResponse, GetMultipleUsersRequest, GetMultipleUsersResponse, \
-    GetUserRequest, GetUserResponse, BoardChangePubSubMessage, NewRoundPubSubMessage, \
+    GetUserRequest, GetUserResponse, PlayerStateChangePubSubMessage, NewRoundPubSubMessage, \
     GameListRequest, GameListResponse,protocol_mapper )
 
 
@@ -231,10 +231,19 @@ def game_listener(game_id):
             message = cls.FromString(msg)
             print "deseralized type: %s" % message.__class__.__name__
 
-            if isinstance(message, BoardChangePubSubMessage):
-                ws.send(json.dumps({"type": "board_change", "payload": {"board": list(message.game.board)}}))
+            if isinstance(message, PlayerStateChangePubSubMessage):
+                ws.send(json.dumps({"type": "player_change", "payload": {"player": {"id": message.player.userId, "state": message.player.state, "score": message.player.score}}}))
             elif isinstance(message, NewRoundPubSubMessage):
-                ws.send(json.dumps({"type": "new_round", "payload": {}}))
+                ws.send(json.dumps({
+                    "type": "board_change",
+                    "payload": {
+                        "board": list(message.game.board),
+                        "players": [
+                            {"id": player.userId, "state": player.state, "score": player.score}
+                            for player in message.game.players
+                        ]
+                    },
+                }))
             else:
                 ws.send(json.dumps({"type": "unknown", "payload": {"msg_type": msg_type}})) # only used to debug
     abort(404) # only accessible from websockets

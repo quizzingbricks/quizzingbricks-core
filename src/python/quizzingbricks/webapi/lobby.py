@@ -2,7 +2,6 @@
 """
     Copyright (C) Quizzingbricks
 """
-from collections import Counter
 
 from flask import request, jsonify, g
 

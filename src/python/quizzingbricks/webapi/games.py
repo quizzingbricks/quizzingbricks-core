@@ -2,7 +2,6 @@
 """
     Copyright (C) Quizzingbricks
 """
-import random
 
 import sys, traceback
 import json
