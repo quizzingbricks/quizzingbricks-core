@@ -78,7 +78,7 @@ def remove_lobby(game_type,lobby_id):
 @app.route('/create_lobby/<int:game_type>',methods=['GET'])
 @login_required
 def create_lobby(game_type):
-    print "get_friends test 2p"
+    print "create lobby "
     response = lobbyservice.create_lobby(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
     #response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
     if (isinstance(response, CreateLobbyResponse)):
@@ -87,7 +87,18 @@ def create_lobby(game_type):
     return redirect(url_for('lobby', game_type=game_type,
                                     lobby_id=response.lobbyId))
 
-    
+
+@app.route('/quick_join/<int:game_type>', methods=['GET'])
+@login_required
+def quick_join(game_type):
+    print "quick_join", game_type
+    response = lobbyservice.create_lobby(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
+    if (isinstance(response, CreateLobbyResponse)):
+        pass
+    start_game_response = lobbyservice.start_game(StartGameRequest(userId=session['userId'], lobbyId=response.lobbyId))
+    if (isinstance(start_game_response, StartGameResponse)):
+        pass
+    return redirect(url_for('active_games'))
 #************************ AWESOME ERROR FINDER ************************************
     # try:
     #     return render_template('create_game.html',friends_list=friends_list,game_type=game_type)
@@ -121,7 +132,7 @@ def start_game(game_type,lobby_id):
     start_game_response = lobbyservice.start_game(StartGameRequest(userId=session['userId'], lobbyId=lobby_id))
     if (isinstance(start_game_response, StartGameResponse)):
         pass
-    return redirect(url_for('index'))
+    return redirect(url_for('active_games'))
 
 
 
