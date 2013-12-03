@@ -16,6 +16,7 @@ from quizzingbricks.common.protocol import (
 
 
 #userservice = UserServiceClient("tcp://*:5551")
+from quizzingbricks.web import login_required
 
 
 @app.route('/register_user',methods=['GET', 'POST'])
@@ -65,8 +66,8 @@ def login():
     return render_template('index.html', error=error)
 
 @app.route('/logout')
+@login_required
 def logout():
-
     session.pop('logged_in', None)
     session.pop('userId', None)
     #session.pop('username', None)
