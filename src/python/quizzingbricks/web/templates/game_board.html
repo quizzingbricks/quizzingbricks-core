@@ -26,9 +26,9 @@
       <div class="row" id="board_row">
         <div class="col-xs-12"  >
           <div  class="row">
-            <div class="col-xs-4" style="background-color:#d3ffce; min-width:293px;  " >
+            <div class="col-xs-4" style=" min-width:293px;  " >
               <div >
-                <div style="font-size:medium;">
+                <div style="font-size:medium; text-align:right;" >
                   <b> GameId: </b>  {{gameId}} 
                 </div> 
                <!--<strong> Players: </strong>  -->
@@ -82,9 +82,10 @@
                 {% set i = i+1 %}
               {% endfor %}
               </div>
-
-              <div class="container" >
-                <div onclick="getQuestion({{gameId}})">getQuestion Tester
+              <div id="answer"  style="text-align:center; font-size:medium;">Answer
+                </div>
+              
+                <div onclick="getQuestion({{gameId}})" id="question_button" style=" height:40px; background-color:#cccccc; text-align:center; font-size:medium; "> You got a question
                 </div>
                   <!--      <div id="question"> </div>
 
@@ -92,16 +93,15 @@
                   Alt 2: <div onclick="submitAnswer({{gameId}}, 2)" id="alt_2"></div>
                   Alt 3: <div onclick="submitAnswer({{gameId}}, 3)" id="alt_3"></div>
                   Alt 4: <div onclick="submitAnswer({{gameId}}, 4)" id="alt_4"></div> -->
-                <br>
-                <div id="answer">
-                </div>
-                <div id="result"> 
-                  Result errors etc
-                </div>
-                <div onclick="drawBoard({{gameId}})">
+                
+                
+              <!--  <div id="result"> 
+                  
+                </div> --> 
+                <div onclick="drawBoard({{gameId}})" id="refresh_board_button" style="height:40px; background-color:#cccccc; text-align:center; font-size:medium;" >
                   Refresh board
                 </div>
-              </div>
+              
             </div>
 
 

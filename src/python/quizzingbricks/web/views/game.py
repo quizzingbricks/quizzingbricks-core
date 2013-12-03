@@ -232,14 +232,14 @@ def game_listener(game_id):
             print "deseralized type: %s" % message.__class__.__name__
 
             if isinstance(message, PlayerStateChangePubSubMessage):
-                ws.send(json.dumps({"type": "player_change", "payload": {"player": {"id": message.player.userId, "state": message.player.state, "score": message.player.score}}}))
+                ws.send(json.dumps({"type": "player_change", "payload": {"player": {"userId": message.player.userId, "state": message.player.state, "score": message.player.score}}}))
             elif isinstance(message, NewRoundPubSubMessage):
                 ws.send(json.dumps({
                     "type": "board_change",
                     "payload": {
                         "board": list(message.game.board),
                         "players": [
-                            {"id": player.userId, "state": player.state, "score": player.score}
+                            {"userId": player.userId, "state": player.state, "score": player.score}
                             for player in message.game.players
                         ]
                     },
