@@ -16,13 +16,11 @@ from quizzingbricks.common.protocol import (
     )
 
 #friendservice = FriendServiceClient("tcp://*:5553")
-
-
-
-
+from quizzingbricks.web import login_required
 
 
 @app.route('/add_friend', methods=['GET', 'POST'])
+@login_required
 def add_friend():
     if request.method == 'POST':
         friend_Email = request.form['friend_email']
@@ -40,6 +38,7 @@ def add_friend():
         return redirect(url_for('friends'))    
 
 @app.route('/remove_friend', methods=['GET', 'POST'])
+@login_required
 def remove_friend():
 
     if request.method == 'POST':    # removes selected friend and fetches the rest of the friendslist again if more is to be removed
@@ -75,12 +74,14 @@ def remove_friend():
 
 
 @app.route('/friends_list/<msg>' )
+@login_required
 def friends_list(msg):
     print msg
     return render_template('friends_list.html', friends_list=get_friends_list(),
                                                     error=msg)
 
 @app.route('/friends_list')
+@login_required
 def friends():
     return render_template('friends_list.html', friends_list=get_friends_list())
 
