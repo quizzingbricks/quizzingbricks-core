@@ -5,57 +5,60 @@
       
       <div class="row">
         <div class="col-xs-12">
-          <b>Lobby invitation from:</b>
-          hmm
-          {% set row = 'odd' %}
+
+          <div class ="row" style="font-size:x-large; ">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+              Lobby invitations
+            </div>
+          </div>
+          <!--{% set row = 'odd' %} -->
+          {% set row_class = cycler('odd', 'even') %}
           {% for lobby in lobby_list %}
-            {{row}}
             {% if lobby.owner.id !=  session['userId']  %}
-
               {% for member  in lobby.lobbymembers %} 
-
                 {% if member.user.id == session['userId'] and member.status == "invited" %}
-
-                  
-                  {% if row == 'odd' %}
-                  
-                    <div class="row" id="row_odd"  >
-                    {% set row = 'even' %}
-                    {{row}}
-                  {% elif row == 'even'%}
-                    <div class="row" id="row_even"  >
-                    {%set row = 'odd'%}
-                  {% endif %}
-                    
-                
-                    
-                   
-                  
-                    <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-                      <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden ><br>
-                      LobbyId: {{lobby.lobbyId}} <br>
-                      {{lobby.owner.email}} <button name="accepted_invite" type=submit> Accept invite </button> <button name="declined_invite" type=submit> Decline </button>
-                    </form>
-                   
-                  </div> 
+                  <div class="row"   >
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4" id="row_{{ row_class.next() }}" >              
+                      <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+                        <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden ><br>
+                          <b>Lobby:</b> {{lobby.lobbyId}} <br>
+                          <b>From user:</b> {{lobby.owner.email}}  <br>
+                         <button name="accepted_invite" class="btn btn-success"  type=submit> Accept invite </button> <button name="declined_invite" class="btn btn-danger" type=submit> Decline </button>
+                      </form>
+                    </div>
+                  </div>
                 {% endif %}
                 
-                 
+                  
               {% endfor %} 
             {% endif %}
             
           {% endfor %}
 
-          <br>
-          <br>
-          <b>Your lobbies:</b>
+          
+          <div class="row" style="font-size:x-large;">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">          
+              Your lobbies
+            </div>
+          </div>
           {% for lobby in lobby_list %}
             {% if lobby.owner.id ==  session['userId'] %}
-              <a href="/lobby/{{lobby.gameType}}/{{lobby.lobbyId}}">
-                <div style="text-align:left;">
-                 Lobby:Id   {{lobby.lobbyId}}
-                </div>
-              </a>
+            <div class="row"  >
+              <div class="col-xs-4"></div>
+              <div class="col-xs-4" id="row_{{ row_class.next() }}" >
+               
+                  <div style="text-align:left;" >
+                    <b>Lobby:</b>   {{lobby.lobbyId}} <br>
+                      <a href="/lobby/{{lobby.gameType}}/{{lobby.lobbyId}}" style="color:black;">
+                        Click to manage lobby
+                      </a>
+                  </div>
+                
+              </div>
+            </div>
             {% endif %}  
           {% endfor %}  
         </div>
