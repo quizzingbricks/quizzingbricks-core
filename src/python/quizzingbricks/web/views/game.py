@@ -29,8 +29,34 @@ def active_games():
         if isinstance(game_list_response, GameError):
             return jsonify(result=(game_list_response.description, game_list_response.code))
         else:
+
+            games=[]
+            for game in game_list_response.games:
+                playerIds=[]
+                for player in game.players:
+                    if player.userId != session['userId']:
+                        playerIds.append(player.userId)
+                multiple_player_response = userservice.get_multiple_users(GetMultipleUsersRequest(userIds=playerIds))
+                if(isinstance(multiple_player_response, GetMultipleUsersResponse)):
+                    currentGame = (game, list(multiple_player_response.users))
+                    games.append(currentGame)
+            return render_template('active_games.html', games=games)
+                    
             #print game_list_response
-            return render_template('active_games.html', games= game_list_response.games ) 
+            # friends_list=[]
+            # memberIds = []
+            # for game in game_list_response.games:
+            #     for player in game.players:
+            #     if player.userId != session['userId']:
+            #         memberIds.append(player.userId)
+            # multiple_player_response = userservice.get_multiple_users(GetMultipleUsersRequest(userIds=memberIds))
+            # if (isinstance(multiple_player_response, GetMultipleUsersResponse)):
+            #     print multiple_player_response
+            #     pass
+
+
+            # friends_list.append(namedtuple(game)list(multiple_player_response.users))
+            # return render_template('active_games.html', games= game_list_response.games ) 
             #print "game info this one", game_list_response.games
             #return jsonify({"games":[{ "gameId" : game.gameId} for game in game_list_response.games] }) 
                              # "players" : [ { "userId" : player.userId,
@@ -70,8 +96,9 @@ def game_info():
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
-                                            "question" : player.question,
-                                            "alternatives" : [a for a in player.alternatives],
+                                            "score": player.score,
+                                            #"question" : player.question,
+                                            #"alternatives" : [a for a in player.alternatives],
                                             "answeredCorrectly" : player.answeredCorrectly } for player in game_info_response.game.players ],
                              "board" : [b for b in game_info_response.game.board ]
                           })

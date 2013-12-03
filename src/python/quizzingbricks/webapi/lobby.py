@@ -2,6 +2,7 @@
 """
     Copyright (C) Quizzingbricks
 """
+from collections import Counter
 
 from flask import request, jsonify, g
 
@@ -25,7 +26,9 @@ def get_lobbies():
             {
                 "l_id": lobby.lobbyId,
                 "owner": True if g.user.id == lobby.owner.id else False,
-                "size": lobby.gameType
+                "size": lobby.gameType,
+                "invited_count": len(lobby.lobbymembers),
+                "accepted_count": len(filter(lambda p: p.status == "member", lobby.lobbymembers))
             }
             for lobby in response.lobbies
         ]
@@ -62,7 +65,7 @@ def create_lobby():
                 "size": lobby.gameType,
                 "owner": True if g.user.id == lobby.owner.id else False,
                 "players": [
-                    {"u_id": player.user.id, "u_mail": player.user.email, "status": "accepted" if player.status == "Member" else "Waiting"}
+                    {"u_id": player.user.id, "u_mail": player.user.email, "status": "accepted" if player.status == "member" else "waiting"}
                     for player in list(lobby.lobbymembers)
                 ]
             }
@@ -93,6 +96,8 @@ def get_lobby(id):
                 "l_id": lobby.lobbyId,
                 "size": lobby.gameType,
                 "owner": True if g.user.id == lobby.owner.id else False,
+                "invited_count": len(lobby.lobbymembers),
+                "accepted_count": len(filter(lambda p: p.status == "member", lobby.lobbymembers)),
                 "players": [
                     {"u_id": player.user.id, "u_mail": player.user.email, "status": "accepted" if player.status == "member" else "waiting"}
                     for player in list(lobby.lobbymembers)
@@ -147,12 +152,14 @@ def deny_invite(lobby_id):
 @token_required
 def lobby_invitation(lobby_id):
     try:
+        if not request.json:
+            return api_error("Required JSON body is missing or bad type, check your content-type")
+
         raw_user_ids = request.json.get("invite")
         if not raw_user_ids or not isinstance(raw_user_ids, list):
             return api_error("Required JSON body is missing or bad type", 004), 400
         user_ids = map(lambda x: int(x), raw_user_ids) # better method?
 
-        print "DEBUG!!!", g.user.id, user_ids
 
         response = lobbyservice.invite_to_lobby(
             InviteLobbyRequest(userId=g.user.id, lobbyId=lobby_id, invites=user_ids),

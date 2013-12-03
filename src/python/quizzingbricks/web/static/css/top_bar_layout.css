@@ -21,7 +21,17 @@ body {
 }
 
 #body_container {
-    max-width: 940px;
+    width: 940px;
+    
+    overflow:auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#board_row {
+  height: 600px;
 }
 
 
@@ -59,4 +69,13 @@ body {
 #question_alt_4 {
     height:100px;
     background-color: #2cabe2;
+}
+
+
+#row_even{
+  background-color: green;
+}
+
+#row_odd {
+  background-color: teal;
 }
