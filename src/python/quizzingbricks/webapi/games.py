@@ -16,7 +16,7 @@ from quizzingbricks.common.protocol import (
     GameError, GameInfoRequest, GameInfoResponse,
     MoveRequest,
     QuestionRequest, AnswerRequest,
-    BoardChangePubSubMessage, NewRoundPubSubMessage, GameListRequest)
+    PlayerStateChangePubSubMessage, NewRoundPubSubMessage, GameListRequest)
 from quizzingbricks.common.protocol import protocol_mapper
 
 gameservice = GameServiceClient("tcp://*:1234", zmq_context=zmq_ctx)
