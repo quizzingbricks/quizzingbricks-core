@@ -97,7 +97,7 @@ def db(session):
         yield session
     finally:
         print "closed session"
-        session.close()
+        session.remove()
 
 class LobbyService(NunciusService):
     name = "lobbyservice"

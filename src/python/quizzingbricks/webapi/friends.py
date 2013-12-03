@@ -19,7 +19,7 @@ friendservice = FriendServiceClient("tcp://*:5553")
 @token_required
 def get_friends():
     try:
-        response = friendservice.get_friends(GetFriendsRequest(userId=g.user.id))
+        response = friendservice.get_friends(GetFriendsRequest(userId=g.user.id), timeout=5000)
 
         return jsonify({"friends": map(
             lambda user: dict(id=user.id, email=user.email),
@@ -40,7 +40,7 @@ def add_friend():
             # or a error message that tells that the email is missing?
             return api_error("Missing required friend parameter", 004), 400
 
-        response = friendservice.add_friend(AddFriendRequest(userId=g.user.id,friend_email=email))
+        response = friendservice.add_friend(AddFriendRequest(userId=g.user.id,friend_email=email), timeout=5000)
         if isinstance(response, AddFriendResponse):
             if response.friend_added:
                 return "OK"

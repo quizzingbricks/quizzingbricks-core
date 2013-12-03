@@ -36,7 +36,7 @@ def db(session):
         yield session
     finally:
         print "closed session"
-        session.close()
+        session.remove()
 
 class FriendService(NunciusService):
     name = "friendservice"
@@ -83,9 +83,9 @@ class FriendService(NunciusService):
                 # to avoid to do an IN query with an empty list.
                 return GetFriendsResponse(friends=[])
             users = User.query.filter(User.id.in_(map(lambda f:f.friend_id, friends)))
-            print "USERS", users
+            #print "USERS", users
             friends=map(lambda u:u.id, users)
-            print "friends", friends
+            #print "friends", friends
             response = userservice.get_multiple_users(GetMultipleUsersRequest(userIds=friends), timeout=5000)
             if (isinstance(response, GetMultipleUsersResponse)):
                 return GetFriendsResponse(friends=response.users)
