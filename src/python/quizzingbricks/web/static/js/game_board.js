@@ -80,6 +80,7 @@ function updateStatus(players){
         }
         if(element.state == 1 ){
             $("#status_id_"+element.userId).text("State: Placed Tile       ");
+
         }
         if(element.state == 2 ){
             $("#status_id_"+element.userId).text("State: Answering Question");
@@ -87,9 +88,37 @@ function updateStatus(players){
         if(element.state == 3 ){
             $("#status_id_"+element.userId).text("State: Answered Question ");
         }
+        if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+            $('#question_button').show();
+        }
     }
-
 }
+
+function updateStatus_test(player){
+    
+    
+    
+        element = player;
+        if(element.state == 0 ){
+            $("#status_id_"+element.userId).text("State: Placing Tile      ");
+        }
+        if(element.state == 1 ){
+            $("#status_id_"+element.userId).text("State: Placed Tile       ");
+
+        }
+        if(element.state == 2 ){
+            $("#status_id_"+element.userId).text("State: Answering Question");
+        }
+        if(element.state == 3 ){
+            $("#status_id_"+element.userId).text("State: Answered Question ");
+        }
+        if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+            $('#question_button').show();
+        }
+    
+}
+
+
 
 
 function drawBoardHelper(data){
@@ -169,13 +198,15 @@ function submitAnswer(gameId, answer){
     $.post($SCRIPT_ROOT + '/submit_answer', {gameId: gameId, answer: answer},
     function(data) {
         if(data.isCorrect){
-            $("#answer").text("Correct answer");
+            $("#answer").text("Your answer was correct");
         }
         else{
-            $("#answer").text("Wrong answer");
+            $("#answer").text("Your answer was incorrect");
+            last_marked_element.innerHTML= ""
         }
         last_marked_element=null;
-        $('#myModal').modal('hide')
+        $('#myModal').modal('hide');
+        $('#question_button').hide();
        // drawBoard(gameId);  
   }); 
 }
@@ -198,6 +229,7 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
             board_element = document.getElementById("square_"+ x+"_"+y);
             board_element.appendChild(create_token(TOKEN.RED,false));
             last_marked_element=board_element
+            //drawBoard(gameId);
         }
       });
         
@@ -233,12 +265,22 @@ QuizzingBricks.GameBoard = function(server_url, game_id) {
         // event = {"type": x, "payload": {} }
         console.log(event.data);
 
-        var data = event.data;
+        var data = JSON.parse(event.data);
+        console.log("test before statement");
+        console.log(data.type);
+         console.log("whatever");
 
-        if (data.type == "board_change") {
+        if (data.type === "board_change") {
+            console.log("test in if");
             // TODO: draw-modified-Board();
-        } else if (data.type == "player_state") {
+            drawBoardHelper(data.payload)
+            console.log(data.payload.players);
+            updateStatus(data.payload.players)
+        } else if (data.type === "player_change") {
+            console.log("test in else if");
+            console.log(data.payload.player);
             // TODO: updateStatus();
+            updateStatus_test(data.payload.player)
         }
     }
 
