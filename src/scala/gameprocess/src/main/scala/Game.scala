@@ -1,3 +1,5 @@
+import akka.zeromq._
+import akka.util.ByteString
 import akka.actor._
 import scala.collection.mutable.HashMap
 import scala.concurrent.duration._
@@ -12,14 +14,14 @@ object Game
 /**
  * Akka actor representing each active game that handles game logic and messaging. The optional arguemnts to the
  * constructor allows the creation of an actor representing a game in progress.
- * @param id        The unique id of the game.
+ * @param gameId    The unique id of the game.
  * @param playerIds The user ids of the players that are in this game.
  * @param players   Optional list of full information of the players.
  * @param boardArg  Optional array that represents the bricks currently on the board, given as a flat list of player
  *                  ids, where each player id corresponds to the brick it has laid down. The first k elements of 
  *                  boardArg is the top row of k bricks on the board, and so on down to the bottom row.
  */
-class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg: Array[Int] = null) extends Actor
+class Game (gameId: Int, playerIds: List[Int], publisher: ActorRef, players: List[Player] = Nil, boardArg: Array[Int] = null) extends Actor
 {
     val db = Database.forURL("jdbc:postgresql://localhost:5432/quizzingbricks_dev", 
                              driver = "org.postgresql.Driver", user = "qb", password = "qb123")
@@ -63,7 +65,7 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
      * Constructs a GameMessage containing all information about the game.
      * @return a GameMessage containing all information about the game.
      */
-    def getGameInfo() = GameMessage(id, playerList map (_.toMessage), board)
+    def getGameInfo() = GameMessage(gameId, playerList map (_.toMessage), board)
     
     /**
      * Partitions a list of elements into a list of lists of elements in O(n^2) time.
@@ -80,6 +82,17 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
             case x::xs => val (a,b) = l partition (f (x,_))
                           a :: partitionSeveral(b, f)
         }
+    }
+    
+    /**
+     * Sends ZMQ PUB messages.
+     * @param m The ZMQ pub message to send.
+     */
+    def publishMessage(m: PublishMessage)
+    {
+        val (id, msg) = MessageTranslator.translate(m)
+        
+        publisher ! ZMQMessage(ByteString("game-" + gameId), ByteString(id.toString()), msg)
     }
     
     /**
@@ -106,9 +119,10 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
                 {
                     // .. then every such player must now ask for another question
                     c.resetTo(Player.PLACED)
+                    publishMessage(PlayerStateChangePubSubMessage(c.toMessage))
                     db withSession 
                     {   implicit session: Session =>
-                        val q = Query(PlayersGamesTable).filter(g => g.playerId === c.userId && g.gameId === id)
+                        val q = Query(PlayersGamesTable).filter(g => g.playerId === c.userId && g.gameId === gameId)
                                 .map(p => p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3 ~ p.alt4 ~ p.answer)
                         q.update(Player.PLACED, "", "", "", "", "", 0)
                     }
@@ -137,11 +151,12 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
         player.state = Player.PLACED
         player.x = x
         player.y = y
+        publishMessage(PlayerStateChangePubSubMessage(player.toMessage))
         
         db withSession 
         {
             implicit session: Session =>
-            val q = Query(PlayersGamesTable).filter(g => g.playerId === playerId && g.gameId === id)
+            val q = Query(PlayersGamesTable).filter(g => g.playerId === playerId && g.gameId === gameId)
                                             .map(p => p.x ~ p.y ~ p.state)
             q.update((x,y, Player.PLACED))
         }
@@ -163,7 +178,7 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
         {
             case Player.ANSWERING =>
                 println("Player " + player + " timed out to answer question.")
-                handleAnswerRequest(id, player, 0)
+                handleAnswerRequest(gameId, player, 0)
             case _ =>
                 println("Question timeout while player not in AnsweringQuestion state!")
         }
@@ -173,15 +188,17 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
      * Handles the request of a player to be given a question to answer.
      * @param player The player who made the request.
      */
-    def handleQuestionRequest(player: Int)
+    def handleQuestionRequest(playerId: Int)
     {
+        val player = playerMap(playerId)
+        
         // If the player is answering a question, we simply retransmit the question he is supposed to answer
-        if(playerMap(player).state == Player.ANSWERING)
+        if(player.state == Player.ANSWERING)
         {
-            sender ! QuestionResponse(playerMap(player).question.question, playerMap(player).question.alternatives)
+            sender ! QuestionResponse(player.question.question, player.question.alternatives)
             return
         }
-        if(playerMap(player).state != Player.PLACED)
+        if(player.state != Player.PLACED)
         {
             sender ! GameError("Question is not allowed in the present state", 300)
             return
@@ -214,17 +231,18 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
 
                     import context.dispatcher
                     // Give the player a certain amount of time to answer the question
-                    val pendingTimeout = context.system.scheduler.scheduleOnce(10 seconds, self, ("timeout", player))
+                    val pendingTimeout = context.system.scheduler.scheduleOnce(10 seconds, self, ("timeout", playerId))
                       
-                    playerMap(player).state = Player.ANSWERING
-                    playerMap(player).pendingTimeout = pendingTimeout
-                    playerMap(player).question = q
+                    player.state = Player.ANSWERING
+                    player.pendingTimeout = pendingTimeout
+                    player.question = q
+                    publishMessage(PlayerStateChangePubSubMessage(player.toMessage))
                     
                     // If the database crashes after a player has been posed a question, he will not have
-                    // a timer when the game process is restored and the information is retreived from the database, 
+                    // a timer when the game process is restored and the information is retrieved from the database, 
                     // so effectively he will have an infinite amount of time to answer a question, but I suppose he 
                     // deserves it in that case
-                    val r = Query(PlayersGamesTable).filter(g => g.playerId === player && g.gameId === id)
+                    val r = Query(PlayersGamesTable).filter(g => g.playerId === playerId && g.gameId === gameId)
                             .map(p => p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3 ~ p.alt4 ~ p.correctAnswer)
                     r.update((Player.ANSWERING, q.question, q.alternatives(0), 
                               q.alternatives(1), q.alternatives(2), q.alternatives(3), q.correctAnswer))
@@ -242,7 +260,7 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
      */
     def handleGameInfoRequest(idReq: Int)
     {
-        assert(idReq == id)
+        assert(idReq == gameId)
         sender ! GameInfoResponse(getGameInfo())
     }
     
@@ -252,7 +270,6 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
      * @param playerId The id of the player who sent the request.
      * @param answer The answer alternative given as the answer to the question, or 0 if this is part of a timeout 
      *               callback.
-     
      */
     def handleAnswerRequest(gameId: Int, playerId: Int, answer: Int)
     {
@@ -269,10 +286,11 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
             player.pendingTimeout.cancel()
         player.state = Player.ANSWERED
         player.answer = answer
+        publishMessage(PlayerStateChangePubSubMessage(player.toMessage))
         
         db withSession 
         {   implicit session: Session =>
-            val q = Query(PlayersGamesTable).filter(g => g.playerId === playerId && g.gameId === id)
+            val q = Query(PlayersGamesTable).filter(g => g.playerId === playerId && g.gameId === gameId)
                                             .map(p => p.state ~ p.answer)
             q.update((Player.ANSWERED, answer))
         }
@@ -298,16 +316,18 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
             
             db withSession 
             {   implicit session: Session =>
-                val q = Query(PlayersGamesTable).filter(g => g.gameId === id)
-                        .map(p => p.x ~ p.y ~ p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3 ~ p.alt4 ~ p.answer)
-                q.update(Player.PLACING, 0, 0, "", "", "", "", "", 0)
+                val q = Query(PlayersGamesTable).filter(g => g.gameId === gameId)
+                        .map(p => p.x ~ p.y ~ p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3
+                                  ~ p.alt4 ~ p.correctAnswer ~ p.answer)
+                q.update(0, 0, Player.PLACING, "", "", "", "", "", 0, 0)
             }
         }
         db withSession
         {    implicit session: Session =>
-             val g = Query(GamesTable).filter(g => g.gameId === id).map(g => g.board)
+             val g = Query(GamesTable).filter(g => g.gameId === gameId).map(g => g.board)
              g.update(board.mkString(","))
         }
+        publishMessage(NewRoundPubSubMessage(GameMessage(gameId, playerList map (_ toMessage), board)))
     }
     
     /**
@@ -336,7 +356,7 @@ class Game (id: Int, playerIds: List[Int], players: List[Player] = Nil, boardArg
             }
         case GameInfoRequest(idReq) => 
             handleGameInfoRequest(idReq)
-        case ("timeout", player: Int) =>
-            questionTimeout(player)            
+        case ("timeout", playerId: Int) =>
+            questionTimeout(playerId)            
     }
 }

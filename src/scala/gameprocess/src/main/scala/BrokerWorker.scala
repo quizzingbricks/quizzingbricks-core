@@ -8,14 +8,14 @@ import scala.slick.driver.PostgresDriver.simple._
  * handled at any given time. The incoming messages are delivered from the main loop of the GameProcess that serves
  * as a broker between outside processes and BrokerWorkers.
  */
-class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
+class BrokerWorker (n: Int, gameCache: ActorRef, publisher: ActorRef) extends Actor
 {
     println("Creating worker #" + n + ".")
-   
+    
     val db = Database.forURL("jdbc:postgresql://localhost:5432/quizzingbricks_dev", 
                              driver = "org.postgresql.Driver", user = "qb", password = "qb123")
     val socket = ZeroMQExtension(context.system).newReqSocket(Array(Connect("tcp://127.0.0.1:1235"), Listener(self)))
-                        
+
     Thread.sleep(1000) // Sort of a hack, to make sure the for some reason asynchronous newReqSocket to finish
     
     var senderId = ByteString() // The hash value of the socket at the front end side of the broker that sent the 
@@ -51,7 +51,8 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
                                           p.alt4, p.correctAnswer, p.answer, p.score)).list
                 val strBoard = (for { p <- GamesTable if p.gameId === id} yield (p.board)).list.head 
                 val intBoard = strBoard.split(",").map(_.toInt)
-                val playermsgs = players.map ({case (id, state, x, y, question, alt1, alt2, alt3, alt4, ans, corAns, score) 
+                val playermsgs = players.map ({case (id, state, x, y, question, alt1,
+                                                     alt2, alt3, alt4, ans, corAns, score) 
                                                => PlayerMessage(id, state, x, y, question, List(alt1, alt2, alt3, alt4),
                                                                 (if (ans == corAns) true else false), score)})
                 l = l ::: List[GameMessage](GameMessage (id, playermsgs, intBoard))
@@ -75,7 +76,7 @@ class BrokerWorker (n: Int, gameCache: ActorRef) extends Actor
         socket ! ZMQMessage(senderId, ByteString(), ByteString(i.toString), b)
         println("BrokerWorker #" + n + " got back a message and passed it on: " + m)
     }
-
+    
     /**
      * Handles incoming messages in the form of ZMQMessages, and outgoing messages in the form of Messages.
      */

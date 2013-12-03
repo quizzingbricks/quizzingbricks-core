@@ -55,7 +55,7 @@ protocol_mapper = {
     41: GameListRequest,
     42: GameListResponse,
 
-    70: BoardChangePubSubMessage,
+    70: PlayerStateChangePubSubMessage,
     71: NewRoundPubSubMessage,
 }
 

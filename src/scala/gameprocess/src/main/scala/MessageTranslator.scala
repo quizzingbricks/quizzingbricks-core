@@ -19,6 +19,9 @@ object MessageTranslator
     val GAMELISTREQUEST = 41
     val GAMELISTRESPONSE = 42
     
+    val PLAYERSTATECHANGEPUBSUBMESSAGE = 70
+    val NEWROUNDPUBSUBMESSAGE = 71
+    
     /**
      * Transforms a Java list to a Scala list.
      * @param l The list to transform.
@@ -35,7 +38,7 @@ object MessageTranslator
      * Transforms a Java list of Protobuf Player messages to a Scala list of player messages.
      * @param l The list of Player messages to translate. 
      */
-    def playerMsgArrayToPlayerList (l: java.util.List[Gameprotocol.Player]) : List[PlayerMessage]=
+    def playerMsgListToPlayerList (l: java.util.List[Gameprotocol.Player]) : List[PlayerMessage]=
     {
         var ret: List[PlayerMessage] = List[PlayerMessage]()
         for (i <- 0 to l.size()-1)
@@ -62,11 +65,33 @@ object MessageTranslator
         {
             val protGame = l.get(i)
             
-            var p = new GameMessage(protGame.getGameId(), playerMsgArrayToPlayerList(protGame.getPlayersList()), 
+            var p = new GameMessage(protGame.getGameId(), playerMsgListToPlayerList(protGame.getPlayersList()), 
                                     javaListToList(protGame.getBoardList()).map(a => a.toInt).toArray)
             ret = ret ++ List[GameMessage](p)
         }
         ret
+    }
+    
+    
+    def buildGameMessage(m: GameMessage) =
+    {
+        var gameBuilder = Gameprotocol.Game.newBuilder()
+        gameBuilder = gameBuilder.setGameId(m.gameId)
+        for(b <- m.board)
+            gameBuilder = gameBuilder.addBoard(b)
+        for(p <- m.players)
+        {
+            var playerBuilder = Gameprotocol.Player.newBuilder()
+            playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
+                                         .setAnsweredCorrectly(p.answeredCorrectly)
+                                         .setQuestion(p.question).clearAlternatives().setScore(p.score)
+            for(a <- p.alternatives)
+            {
+                playerBuilder = playerBuilder.addAlternatives(a)
+            }
+            gameBuilder = gameBuilder.addPlayers(playerBuilder.build())
+        }
+        gameBuilder.build()
     }
     
     /**
@@ -85,7 +110,7 @@ object MessageTranslator
             case GAMEINFORESPONSE =>
                 val info = Gameprotocol.GameInfoResponse.newBuilder().mergeFrom(msgByteString.toArray).build()                
                 GameInfoResponse(GameMessage(info.getGame().getGameId(), 
-                                             playerMsgArrayToPlayerList(info.getGame().getPlayersList()), 
+                                             playerMsgListToPlayerList(info.getGame().getPlayersList()), 
                                              javaListToList(info.getGame().getBoardList()).map(a => a.toInt).toArray))
             case CREATEGAMEREQUEST =>
                 val createGameRequest = Gameprotocol.CreateGameRequest.newBuilder()
@@ -122,7 +147,18 @@ object MessageTranslator
             case GAMELISTRESPONSE =>
                 val gameListResponse = Gameprotocol.GameListResponse.newBuilder()
                                                    .mergeFrom(msgByteString.toArray).build()
-                GameListResponse(gameMsgArrayToGameList(gameListResponse.getGamesList()))                
+                GameListResponse(gameMsgArrayToGameList(gameListResponse.getGamesList()))
+            case NEWROUNDPUBSUBMESSAGE =>
+                val newRoundPubSubMessage = Gameprotocol.NewRoundPubSubMessage.newBuilder().mergeFrom(msgByteString.toArray).build()
+                NewRoundPubSubMessage(GameMessage(newRoundPubSubMessage.getGame().getGameId(), 
+                                             playerMsgListToPlayerList(newRoundPubSubMessage.getGame().getPlayersList()), 
+                                             javaListToList(newRoundPubSubMessage.getGame().getBoardList()).map(a => a.toInt).toArray))
+            case PLAYERSTATECHANGEPUBSUBMESSAGE =>
+                val p = Gameprotocol.PlayerStateChangePubSubMessage.newBuilder().mergeFrom(msgByteString.toArray).build().getPlayer()
+                PlayerStateChangePubSubMessage(PlayerMessage(p.getUserId(), p.getState(), p.getX(), 
+                                      p.getY(), p.getQuestion(), 
+                                      javaListToList(p.getAlternativesList()), p.getAnsweredCorrectly(),
+                                      p.getScore()))
         }
     }
     
@@ -138,27 +174,10 @@ object MessageTranslator
             case GameInfoRequest (id: Int) =>
                 var gameInfoRequestBuilder = Gameprotocol.GameInfoRequest.newBuilder()
                 gameInfoRequestBuilder.setGameId(id)
-                (GAMEINFOREQUEST, Gameprotocol.GameInfoRequest.newBuilder().setGameId(id).build())
-            case GameInfoResponse (GameMessage(id: Int, players: List[PlayerMessage], board: Array[Int])) =>
-                var gameBuilder = Gameprotocol.Game.newBuilder()
+                (GAMEINFOREQUEST, gameInfoRequestBuilder.setGameId(id).build())
+            case GameInfoResponse (m: GameMessage) =>
                 var gameInfoResponseBuilder = Gameprotocol.GameInfoResponse.newBuilder()
-                gameBuilder = gameBuilder.setGameId(id)
-                for(b <- board)
-                    gameBuilder = gameBuilder.addBoard(b)
-                for(p <- players)
-                {
-                    var playerBuilder = Gameprotocol.Player.newBuilder()
-                    playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
-                                                 .setAnsweredCorrectly(p.answeredCorrectly)
-                                                 .setQuestion(p.question).clearAlternatives().setScore(p.score)
-                    for(a <- p.alternatives)
-                    {
-                        playerBuilder = playerBuilder.addAlternatives(a)
-                    }
-                    gameBuilder = gameBuilder.addPlayers(playerBuilder.build())
-                }
-                gameInfoResponseBuilder.setGame(gameBuilder.build())
-                (GAMEINFORESPONSE, gameInfoResponseBuilder.build())
+                (GAMEINFORESPONSE, gameInfoResponseBuilder.setGame(buildGameMessage(m)).build())
             case CreateGameRequest (players: List[Int]) =>
                 var createGameBuilder = Gameprotocol.CreateGameRequest.newBuilder()
                 for (p <- players)
@@ -199,26 +218,17 @@ object MessageTranslator
             case GameListResponse (games: List[GameMessage]) =>
                 var gameListResponseBuilder = Gameprotocol.GameListResponse.newBuilder()
                 for(game <- games)
-                {
-                    var gameBuilder = Gameprotocol.Game.newBuilder()
-                    gameBuilder = gameBuilder.setGameId(game.gameId)
-                    for(b <- game.board)
-                        gameBuilder = gameBuilder.addBoard(b)
-                    for(p <- game.players)
-                    {
-                        var playerBuilder = Gameprotocol.Player.newBuilder()
-                        playerBuilder = playerBuilder.setUserId(p.userId).setState(p.state).setX(p.x).setY(p.y)
-                                                     .setAnsweredCorrectly(p.answeredCorrectly).setQuestion(p.question)
-                                                     .clearAlternatives().setScore(p.score)
-                        for(a <- p.alternatives)
-                        {
-                            playerBuilder = playerBuilder.addAlternatives(a)
-                        }
-                        gameBuilder = gameBuilder.addPlayers(playerBuilder.build())
-                    }
-                    gameListResponseBuilder.addGames(gameBuilder.build)
-                }
+                    gameListResponseBuilder.addGames(buildGameMessage(game))
                 (GAMELISTRESPONSE, gameListResponseBuilder.build())
+            case NewRoundPubSubMessage (m) =>
+                var newRoundPubSubMessageBuilder = Gameprotocol.NewRoundPubSubMessage.newBuilder()
+                (NEWROUNDPUBSUBMESSAGE, newRoundPubSubMessageBuilder.setGame(buildGameMessage(m)).build())
+            case PlayerStateChangePubSubMessage (p) =>
+                var playerStateChangePubSubMessage = Gameprotocol.PlayerStateChangePubSubMessage.newBuilder()
+                var playerBuilder = Gameprotocol.Player.newBuilder().setUserId(p.userId).setState(p.state).setX(p.x)
+                                          .setY(p.y).setAnsweredCorrectly(p.answeredCorrectly).setQuestion(p.question)
+                                          .clearAlternatives().setScore(p.score)
+                (PLAYERSTATECHANGEPUBSUBMESSAGE, playerStateChangePubSubMessage.setPlayer(playerBuilder.build()).build())
         }
         ret match { case (x: Int, y: com.google.protobuf.GeneratedMessage) => (x, ByteString(y.toByteArray())) }
     }
