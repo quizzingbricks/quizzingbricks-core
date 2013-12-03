@@ -30,38 +30,59 @@ def add_friend():
             add_friend_response = friendservice.add_friend(AddFriendRequest(userId=session['userId'],friend_email=friend_Email))
             if (isinstance(add_friend_response, AddFriendResponse)):
                 #print "add response", add_friend_response
-                friends_list = get_friends_list()
-                return render_template('friends_list.html',friends_list=friends_list)
+                #friends_list = get_friends_list()
+                return redirect(url_for('friends'))
         else:
-            friends_list = get_friends_list()
-            return render_template('friends_list.html',friends_list=friends_list, error="Must fill in email of user you want to add")   
+            #friends_list = get_friends_list()
+            return redirect(url_for('friends_list', msg="Must fill in email of user you want to add"))   
     else:
-        friends_list = get_friends_list()
-        return render_template('friends_list.html',friends_list=friends_list)    
+        #friends_list = get_friends_list()
+        return redirect(url_for('friends'))    
 
 @app.route('/remove_friend', methods=['GET', 'POST'])
 def remove_friend():
-    friends_list = []
+
     if request.method == 'POST':    # removes selected friend and fetches the rest of the friendslist again if more is to be removed
         try:
-            remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =session['userId'],friendId=int(request.form['friend'])))
+            print "before call"
+
+            try:
+                print "friendId", int(request.form['friend'])
+                remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =session['userId'],friendId=int(request.form['friend'])))
+            except:
+                print "Exception in user code:"
+                print '-'*60
+                traceback.print_exc(file=sys.stdout)
+                print '-'*60
+
+
+
+            #remove_friend_response = friendservice.remove_friend(RemoveFriendRequest(userId =session['userId'],friendId=int(request.form['friend'])))
             print "remove response", remove_friend_response
             if (isinstance(remove_friend_response, RemoveFriendResponse)):
+                
                 print "remove response", remove_friend_response
-                friends_list = get_friends_list()
-                return render_template('friends_list.html',friends_list=friends_list)
+                
+                return redirect(url_for('friends_list', msg ="User removed from friends list"))
         except: #no radio buttons selected
-            friends_list = get_friends_list()
-            return render_template('friends_list.html',friends_list=friends_list, error="Must select radio button")
+            #friends_list = get_friends_list()
+            return redirect(url_for('friends_list', msg="Must select radio button"))
     else:
-        friends_list = get_friends_list()
-        return render_template('friends_list.html',friends_list=friends_list)
+        #friends_list = get_friends_list()
+        return redirect(url_for('friends'))
 
 
 
 
+@app.route('/friends_list/<msg>' )
+def friends_list(msg):
+    print msg
+    return render_template('friends_list.html', friends_list=get_friends_list(),
+                                                    error=msg)
 
-
+@app.route('/friends_list')
+def friends():
+    return render_template('friends_list.html', friends_list=get_friends_list())
 
 
 

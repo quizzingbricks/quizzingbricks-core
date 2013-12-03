@@ -73,9 +73,13 @@ body {
 
 
 #row_even{
-  background-color: green;
+  background-color: #cccccc;
+  padding:10px;
+  font-size:medium;
 }
 
 #row_odd {
-  background-color: teal;
+  background-color: #dddddd;
+  padding:10px;
+  font-size:medium;
 }
