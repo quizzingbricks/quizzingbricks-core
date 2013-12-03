@@ -22,13 +22,15 @@
                     <div class="col-xs-4"></div>
                     <div class="col-xs-4" id="row_{{ row_class.next() }}" >              
                       <form action = "{{ url_for('accept_invite', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-                        <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden ><br>
+                        <input name="invite_lobby_id" value='{{lobby.lobbyId}}' hidden >
                           <b>Lobby:</b> {{lobby.lobbyId}} <br>
                           <b>From user:</b> {{lobby.owner.email}}  <br>
-                         <button name="accepted_invite" class="btn btn-success"  type=submit> Accept invite </button> <button name="declined_invite" class="btn btn-danger" type=submit> Decline </button>
+                         <button name="accepted_invite" class="btn btn-success"  type=submit> Accept invite </button> <button name="declined_invite" class="btn btn-danger" type=submit> Decline </button> 
                       </form>
                     </div>
+
                   </div>
+
                 {% endif %}
                 
                   
