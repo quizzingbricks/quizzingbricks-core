@@ -28,15 +28,15 @@ object GameProcess
         items.register(frontend, ZMQ.Poller.POLLIN) 
         
         val workerQ = scala.collection.mutable.Queue[Array[Byte]]()
-        
-        val gameCache = system.actorOf(Props(classOf[GameCache]))
-        
+
         val db = Database.forURL("jdbc:postgresql://localhost:5432/quizzingbricks_dev",
                                  driver = "org.postgresql.Driver", user = "qb", password = "qb123")
-        
+                                 
+        val publisher = system.actorOf(Props(classOf[Publisher]))
+        val gameCache = system.actorOf(Props(classOf[GameCache], publisher))
         for (i <- 0 to 9)
         {
-            system.actorOf(Props(classOf[BrokerWorker], i, gameCache))
+            system.actorOf(Props(classOf[BrokerWorker], i, gameCache, publisher))
         }    
 
         // Main message loop

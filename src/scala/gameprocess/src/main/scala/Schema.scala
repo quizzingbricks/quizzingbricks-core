@@ -28,6 +28,8 @@ object PlayersGamesTable extends Table[(Int, Int, Int, Int, Int, String, String,
     def correctAnswer = column[Int]("correctanswer")
     def answer = column[Int]("answer")
     def score = column[Int]("score")
+    
+    // This should be mapped to a custom type as well
     def * = playerId ~ gameId ~ state ~ x ~ y ~ question ~ alt1 ~ alt2 ~ alt3 ~ alt4 ~ correctAnswer ~ answer ~ score
     
     def pk = primaryKey("pk", (playerId, gameId))

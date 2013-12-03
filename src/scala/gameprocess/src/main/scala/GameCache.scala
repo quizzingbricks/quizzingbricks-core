@@ -6,7 +6,7 @@ import scala.slick.driver.PostgresDriver.simple._
 /**
  * The actor that caches games in the database to memory, and relays incoming messages to them.
  */
-class GameCache extends Actor
+class GameCache(publisher: ActorRef) extends Actor
 {
     val db = Database.forURL("jdbc:postgresql://localhost:5432/quizzingbricks_dev", 
                              driver = "org.postgresql.Driver", user = "qb", password = "qb123")
@@ -29,7 +29,7 @@ class GameCache extends Actor
             for(p <- players)
                 PlayersGamesTable.insert(p, id, 0, 0, 0, "", "", "", "", "", 0, 0, 0)
         }
-        val game = context.system.actorOf(Props(classOf[Game], id, players, Nil, null))
+        val game = context.system.actorOf(Props(classOf[Game], id, players, publisher, Nil, null))
         hashMap.put(id, game)
         sender ! CreateGameResponse (id)
     }
@@ -57,18 +57,22 @@ class GameCache extends Actor
                         // Populate the player list of the game from the database
                         var l: List[Player] = Nil
                         for((playerId, gameId, state, x, y, question, 
-                             alt1, alt2, alt3, alt4, answer, correctAnswer, score) <- dbPlayers)
+                             alt1, alt2, alt3, alt4, correctAnswer, answer, score) <- dbPlayers)
                         {
                             var p: Player = new Player(playerId, state)
                             p.x = x
                             p.y = y
+                            p.question = new Question(question, List(alt1, alt2, alt3, alt4), correctAnswer)
+                            p.answer = answer
+                            p.score = score
                             l = p :: l
                         }
                         // Load the game board
                         val strBoard = (for { p <- GamesTable if p.gameId === x.gameId} yield (p.board)).list.head 
                         val intBoard = strBoard.split(",").map(_.toInt)
                         // Create an actor representing the game
-                        val game = context.system.actorOf(Props(classOf[Game], x.gameId, l map (_.userId), l, intBoard))
+                        val game = context.system.actorOf(Props(classOf[Game], x.gameId, l map (_.userId), 
+                                                                publisher, l, intBoard))
                         hashMap.put(x.gameId, game)
                         println("Found! Forwarding...")
                         game forward x
