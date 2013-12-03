@@ -233,12 +233,20 @@ QuizzingBricks.GameBoard = function(server_url, game_id) {
         // event = {"type": x, "payload": {} }
         console.log(event.data);
 
-        var data = event.data;
+        var data = JSON.parse(event.data);
+        console.log("test before statement");
+        console.log(data.type);
+         console.log("whatever");
 
-        if (data.type == "board_change") {
+        if (data.type === "board_change") {
+            console.log("test in if");
             // TODO: draw-modified-Board();
-        } else if (data.type == "player_state") {
+            drawBoardHelper(data.payload)
+            updateStatus(data.payload.players)
+        } else if (data.type === "player_state") {
+            console.log("test in else if");
             // TODO: updateStatus();
+            updateStatus(data.payload.players)
         }
     }
 
