@@ -16,7 +16,7 @@ from quizzingbricks.common.protocol import (
     GameError, GameInfoRequest, GameInfoResponse,
     MoveRequest,
     QuestionRequest, AnswerRequest,
-    BoardChangePubSubMessage, NewRoundPubSubMessage, GameListRequest)
+    PlayerStateChangePubSubMessage, NewRoundPubSubMessage, GameListRequest)
 from quizzingbricks.common.protocol import protocol_mapper
 
 gameservice = GameServiceClient("tcp://*:1234", zmq_context=zmq_ctx)
@@ -131,6 +131,7 @@ def answer(game_id):
 
 
 @app.route("/api/games/<int:game_id>/events/")
+@token_required
 def game_listener(game_id):
     if request.environ.get('wsgi.websocket'):
         ws = request.environ['wsgi.websocket']
@@ -146,10 +147,20 @@ def game_listener(game_id):
             message = cls.FromString(msg)
             print "deseralized type: %s" % message.__class__.__name__
 
-            if isinstance(message, BoardChangePubSubMessage):
-                ws.send(json.dumps({"type": "board_change", "payload": {"board": list(message.game.board)}}))
+            if isinstance(message, PlayerStateChangePubSubMessage):
+                ws.send(json.dumps({"type": "player_change", "payload": {"player": {"id": message.player.userId, "state": message.player.state, "score": message.player.score}}}))
             elif isinstance(message, NewRoundPubSubMessage):
-                ws.send(json.dumps({"type": "new_round", "payload": {}}))
+                ws.send(json.dumps({
+                    "type": "board_change",
+                    "payload": {
+                        "board": list(message.game.board),
+                        "players": [
+                            {"id": player.userId, "state": player.state, "score": player.score}
+                            for player in message.game.players
+                        ]
+                    },
+                }))
             else:
                 ws.send(json.dumps({"type": "unknown", "payload": {"msg_type": msg_type}})) # only used to debug
     abort(404) # only accessible from websockets
+
