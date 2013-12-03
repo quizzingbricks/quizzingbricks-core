@@ -206,6 +206,13 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
 
 var QuizzingBricks = QuizzingBricks || {};
 
+QuizzingBricks.Player = function(json) {
+    this.json = json;
+    this.name = json.email;
+    this.score = json.score;
+    this.status = json.status;
+}
+
 QuizzingBricks.GameBoard = function(server_url, game_id) {
     // "fields"
     this.server_url = server_url;
@@ -225,6 +232,14 @@ QuizzingBricks.GameBoard = function(server_url, game_id) {
     this._onReceiveEvent = function(event) {
         // event = {"type": x, "payload": {} }
         console.log(event.data);
+
+        var data = event.data;
+
+        if (data.type == "board_change") {
+            // TODO: draw-modified-Board();
+        } else if (data.type == "player_state") {
+            // TODO: updateStatus();
+        }
     }
 
     this._onSocketError = function(error) {
