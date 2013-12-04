@@ -11,7 +11,7 @@ from sqlalchemy.ext.declarative import declarative_base
 engine = create_engine("postgresql+psycopg2://qb:qb123@127.0.0.1:5432/quizzingbricks_dev",
     convert_unicode=True,
     pool_size=8, # change to what?
-    max_overflow=0
+    max_overflow=0,
 )
 #engine = create_engine("sqlite:///quizzingbricks.db", echo=True)
 
