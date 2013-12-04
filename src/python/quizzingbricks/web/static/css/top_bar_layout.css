@@ -97,6 +97,8 @@ body {
 }
 
 #answer {
+  height:22px;
+  width:293px;
   float:right;
   text-align:center; 
   font-size:medium;"
@@ -105,8 +107,25 @@ body {
 #question_button{
   float:right;
   height:40px; 
-  background-color:#cccccc; 
   text-align:center; 
   font-size:medium; 
   width:293px;
+}
+
+#info_container{
+  min-width:293px;
+}
+
+#id_container{
+  font-size:medium; 
+  text-align:right;
+}
+
+#caption_container{
+  font-size:x-large;
+  min-width:293px;
+}
+
+#remove_submit{
+  margin-top:10px;
 }

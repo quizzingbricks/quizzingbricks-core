@@ -98,7 +98,7 @@ function updateStatus(players){
     }
 }
 
-function updateStatus_test(player){
+function updateStatus_single(player){
     
     
     
@@ -287,7 +287,7 @@ QuizzingBricks.GameBoard = function(server_url, game_id) {
             console.log("test in else if");
             console.log(data.payload.player);
             // TODO: updateStatus();
-            updateStatus_test(data.payload.player)
+            updateStatus_single(data.payload.player)
         }
     }
 

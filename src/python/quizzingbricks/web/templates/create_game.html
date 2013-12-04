@@ -2,37 +2,120 @@
 
 {% block body %} 
 
-    <div class="container">
+ 
+    
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-xs-4" id="caption_container"   >
+              Members
+            </div>
+            <div class="col-xs-4" id="caption_container" style="font-size:x-large;"  >
+              Invite friends 
+            </div>
+              <div class="col-xs-4" id="caption_container" style="font-size:x-large;"  >
+                {% if game_type == 2 %}
+                  Two player lobby: {{lobby_id}}
+                {% else %}
+                  Four player lobby: {{lobby_id}}
+                {% endif%}
+                
+              </div>
+            </div>
 
-      <div class="starter-template">
-        <h1>Want to create a game? lol owned not implemented yet.</h1>
+            <div class="row" style="margin-top:10px;">
+              <div class="col-xs-4">
+                {% set row_class = cycler('odd', 'even') %}
+                  {% for member in lobby_members %} <!-- game[0] is the gameobject itself and game[1] is a list of opponents as User objects  -->
+                    {% if member.status == "member"%}
+                      <div class="row"> 
+                        <div class="col-xs-12" id="row_{{ row_class.next() }}"  >
+                          Email: {{member.user.email}} 
+                        </div> 
+                      </div>  
+                    {% endif %}
+                  {% endfor %}
+                <div class="row">
+                  <div class="col-xs-12" id="info_container" style="font-size:x-large;"  >
+                    Invited
+                  </div>
+                </div>  
+                {% for member in lobby_members %} <!-- game[0] is the gameobject itself and game[1] is a list of opponents as User objects  -->
+                  {% if member.status == "invited"%}
+                    <div class="row">    
+                      <div class="col-xs-12" id="row_{{ row_class.next() }}" >
+                        Email: {{member.user.email}} 
+                      </div>
+                    </div>    
+                  {% endif %}
+                {% endfor %}
+                <div class="row">
+                  <form action = "{{ url_for('lobby_state', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+                    <button type=submit class="btn btn-default" style="margin-top:10px;" > Update State </button>
+                  </form>
+                </div> 
+                 
+              </div>
+            
 
-        Lobby ID: {{lobby_id}} <br>
 
 
 
-        Invite to Lobby:
-        <br>
+
+              
+              <div class="col-xs-4">
+                <form action = "{{ url_for('lobby_invite',game_type=game_type,lobby_id=lobby_id) }}" method=post>
+                  {% if friends_list %}
+                      {% set i = 1 %}
+                      {% for friend in friends_list %}
+                        <input type="checkbox" name=friend_{{i}} value='{{friend.id}}' > {{friend.email}}  <br>
+                         {% set i = i+1%} 
+                      {% endfor %}
+                  {% endif%} 
+                  <button type=submit class="btn btn-success" style="margin-top:10px;" >Invite Friends</button>
+                </form>
+              </div>
+
+              <div class="col-xs-4">
+
+                <form action = "{{ url_for('start_game', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+                  {% for friend in accept_friends %}
+                    {{friend}}  <input name=friend value='{{friend}}' hidden ><br>
+                  {% endfor %}
+                  <button type=submit class="btn btn-success" style="width:125px;" > Start Game </button>
+                </form> 
+
+                <form action = "{{ url_for('remove_lobby', game_type=game_type, lobby_id=lobby_id) }}" method=post>
+                  <button type=submit class="btn btn-danger" style="width:125px; margin-top:10px; "> Remove Lobby </button>
+                </form> 
+
+              </div>  
+            </div>
+ 
+          
 
 
-        <form action = "{{ url_for('lobby_invite',game_type=game_type,lobby_id=lobby_id) }}" method=post>
-           
-                {% if friends_list %}
-                    {% set i = 1 %}
-                    {% for friend in friends_list %}
-                      {{friend.email}}  <input type="checkbox" name=friend_{{i}} value='{{friend.id}}' ><br>
-                       {% set i = i+1%} 
-                    {% endfor %}
-                {% endif%} 
-            <button type=submit >Invite Friends</button>
-        </form>
+
+
+
+        </div>
+      </div>
+
+
+      
+
+
+        
+
+
+
 
 
       
        
           
 
- 
+ <!--
 
           <br>
           
@@ -43,15 +126,12 @@
                <b>Status:</b> {{member.status}}  <br>
                <br>
             {% endfor %}                                             
-          </div> 
+          </div> -->
 
 
         
         
 
-        <form action = "{{ url_for('lobby_state', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-          <button type=submit> Update State </button>
-        </form> 
 
       <!--
         <form action = "{{ url_for('lobby_list', game_type=game_type, lobby_id=lobby_id) }}" method=post>
@@ -68,21 +148,8 @@
           {% endif %}  
         {% endfor %} -->
 
-        <form action = "{{ url_for('remove_lobby', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-          <button type=submit> Remove Lobby </button>
-        </form> 
 
-        <form action = "{{ url_for('start_game', game_type=game_type, lobby_id=lobby_id) }}" method=post>
 
-        {% for friend in accept_friends %}
-           {{friend}}  <input name=friend value='{{friend}}' hidden ><br>
-        {% endfor %}
-
-          <button type=submit> Start Game </button>
-        </form> 
-
-        </div>
-    </div><!-- /.container -->
 
 {% endblock %}
 
