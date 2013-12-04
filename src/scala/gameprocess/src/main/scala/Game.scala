@@ -311,15 +311,18 @@ class Game (gameId: Int, playerIds: List[Int], publisher: ActorRef, players: Lis
             // Everyone who answered correctly gets their bricks placed. updateQuestionStates() ensures that only one
             // player on each position has done so at this point
             if(p.answer == p.question.correctAnswer)
+            {
                 board(Game.sideLength*p.y + p.x) = p.userId
+                p.score = p.score + 1
+            }
             p.resetTo(Player.PLACING)
             
             db withSession 
             {   implicit session: Session =>
-                val q = Query(PlayersGamesTable).filter(g => g.gameId === gameId)
+                val q = Query(PlayersGamesTable).filter(g => g.gameId === gameId && g.playerId === p.userId)
                         .map(p => p.x ~ p.y ~ p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3
-                                  ~ p.alt4 ~ p.correctAnswer ~ p.answer)
-                q.update(0, 0, Player.PLACING, "", "", "", "", "", 0, 0)
+                                  ~ p.alt4 ~ p.correctAnswer ~ p.answer ~ p.score)
+                q.update(0, 0, Player.PLACING, "", "", "", "", "", 0, 0, p.score)
             }
         }
         db withSession
