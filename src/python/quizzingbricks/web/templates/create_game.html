@@ -10,10 +10,10 @@
             <div class="col-xs-4" id="caption_container"   >
               Members
             </div>
-            <div class="col-xs-4" id="caption_container" style="font-size:x-large;"  >
+            <div class="col-xs-4" id="caption_container" >
               Invite friends 
             </div>
-              <div class="col-xs-4" id="caption_container" style="font-size:x-large;"  >
+              <div class="col-xs-4" id="caption_container"  >
                 {% if game_type == 2 %}
                   Two player lobby: {{lobby_id}}
                 {% else %}
@@ -23,7 +23,7 @@
               </div>
             </div>
 
-            <div class="row" style="margin-top:10px;">
+            <div class="row" id="margin_row" >
               <div class="col-xs-4">
                 {% set row_class = cycler('odd', 'even') %}
                   {% for member in lobby_members %} <!-- game[0] is the gameobject itself and game[1] is a list of opponents as User objects  -->
@@ -36,7 +36,7 @@
                     {% endif %}
                   {% endfor %}
                 <div class="row">
-                  <div class="col-xs-12" id="info_container" style="font-size:x-large;"  >
+                  <div class="col-xs-12" id="caption_container"  >
                     Invited
                   </div>
                 </div>  
@@ -51,7 +51,7 @@
                 {% endfor %}
                 <div class="row">
                   <form action = "{{ url_for('lobby_state', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-                    <button type=submit class="btn btn-default" style="margin-top:10px;" > Update State </button>
+                    <button type=submit class="btn btn-default" id="lobby_buttons" > Update State </button>
                   </form>
                 </div> 
                  
@@ -72,7 +72,7 @@
                          {% set i = i+1%} 
                       {% endfor %}
                   {% endif%} 
-                  <button type=submit class="btn btn-success" style="margin-top:10px;" >Invite Friends</button>
+                  <button type=submit class="btn btn-success" id="lobby_buttons" >Invite Friends</button>
                 </form>
               </div>
 
@@ -82,11 +82,11 @@
                   {% for friend in accept_friends %}
                     {{friend}}  <input name=friend value='{{friend}}' hidden ><br>
                   {% endfor %}
-                  <button type=submit class="btn btn-success" style="width:125px;" > Start Game </button>
+                  <button type=submit class="btn btn-success" id="start_game_button"  > Start Game </button>
                 </form> 
 
                 <form action = "{{ url_for('remove_lobby', game_type=game_type, lobby_id=lobby_id) }}" method=post>
-                  <button type=submit class="btn btn-danger" style="width:125px; margin-top:10px; "> Remove Lobby </button>
+                  <button type=submit class="btn btn-danger"  id="remove_lobby_button" > Remove Lobby </button>
                 </form> 
 
               </div>  

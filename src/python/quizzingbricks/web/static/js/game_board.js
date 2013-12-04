@@ -71,6 +71,7 @@ for (var i = 0; i < board.length; i++) {
 }
 
 function updateStatus(players){
+    console.log("token: "+TOKEN.RED.userId);
     var length = players.length
     element= null;
     for (var i = 0; i < length; i++) {
@@ -93,6 +94,7 @@ function updateStatus(players){
             $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+            console.log("showing question_button");
             $('#question_button').show();
         }
     }
@@ -100,7 +102,7 @@ function updateStatus(players){
 
 function updateStatus_single(player){
     
-    
+        console.log("token: "+TOKEN.RED.userId);
     
         element = player;
         if(element.state == 0 ){
@@ -119,7 +121,8 @@ function updateStatus_single(player){
             $("#status_id_"+element.userId).text("State: Answered Question ");
             $("#score_id_"+element.userId).text("Score: "+element.score);
         }
-        if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+        if((element.state == 1) && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+            console.log("showing question_button");
             $('#question_button').show();
         }
     
@@ -202,18 +205,23 @@ function getQuestion(gameId){
 }
 
 function submitAnswer(gameId, answer){
+    $('#question_button').hide();
     $.post($SCRIPT_ROOT + '/submit_answer', {gameId: gameId, answer: answer},
     function(data) {
         if(data.isCorrect){
             $("#answer").text("Your last answer was correct");
+            last_marked_element=null;
         }
         else{
             $("#answer").text("Your last answer was incorrect");
-            last_marked_element.innerHTML= ""
+            if(last_marked_element!=null){
+                last_marked_element.innerHTML= ""
+            }
+            
         }
-        last_marked_element=null;
+        console.log("submitting answer**************************************")
         $('#myModal').modal('hide');
-        $('#question_button').hide();
+        
        // drawBoard(gameId);  
   }); 
 }
