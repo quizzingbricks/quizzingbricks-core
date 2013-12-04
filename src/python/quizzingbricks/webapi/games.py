@@ -10,27 +10,37 @@ import zmq.green as zmq
 
 from quizzingbricks.webapi import app, api_error, api_errors, token_required, zmq_ctx
 from quizzingbricks.client.games import GameServiceClient
+from quizzingbricks.client.users import UserServiceClient
 from quizzingbricks.client.exceptions import TimeoutError
 
 from quizzingbricks.common.protocol import (
     GameError, GameInfoRequest, GameInfoResponse,
     MoveRequest,
     QuestionRequest, AnswerRequest,
-    PlayerStateChangePubSubMessage, NewRoundPubSubMessage, GameListRequest)
+    PlayerStateChangePubSubMessage, NewRoundPubSubMessage, GameListRequest,
+    GetMultipleUsersRequest)
 from quizzingbricks.common.protocol import protocol_mapper
 
 gameservice = GameServiceClient("tcp://*:1234", zmq_context=zmq_ctx)
+userservice = UserServiceClient("tcp://*:5551", zmq_context=zmq_ctx)
+
 
 @app.route("/api/games/", methods=["GET"])
 @token_required
 def list_games():
+    # state, id, game size,
     try:
         response = gameservice.send(GameListRequest(userId=g.user.id), timeout=5000)
         if isinstance(response, GameError):
             return api_error(response.description, response.code), 400
-        return jsonify(games=[
-            game.gameId for game in list(response.games)
-        ])
+        return jsonify(
+            games=[{
+                    "id": game.gameId,
+                    "size": len(game.players),
+                    "state": next((player.state for player in game.players if player.userId == g.user.id), 0)
+                   }
+                   for game in list(response.games)
+            ])
 
     except TimeoutError as e:
         return api_error("Service is not available", 500), 500
@@ -46,8 +56,13 @@ def game_details(game_id):
         if isinstance(rep, GameError):
             return api_error(rep.description, rep.code), 400
         else:
+            # dict, user_id => user
+            users_response = userservice.get_multiple_users(GetMultipleUsersRequest(userIds=map(lambda p: p.userId, list(rep.game.players))), timeout=5000)
+            user_dict = {user.id: user for user in users_response.users}
+
             return jsonify({ "gameId" : rep.game.gameId,
                              "players" : [ { "userId" : player.userId,
+                                             "email": user_dict.get(player.userId).email,
                                             "state" : player.state,
                                             "x" : player.x,
                                             "y" : player.y,
