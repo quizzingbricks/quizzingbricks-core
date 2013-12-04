@@ -80,14 +80,6 @@ class LobbyService(NunciusService):
         lobby_ids = map(lambda l:l.lobby_id, lobby_query)
         
         return CreateLobbyResponse(lobbyId=lobby_ids[0])
-
-    @expose("get_lobby_list_helper")
-    def get_lobby_list_helper(self, lobbyid, lobby, isid):
-        if(lobbyid == lobby.lobby_id):
-            
-            if(isid):
-                return lobby.user_id
-            return lobby.status
             
     @expose("get_lobby_list")
     def get_lobby_list(self, request):
