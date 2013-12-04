@@ -68,7 +68,7 @@
                   {% if friends_list %}
                       {% set i = 1 %}
                       {% for friend in friends_list %}
-                        {{friend.email}}  <input type="checkbox" name=friend_{{i}} value='{{friend.id}}' ><br>
+                        <input type="checkbox" name=friend_{{i}} value='{{friend.id}}' > {{friend.email}}  <br>
                          {% set i = i+1%} 
                       {% endfor %}
                   {% endif%} 
