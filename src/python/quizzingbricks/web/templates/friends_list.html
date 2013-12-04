@@ -12,16 +12,16 @@
 
     <div class="row">
       <div class="col-xs-12"  >
-        <div class="row">
-
-        </div>
+       
         <div class="row">
           <div class="col-xs-4" ></div>
+          <div class="col-xs-4" id="caption_container">
+            Your Friends
+          </div>
+        </div>
+        <div class="row">   
+          <div class="col-xs-4" ></div>
           <div class="col-xs-4" >
-            Your Friends:
-            <br>
-
-
             <form action = "{{ url_for('remove_friend') }}" method=post>
                
                     {% if friends_list %}
@@ -31,13 +31,18 @@
                            {% set i = i+1%} 
                         {% endfor %}
                     {% endif%} 
-                <button type="submit" id="remove_submit"   name="remove_friend" >Remove Selected Friend</button>
+                <button type="submit" id="remove_submit" class="btn btn-danger"   name="remove_friend" >Remove Selected Friend</button>
             </form>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div class="col-xs-4" ></div>
+          <div class="col-xs-4" >
 
             <form action="{{ url_for('add_friend') }}" class="form-inline"  method=post>
               <div class="form-group">
                 <input class="form-control" id="email"  type="email" name="friend_email" placeholder="E-mail" >
-                <button  class="btn btn-default" type=submit >Add Friend </button>
+                <button  class="btn btn-success" type=submit style="margin-top:10px;" >Add Friend </button>
               </div> 
             </form>
           </div>

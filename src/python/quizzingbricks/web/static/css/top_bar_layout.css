@@ -110,3 +110,21 @@ body {
   font-size:medium; 
   width:293px;
 }
+
+#info_container{
+  min-width:293px;
+}
+
+#id_container{
+  font-size:medium; 
+  text-align:right;
+}
+
+#caption_container{
+  font-size:x-large;
+  min-width:293px;
+}
+
+#remove_submit{
+  margin-top:10px;
+}
