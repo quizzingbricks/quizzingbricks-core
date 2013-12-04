@@ -129,3 +129,33 @@ body {
 #remove_submit{
   margin-top:10px;
 }
+
+#add_friend_button{
+  height:34px;
+}
+
+#lobby_buttons{
+  margin-top:10px;
+}
+
+#margin_row{
+  margin-top:10px;
+}
+
+#start_game_button{
+  width:125px;
+}
+
+#remove_lobby_button{
+  width:125px; 
+  margin-top:10px;
+}
+
+#your_lobbies_container{
+  text-align:left;
+
+}
+
+#lobby_link{
+  color:black;
+}

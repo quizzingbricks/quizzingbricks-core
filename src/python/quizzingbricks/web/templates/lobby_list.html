@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-xs-12">
 
-          <div class ="row" style="font-size:x-large; ">
+          <div class ="row" id="caption_container" >
             <div class="col-xs-4"></div>
             <div class="col-xs-4">
               Lobby invitations
@@ -40,7 +40,7 @@
           {% endfor %}
 
           
-          <div class="row" style="font-size:x-large;">
+          <div class="row" id="caption_container" >
             <div class="col-xs-4"></div>
             <div class="col-xs-4">          
               Your lobbies
@@ -52,9 +52,9 @@
               <div class="col-xs-4"></div>
               <div class="col-xs-4" id="row_{{ row_class.next() }}" >
                
-                  <div style="text-align:left;" >
+                  <div id="your_lobbies_container"  >
                     <b>Lobby:</b>   {{lobby.lobbyId}} <br>
-                      <a href="/lobby/{{lobby.gameType}}/{{lobby.lobbyId}}" style="color:black;">
+                      <a id="lobby_link" href="/lobby/{{lobby.gameType}}/{{lobby.lobbyId}}" >
                         Click to manage lobby
                       </a>
                   </div>
