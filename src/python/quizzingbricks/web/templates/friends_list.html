@@ -27,12 +27,17 @@
                     {% if friends_list %}
                         {% set i = 1 %}
                         {% for friend in friends_list %}
-                          {{ friend.email }}  <input type="radio" name="friend" value='{{ friend.id }}' ><br>
+                          <input type="radio" name="friend" value='{{ friend.id }}' > {{ friend.email }}  <br>
                            {% set i = i+1%} 
                         {% endfor %}
                     {% endif%} 
                 <button type="submit" id="remove_submit" class="btn btn-danger"   name="remove_friend" >Remove Selected Friend</button>
             </form>
+
+
+
+
+
           </div>
         </div>
         <div class="row" style="margin-top:10px;">
@@ -40,11 +45,16 @@
           <div class="col-xs-4" >
 
             <form action="{{ url_for('add_friend') }}" class="form-inline"  method=post>
-              <div class="form-group">
+              <div class="input-group">
                 <input class="form-control" id="email"  type="email" name="friend_email" placeholder="E-mail" >
-                <button  class="btn btn-success" type=submit style="margin-top:10px;" >Add Friend </button>
+                <span class="input-group-btn">
+                  <button  class="btn btn-success btn-sm" type=submit style="height:34px;"  >Add Friend </button>
+                </span>
               </div> 
             </form>
+
+
+
           </div>
           <div class="col-xs-4" ></div> 
         </div>
