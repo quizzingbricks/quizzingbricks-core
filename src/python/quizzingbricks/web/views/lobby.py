@@ -18,8 +18,11 @@ from quizzingbricks.common.protocol import (
     GetLobbyListRequest, GetLobbyListResponse,CreateGameRequest, CreateGameResponse,\
     GameError
     )
+from quizzingbricks.web import login_required
+
 
 @app.route('/lobby_invite/<int:game_type>/<int:lobby_id>',methods=['GET', 'POST'])
+@login_required
 def lobby_invite(game_type,lobby_id):
     print "invite friends"
     friends = []  
@@ -39,6 +42,7 @@ def lobby_invite(game_type,lobby_id):
                                     lobby_id=lobby_id))
 
 @app.route('/lobby_state/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
+@login_required
 def lobby_state(game_type, lobby_id):
     print "lobby state"  
     lobby_state_response = lobbyservice.get_lobby(GetLobbyStateRequest(lobbyId=lobby_id))
@@ -58,6 +62,7 @@ def lobby_state(game_type, lobby_id):
 
 
 @app.route('/remove_lobby/<int:game_type>/<int:lobby_id>', methods=['GET', 'POST'])
+@login_required
 def remove_lobby(game_type,lobby_id):
     print "remove lobby"
     print game_type
@@ -71,8 +76,9 @@ def remove_lobby(game_type,lobby_id):
 
 
 @app.route('/create_lobby/<int:game_type>',methods=['GET'])
+@login_required
 def create_lobby(game_type):
-    print "get_friends test 2p"
+    print "create lobby "
     response = lobbyservice.create_lobby(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
     #response = lobbyservice.getLobbyId(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
     if (isinstance(response, CreateLobbyResponse)):
@@ -81,7 +87,18 @@ def create_lobby(game_type):
     return redirect(url_for('lobby', game_type=game_type,
                                     lobby_id=response.lobbyId))
 
-    
+
+@app.route('/quick_join/<int:game_type>', methods=['GET'])
+@login_required
+def quick_join(game_type):
+    print "quick_join", game_type
+    response = lobbyservice.create_lobby(CreateLobbyRequest(userId=session['userId'], gameType=game_type))
+    if (isinstance(response, CreateLobbyResponse)):
+        pass
+    start_game_response = lobbyservice.start_game(StartGameRequest(userId=session['userId'], lobbyId=response.lobbyId))
+    if (isinstance(start_game_response, StartGameResponse)):
+        pass
+    return redirect(url_for('active_games'))
 #************************ AWESOME ERROR FINDER ************************************
     # try:
     #     return render_template('create_game.html',friends_list=friends_list,game_type=game_type)
@@ -109,12 +126,13 @@ def lobby(game_type, lobby_id,):
 
 
 @app.route('/start_game/<int:game_type>/<int:lobby_id>',methods=['GET', 'POST'])
+@login_required
 def start_game(game_type,lobby_id):
     print "start game"
     start_game_response = lobbyservice.start_game(StartGameRequest(userId=session['userId'], lobbyId=lobby_id))
     if (isinstance(start_game_response, StartGameResponse)):
         pass
-    return redirect(url_for('index'))
+    return redirect(url_for('active_games'))
 
 
 
@@ -122,6 +140,7 @@ def start_game(game_type,lobby_id):
 #********************************* Lobby List *****************************************************
 
 @app.route('/lobby_list', methods=['GET', 'POST'])
+@login_required
 def lobby_list():
     print "lobby list"  
   
@@ -134,6 +153,7 @@ def lobby_list():
 
 #not sure how to probe if I got invitations /get notifications (not sure we got time to implement notification service)
 @app.route('/accept_invite/', methods=['GET', 'POST'])
+@login_required
 def accept_invite():
     print "accept invite"
     answer=""

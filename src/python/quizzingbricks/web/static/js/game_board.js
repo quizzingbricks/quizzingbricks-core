@@ -77,61 +77,103 @@ function updateStatus(players){
         element = players[i];
         if(element.state == 0 ){
             $("#status_id_"+element.userId).text("State: Placing Tile      ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 1 ){
             $("#status_id_"+element.userId).text("State: Placed Tile       ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+
         }
         if(element.state == 2 ){
             $("#status_id_"+element.userId).text("State: Answering Question");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
         }
         if(element.state == 3 ){
             $("#status_id_"+element.userId).text("State: Answered Question ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+            $('#question_button').show();
         }
     }
+}
 
+function updateStatus_test(player){
+    
+    
+    
+        element = player;
+        if(element.state == 0 ){
+            $("#status_id_"+element.userId).text("State: Placing Tile      ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 1 ){
+            $("#status_id_"+element.userId).text("State: Placed Tile       ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 2 ){
+            $("#status_id_"+element.userId).text("State: Answering Question");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 3 ){
+            $("#status_id_"+element.userId).text("State: Answered Question ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
+            $('#question_button').show();
+        }
+    
+}
+
+
+
+
+function drawBoardHelper(data){
+    playerPos = data.board
+    for (var y =0; y<BOARD_HEIGHT; y++ ){
+        for (var x=0; x<BOARD_WIDTH; x++){
+            board_element = document.getElementById("square_"+ x+"_"+y);
+            index = y*BOARD_HEIGHT +x;
+
+
+
+            if(TOKEN.RED.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.RED,true));
+            }
+            else if(TOKEN.YELLOW.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.YELLOW,true));
+                //board_element.innerHTML = create_token(TOKEN.YELLOW).toString();
+            }
+            else if(TOKEN.BLUE.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.BLUE,true));
+                //board_element.innerHTML = create_token(TOKEN.BLUE);
+            }
+            else if(TOKEN.GREEN.userId == playerPos[index]){
+                board_element.innerHTML = ""
+                board_element.appendChild(create_token(TOKEN.GREEN,true));
+                //board_element.innerHTML = create_token(TOKEN.GREEN);
+            }
+            else if(board_element==last_marked_element){
+
+            }
+            else{
+                board_element.innerHTML = ""
+            }
+        }
+    }
 }
 
 function drawBoard(gameId){
     //playerPos = [] 
     $.post($SCRIPT_ROOT + '/game_info', {gameId: gameId},
     function(data) {
-        playerPos = data.board
         updateStatus(data.players);
+        drawBoardHelper(data)
        // $("#drawResult").text(playerPos[1]);
-        for (var y =0; y<BOARD_HEIGHT; y++ ){
-            for (var x=0; x<BOARD_WIDTH; x++){
-                board_element = document.getElementById("square_"+ x+"_"+y);
-                index = y*BOARD_HEIGHT +x;
 
-
-
-                if(TOKEN.RED.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.RED,true));
-                }
-                else if(TOKEN.YELLOW.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.YELLOW,true));
-                    //board_element.innerHTML = create_token(TOKEN.YELLOW).toString();
-                }
-                else if(TOKEN.BLUE.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.BLUE,true));
-                    //board_element.innerHTML = create_token(TOKEN.BLUE);
-                }
-                else if(TOKEN.GREEN.userId == playerPos[index]){
-                    board_element.innerHTML = ""
-                    board_element.appendChild(create_token(TOKEN.GREEN,true));
-                    //board_element.innerHTML = create_token(TOKEN.GREEN);
-                }
-                else if(board_element==last_marked_element){
-
-                }
-                else{
-                    board_element.innerHTML = ""
-                }
-            }
-        }
    //playerPos = data.board
    //$('#result').text(playerPos[1]);
   });
@@ -163,13 +205,15 @@ function submitAnswer(gameId, answer){
     $.post($SCRIPT_ROOT + '/submit_answer', {gameId: gameId, answer: answer},
     function(data) {
         if(data.isCorrect){
-            $("#answer").text("Correct answer");
+            $("#answer").text("Your last answer was correct");
         }
         else{
-            $("#answer").text("Wrong answer");
+            $("#answer").text("Your last answer was incorrect");
+            last_marked_element.innerHTML= ""
         }
         last_marked_element=null;
-        $('#myModal').modal('hide')
+        $('#myModal').modal('hide');
+        $('#question_button').hide();
        // drawBoard(gameId);  
   }); 
 }
@@ -192,6 +236,7 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
             board_element = document.getElementById("square_"+ x+"_"+y);
             board_element.appendChild(create_token(TOKEN.RED,false));
             last_marked_element=board_element
+            //drawBoard(gameId);
         }
       });
         
@@ -199,6 +244,13 @@ function addTokens(gameId,x,y) {            //Send  gameId, x and y coordinates 
 }
 
 var QuizzingBricks = QuizzingBricks || {};
+
+QuizzingBricks.Player = function(json) {
+    this.json = json;
+    this.name = json.email;
+    this.score = json.score;
+    this.status = json.status;
+}
 
 QuizzingBricks.GameBoard = function(server_url, game_id) {
     // "fields"
@@ -219,6 +271,24 @@ QuizzingBricks.GameBoard = function(server_url, game_id) {
     this._onReceiveEvent = function(event) {
         // event = {"type": x, "payload": {} }
         console.log(event.data);
+
+        var data = JSON.parse(event.data);
+        console.log("test before statement");
+        console.log(data.type);
+         console.log("whatever");
+
+        if (data.type === "board_change") {
+            console.log("test in if");
+            // TODO: draw-modified-Board();
+            drawBoardHelper(data.payload)
+            console.log(data.payload.players);
+            updateStatus(data.payload.players)
+        } else if (data.type === "player_change") {
+            console.log("test in else if");
+            console.log(data.payload.player);
+            // TODO: updateStatus();
+            updateStatus_test(data.payload.player)
+        }
     }
 
     this._onSocketError = function(error) {

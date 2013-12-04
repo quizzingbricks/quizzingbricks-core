@@ -41,53 +41,6 @@ from quizzingbricks.common.protocol import (
     Lobby as ProtoLobby
 )
 
-# Test commands
-"""
-import sqlalchemy as sa
-
-from quizzingbricks.nuncius import NunciusService, expose
-from quizzingbricks.common.db import session
-from quizzingbricks.services.lobby.models import Lobby # .servives.lobby
-from quizzingbricks.services.lobby.models import LobbyMembership
-
-from quizzingbricks.common.protocol import (
-    protocol_mapper as p_mapper,
-    protocol_inverse_mapper,
-    RpcError,
-    CreateLobbyRequest,
-    CreateLobbyResponse,
-    GetLobbyStateRequest,
-    GetLobbyStateResponse,
-    AcceptLobbyInviteRequest,
-    AcceptLobbyInviteResponse,
-    InviteLobbyRequest,
-    InviteLobbyResponse,
-    RemoveLobbyRequest,
-    RemoveLobbyResponse,
-    StartGameRequest,
-    StartGameResponse,
-    GetLobbyListRequest,
-    GetLobbyListResponse,
-    GetMultipleUsersRequest,
-    GetMultipleUsersResponse,
-    GetUserRequest,
-    LobbyMembership,
-    Lobby
-)
-lobbyservice = LobbyServiceClient("tcp://*:5552")
-
-request = CreateLobbyRequest(gameType=4, userId=2)
-
-lobby = Lobby(game_type= request.gameType, owner_id = request.userId)
-session.add(lobby)
-session.commit()
-CreateLobbyResponse(lobbyId=lobby.lobby_id)                    
-                    
-                    
-"""
-
-
-# TODO: add the type-checking in a decorator or directly in expose?
 
 from contextlib import contextmanager
 
@@ -97,7 +50,7 @@ def db(session):
         yield session
     finally:
         print "closed session"
-        session.close()
+        session.remove()
 
 class LobbyService(NunciusService):
     name = "lobbyservice"
@@ -105,6 +58,9 @@ class LobbyService(NunciusService):
     
     @expose("create_lobby")
     def create_lobby(self, request):
+        if not isinstance(request, CreateLobbyRequest):
+            return RpcError(message="Wrong message type, expecting CreateLobbyRequest", error_code=1)
+            
         lobby = Lobby(game_type = request.gameType, owner_id = request.userId)
         member = LobbyMembership(
             status="member",
@@ -119,29 +75,22 @@ class LobbyService(NunciusService):
     # TODO implement correctly if needed? Where is it used?        
     @expose("get_lobby_id")
     def get_lobby_id(self, request):
-        print "get_lobby_id"
-        
+        print "get_lobby_id"      
         lobby_query = Lobby.query.filter(Lobby.owner_id==request.userId).all()
         lobby_ids = map(lambda l:l.lobby_id, lobby_query)
         
         return CreateLobbyResponse(lobbyId=lobby_ids[0])
-    # Test for get_lobby_list
-    """
-    with db(session):
-        request = GetLobbyListRequest(userId=2)  
-        lobbyQuery = LobbyMembership.query.filter(LobbyMembership.user_id==request.userId).all()  
-        lobby_ids = map(lambda l:l.lobby_id, lobbyQuery)
-        lobby_status = map(lambda s:s.status, lobbyQuery)
-        lobby_owner = Lobby.query.filter(Lobby.owner_id.in_(map(lambda o:o.owner_id, lobby_ids)))
-    """
+
+    @expose("get_lobby_list_helper")
+    def get_lobby_list_helper(self, lobbyid, lobby, isid):
+        if(lobbyid == lobby.lobby_id):
+            
+            if(isid):
+                return lobby.user_id
+            return lobby.status
+            
     @expose("get_lobby_list")
     def get_lobby_list(self, request):
-        print "get_lobby_list"
-        #input : userId=1
-        #return: lobbyIds =1, status=2 owner = 3 
-        #used to get the status for a specific user in all the lobbies that the user is part off
-        #status = Invited, Member
-        #owner = userId of lobby owner
         with db(session):
             userservice = UserServiceClient("tcp://*:5551")
             # Get all the lobbies that the user with userId is in
@@ -168,17 +117,69 @@ class LobbyService(NunciusService):
                     lobby_i = ProtoLobby(lobbyId=lobby.lobby_id, owner=lobby_owner.user, lobbymembers=lobbymemb_list, gameType=lobbyQuery.game_type) # Create lobby
                     lobbies_list.append(lobby_i) # Append lobby to return list
                 return GetLobbyListResponse(lobbies=lobbies_list)
+    """
+        if not isinstance(request, GetLobbyListRequest):
+            return RpcError(message="Wrong message type, expecting GetLobbyListRequest", error_code=1)    
+        
+        with db(session):
+            users = {}
+            lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.user_id==request.userId).all()
+            + joinedload (Lobby)
+            + joinedload (members)
+            
+            all_members = all members ids
+            
+            GetMultipleUserReq(all_members) -> users[id] = user
+            
+            for l in lobbies:
+                x = Lobby()
+                for y in l.players:
+                    x.player.append(users.get(y.user_id))
+                    
+            
+        
+            userservice = UserServiceClient("tcp://*:5551")
+            # Get all the lobbies that the user with userId is in
+            lobbyMembershipQuery = LobbyMembership.query.filter(LobbyMembership.user_id==request.userId).all()
+            lobbies = map(lambda i:i.lobby_id, lobbyMembershipQuery)
+            
+            if(lobbyMembershipQuery == []):
+                return GetLobbyListResponse(lobbies=[])
+            else:
+                lobbies_list = [] # List for lobbies to be returned
+                # Get the owners of the lobbies as users
+                lobbyQuery = Lobby.query.filter(Lobby.lobby_id.in_(lobbies)).all()
+                owners = map(lambda i:i.owner_id, lobbyQuery)
+                lobby_owner=userservice.get_user(GetMultipleUsersRequest(userIds=owners), timeout=5000)
+                # Get the game types
+                game_types = map(lambda i:i.game_type, lobbyQuery)
+                # Get lobbymembers
+                lobbyMembersQuery = LobbyMembership.query.filter(LobbyMembership.lobby_id.in_(lobbies)).all()
+                
+                
+                for lobby in lobbies:
+                    members_id = map(lambda i: i.user_id if i.lobby_id==lobby else None, lobbyMembersQuery)
+                    lobby_members = userservice.get_user(GetMultipleUsersRequest(userIds=members_id), timeout=5000)
+                    users_map = lobby_members.users
+                    members_status = map(lambda i: i.status if i.lobby_id==lobby else None, lobbyMembersQuery)
+                    
+                    lobbym_list = []
+                    for memb in members_id:
+                        users_map = lobby_members.users.pop()
+                        status = members_status.pop()
+                        lobbym = ProtoLobbyMembership(user=user, status=status)
+                        lobbym_list.append(lobbym)
+
+                    create_lobby = Lobby(lobbyId=lobby.lobby_id, owner=owners.pop(), lobbymembers=lobbym_list, gameType=game_types.pop())
+                    lobbies_list.append(create_lobby)
+                return GetLobbyListResponse(lobbies=lobbies_list)
+"""
 
 
     @expose("get_lobby_state")
     def get_lobby_state(self, request):
-        print "get_lobby_state"
-
-        #with db(session):
-        #input : lobbyId=1
-        #return: friend_email=1, answer=2, gameType=3  
-        #query with request.lobbyId
-        
+        if not isinstance(request, GetLobbyStateRequest):
+            return RpcError(message="Wrong message type, expecting GetLobbyStateRequest", error_code=1)         
        
         with db(session):
             userservice = UserServiceClient("tcp://*:5551")
@@ -203,11 +204,9 @@ class LobbyService(NunciusService):
 
     @expose("answer_lobby_invite")
     def answer_lobby_invite(self, request):
-        print "answer_lobby_invite"
-        #input : userId=1, lobbyId=2
-        #return: answer=1
-        #check user with request.userId and request.lobbyId also save answer in lobby state for this user
-        
+        if not isinstance(request, AnswerLobbyInviteRequest):
+            return RpcError(message="Wrong message type, expecting AnswerLobbyInviteRequest", error_code=1)
+            
         with db(session):
             query_type = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
             if not query_type:
@@ -221,14 +220,13 @@ class LobbyService(NunciusService):
             if(request.answer == "accept"):
                 if(query_type.game_type >= accepted_count + 1):
                     session.delete(user_lobby)
-                    #user_lobby.status = "Member"
                     session.add(LobbyMembership(lobby_id=user_lobby.lobby_id, status="member", user_id=user_lobby.user_id))
                     session.commit()
                     return AnswerLobbyInviteResponse(answer=True)
                 else:
                     session.delete(user_lobby)
                     session.commit()
-                    return AnswerLobbyInviteResponse(answer=False)
+                    return RpcError(message="Lobby is full", error_code=31)
                     
             elif(request.answer == "deny"):
                 try:
@@ -245,14 +243,17 @@ class LobbyService(NunciusService):
 
     @expose("invite_to_lobby")
     def invite_to_lobby(self, request):
-        print "invite_to_lobby"
-        #input : userId=1, lobbyId=2, invite_emails=3
-        #return: friends_invited =1
-        #invite all the friends listed to lobbyId
+        if not isinstance(request, InviteLobbyRequest):
+            return RpcError(message="Wrong message type, expecting InviteLobbyRequest", error_code=1)
+            
         if not request.invites:
             return InviteLobbyResponse(friends_invited=False)
 
         with db(session):
+            lobby = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).filter(Lobby.owner_id==request.userId).first()
+            if(lobby==None):
+                return RpcError(message="No permission to manage the lobby", error_code=35)
+                
             # Clearing out duplicates from invited list
             users = User.query.filter(User.id.in_(request.invites)).all()
             users = set(users)
@@ -288,15 +289,15 @@ class LobbyService(NunciusService):
 
     @expose("remove_lobby")
     def remove_lobby(self, request):
-        print "remove_lobby"
-        #input : userId=1, lobbyId=2
-        #return: lobby_removed =1
-        #removes the lobby
+        if not isinstance(request, RemoveLobbyRequest):
+            return RpcError(message="Wrong message type, expecting RemoveLobbyRequest", error_code=1)
         
         try:
             with db(session):
                 # Delete from Lobby table
                 lobby = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).filter(Lobby.owner_id==request.userId).first()
+                if(lobby==None):
+                    return RpcError(message="No permission to manage the lobby", error_code=35)
                 session.delete(lobby)
             
                 # Delete from LobbyMembership
@@ -314,10 +315,9 @@ class LobbyService(NunciusService):
     @expose("start_game")
     def start_game(self, request):
         if not isinstance(request, StartGameRequest):
-            return RpcError(message="Wrong message type, expecting StartGameRequest")
+            return RpcError(message="Wrong message type, expecting StartGameRequest", error_code=1)
 
         with db(session):
-            #lobbyservice = LobbyServiceClient("tcp://*:5552")
             lobbyQuery = Lobby.query.filter(Lobby.lobby_id==request.lobbyId).first()
 
             if not lobbyQuery:
@@ -340,5 +340,5 @@ class LobbyService(NunciusService):
                     return StartGameResponse(isCreated=True) #temporary test variable
                 else:
                     return StartGameResponse(isCreated=False)
-        return RpcError(message="No permission to manage the game", error_code=35)
+        return RpcError(message="No permission to manage the lobby", error_code=35)
 
