@@ -5,10 +5,12 @@ import scala.collection.mutable.HashMap
 import scala.concurrent.duration._
 import scala.slick.driver.PostgresDriver.simple._
 import scala.util.Random
+import java.util.Calendar
 
 object Game
 {
     val sideLength = 8
+    val winScore = 50
 }
 
 /**
@@ -53,13 +55,128 @@ class Game (gameId: Int, playerIds: List[Int], publisher: ActorRef, players: Lis
     }
     
     /**
+     * Checks if a position is within the board bounds.
+     * @param x The x coordinate of the position.
+     * @param y The y coordinate of the position.
+     * @return True if the position is within the bounds, false if not.
+     */
+    def isOnBoard(x: Int, y: Int): Boolean = x >= 0 && x < Game.sideLength && y >= 0 && y < Game.sideLength
+    
+    /**
      * Checks if a proposed move is valid.
      * @param x The x coordinate of the move.
      * @param y The y coordinate of the move.
      * @return True if the move is valid, false if not. 
      */
-    def isValidMove(x: Int, y: Int) = x >= 0 && x < Game.sideLength && y >= 0 && y < Game.sideLength && 
-                                                board(y*Game.sideLength + x) == 0
+    def isValidMove(x: Int, y: Int): Boolean = isOnBoard(x, y) && board(y*Game.sideLength + x) == 0
+                                                
+    /**
+     * Returns the id of the brick that was placed on a given place on the board.
+     * @param x The x-coordinate of the given place.
+     * @param y The y-coordinate of the given place.
+     */
+    def getBrick(x: Int, y: Int) = 
+    {
+        assert(isOnBoard(x, y))
+        board(y*Game.sideLength + x)
+    }
+    
+    /**
+     * Puts a brick on the game board.
+     * @param x The x-coordinate of the brick.
+     * @param y The y-coordinate of the brick.
+     * @param id The user id of the player who placed the brick.
+     */
+    def setBrick(x: Int, y: Int, id: Int) =
+    {
+        assert(isOnBoard(x, y))
+        board(y*Game.sideLength + x) = id
+    }
+    
+    /**
+     * Calculates the score a brick on the board would give a player had he just placed it. The method assumes
+     * that board has a brick with id id on it on the given location.
+     * @param x: The x-coordinate of the brick.
+     * @param y: The y-coordinate of the brick.
+     * @param id The user id of the player who placed the brick.
+     */
+    def calcBrickScore(x: Int, y: Int, id: Int): Int =
+    {
+        var score: Int = 0
+        def bricksInRow(x: Int, y: Int, dX: Int, dY: Int, id: Int) : Int = 
+        {
+            if(!isOnBoard(x, y) || getBrick(x, y) != id)
+                return 0
+            return 1 + bricksInRow(x + dX, y + dY, dX, dY, id)
+        }
+        
+        for((dX, dY) <- List((-1,1), (0,1), (1,1), (1,0)))
+        {
+            val scoreDir = bricksInRow(x, y, dX, dY, id) + bricksInRow(x - dX, y - dY, -dX, -dY, id)
+            if(scoreDir > 1)
+                score = score + scoreDir
+        }
+            
+        return if(score == 0) 1 else score
+    }
+    
+    /**
+     * Starts a new round. Assumes that everything is properly set up to do so, that is, no tiebreaks and everyone
+     * is in the ANSWERED state, etc.
+     */
+    def startNewRound() =
+    {
+        for(p <- playerList if p.answer == p.question.correctAnswer)
+        {
+            setBrick(p.x, p.y, p.userId)
+            p.score = p.score + calcBrickScore(p.x, p.y, p.userId)
+        }
+        
+        val leadingPlayer = playerList.maxBy(p => p.score)
+        // Someone won!
+        if(leadingPlayer.score >= Game.winScore)
+        {
+            leadingPlayer.state = Player.WON
+            playerList.foreach(p => if(p != leadingPlayer) p.state = Player.LOST)
+            for(p <- playerList)
+            {
+                db withSession 
+                {   implicit session: Session =>
+                    val q = Query(PlayersGamesTable).filter(g => g.gameId === gameId && g.playerId === p.userId)
+                            .map(p => p.x ~ p.y ~ p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3
+                                      ~ p.alt4 ~ p.correctAnswer ~ p.answer ~ p.score)
+                    if(p.userId == leadingPlayer.userId)
+                        q.update(0, 0, Player.WON, "", "", "", "", "", 0, 0, p.score)
+                    else
+                        q.update(0, 0, Player.LOST, "", "", "", "", "", 0, 0, p.score)
+                    val r = Query(GamesTable).filter(g => g.gameId === gameId).map(p => p.finished).update(true)
+                }
+            }
+            // Technically not a new round but it updates anyway
+            publishMessage(NewRoundPubSubMessage(GameMessage(gameId, playerList map (_ toMessage), board)))
+        }
+        // No one won!
+        else
+        {
+            for(p <- playerList)
+            {
+                p.resetTo(Player.PLACING)
+                db withSession 
+                {   implicit session: Session =>
+                    val q = Query(PlayersGamesTable).filter(g => g.gameId === gameId && g.playerId === p.userId)
+                            .map(p => p.x ~ p.y ~ p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3
+                                      ~ p.alt4 ~ p.correctAnswer ~ p.answer ~ p.score)
+                    q.update(0, 0, Player.PLACING, "", "", "", "", "", 0, 0, p.score)
+                }
+            }
+            db withSession
+            {    implicit session: Session =>
+                 val g = Query(GamesTable).filter(g => g.gameId === gameId).map(g => g.board)
+                 g.update(board.mkString(","))
+            }
+        }
+        publishMessage(NewRoundPubSubMessage(GameMessage(gameId, playerList map (_ toMessage), board)))
+    }
     
     /**
      * Constructs a GameMessage containing all information about the game.
@@ -302,35 +419,8 @@ class Game (gameId: Int, playerIds: List[Int], publisher: ActorRef, players: Lis
         // Check if this answer triggered anyone to be able to ask for another question
         updateQuestionStates()
         
-        if(!playerList.forall(p => p.state == Player.ANSWERED))
-            return
-            
-        // Everyone has answered and a new round starts
-        for(p <- playerList)
-        {
-            // Everyone who answered correctly gets their bricks placed. updateQuestionStates() ensures that only one
-            // player on each position has done so at this point
-            if(p.answer == p.question.correctAnswer)
-            {
-                board(Game.sideLength*p.y + p.x) = p.userId
-                p.score = p.score + 1
-            }
-            p.resetTo(Player.PLACING)
-            
-            db withSession 
-            {   implicit session: Session =>
-                val q = Query(PlayersGamesTable).filter(g => g.gameId === gameId && g.playerId === p.userId)
-                        .map(p => p.x ~ p.y ~ p.state ~ p.question ~ p.alt1 ~ p.alt2 ~ p.alt3
-                                  ~ p.alt4 ~ p.correctAnswer ~ p.answer ~ p.score)
-                q.update(0, 0, Player.PLACING, "", "", "", "", "", 0, 0, p.score)
-            }
-        }
-        db withSession
-        {    implicit session: Session =>
-             val g = Query(GamesTable).filter(g => g.gameId === gameId).map(g => g.board)
-             g.update(board.mkString(","))
-        }
-        publishMessage(NewRoundPubSubMessage(GameMessage(gameId, playerList map (_ toMessage), board)))
+        if(playerList.forall(p => p.state == Player.ANSWERED))
+            startNewRound()
     }
     
     /**
@@ -339,6 +429,11 @@ class Game (gameId: Int, playerIds: List[Int], publisher: ActorRef, players: Lis
     def receive =
     {
         case m: PlayerRequestMessage =>
+             db withSession 
+            {   implicit session: Session =>
+                val q = Query(GamesTable).filter(g => g.gameId === gameId).map(p => p.lastAction)
+                q.update(Calendar.getInstance().getTime().getTime())
+            }
             if (!(playerList map (p => p.userId) contains m.userId))
                 sender ! GameError("You are not permitted to that game", 251)
             else

@@ -21,6 +21,8 @@ object Player
     val PLACED = 1
     val ANSWERING = 2
     val ANSWERED = 3
+    val LOST = 4
+    val WON = 5
 
     def stateToString(x: Int) = x match
     {
@@ -28,6 +30,8 @@ object Player
         case Player.PLACED => "PLACED"
         case Player.ANSWERING => "ANSWERING"
         case Player.ANSWERED => "ANSWERED"
+        case Player.LOST => "LOST"
+        case Player.WON => "WON"
         case _ => "INVALID STATE (BUG)"
     }
 }

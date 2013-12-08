@@ -2,16 +2,49 @@ import akka.actor._
 import akka.zeromq._
 import scala.collection.mutable.HashMap
 import scala.slick.driver.PostgresDriver.simple._
+import scala.concurrent.duration._
+import java.util.Calendar
 
 /**
  * The actor that caches games in the database to memory, and relays incoming messages to them.
  */
 class GameCache(publisher: ActorRef) extends Actor
 {
+    val finishedGamePrune = 1000*60*60*12
+    val unfinishedGamePrune = 1000*60*60*24*3
+    
     val db = Database.forURL("jdbc:postgresql://localhost:5432/quizzingbricks_dev", 
                              driver = "org.postgresql.Driver", user = "qb", password = "qb123")
     var hashMap = new HashMap[Int, ActorRef]
     var highestId = 0
+    
+    override def preStart()
+    {
+        import context.dispatcher
+        context.system.scheduler.scheduleOnce(12 hours, self, ("prune"))
+    }
+    
+    def prune()
+    {
+        import context.dispatcher
+        context.system.scheduler.scheduleOnce(12 hours, self, ("prune"))
+        
+        db withSession 
+        {   implicit session: Session =>
+            val curMillis = Calendar.getInstance().getTime().getTime()
+            val unfPrune = curMillis - unfinishedGamePrune
+            val finPrune = curMillis - finishedGamePrune
+            val q = Query(GamesTable).filter(g => g.finished && g.lastAction < finPrune || !g.finished && g.lastAction < unfPrune)
+                    .map(p => p.gameId).list
+            q.foreach(q => hashMap.remove(q))
+            val r = Query(GamesTable).filter(g => g.finished && g.lastAction < finPrune || !g.finished && g.lastAction < unfPrune)
+                    .delete
+            for(x <- q)
+            {
+                val r = Query(PlayersGamesTable).filter(g => g.gameId === x).delete
+            }
+        }
+    }
     
     /**
      * Handles a request to create a new game.
@@ -24,7 +57,7 @@ class GameCache(publisher: ActorRef) extends Actor
         db withSession 
         {   implicit session: Session =>
             val board: String = "0,"*(Game.sideLength*Game.sideLength - 1) + "0"
-            id = GamesTable.autoInc.insert(board)
+            id = GamesTable.autoInc.insert(board, Calendar.getInstance().getTime().getTime(), false)
 			
             for(p <- players)
                 PlayersGamesTable.insert(p, id, 0, 0, 0, "", "", "", "", "", 0, 0, 0)
@@ -88,6 +121,9 @@ class GameCache(publisher: ActorRef) extends Actor
      */
     def receive =
     {
+        case "prune" =>
+            prune()
+            
         case CreateGameRequest (players) =>
             handleCreateGameRequest(players)
             
