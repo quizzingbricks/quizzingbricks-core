@@ -118,76 +118,32 @@
                     {% endfor %}
                 </div>
               </div>
-
-
             </div>
           </div>
-
-
-
- 
-
-
-            
-
-           
-    
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-       
-<!-- /.container -->
-<!--    <div id="result"> </div>
-    <div id="drawResult"> </div>
-    <div id="drawResult2"> </div>
-    <div class="container"> -->
-
           
-    
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="modalQuestion">Question</h4>
+                </div>
+                <div class="modal-body">
+                  <div onclick="submitAnswer({{gameId}}, 1)" id="question_alt_1" ></div>
+                  <div onclick="submitAnswer({{gameId}}, 2)" id="question_alt_2" ></div>
+                  <div onclick="submitAnswer({{gameId}}, 3)" id="question_alt_3" ></div>
+                  <div onclick="submitAnswer({{gameId}}, 4)" id="question_alt_4" ></div> 
+                </div>
+               <!-- <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button> -
+                </div> -->
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
 
-
-
-
-
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="modalQuestion">Question</h4>
-            </div>
-            <div class="modal-body">
-              <div onclick="submitAnswer({{gameId}}, 1)" id="question_alt_1" ></div>
-              <div onclick="submitAnswer({{gameId}}, 2)" id="question_alt_2" ></div>
-              <div onclick="submitAnswer({{gameId}}, 3)" id="question_alt_3" ></div>
-              <div onclick="submitAnswer({{gameId}}, 4)" id="question_alt_4" ></div> 
-            </div>
-           <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button> -
-            </div> -->
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
-
-    </div>
-  </div>
+        </div>
+      </div>
     
 
 

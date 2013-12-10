@@ -51,24 +51,29 @@ body {
 
 #question_alt_1 {
     height:100px;
-    background-color: #fff5a2;
+    padding:15px;
+    background-color: #cccccc;
+    
 
 }
 
 #question_alt_2 {
     height:100px;
-    background-color: #d3ffce;
+    padding:15px;
+    background-color: #dddddd;
 }
 
 #question_alt_3 {
     height:100px;
-    background-color: #ff6b4f;
+    padding:15px;
+    background-color: #cccccc;
 
 }
 
 #question_alt_4 {
     height:100px;
-    background-color: #2cabe2;
+    padding:15px;
+    background-color: #dddddd;
 }
 
 
