@@ -51,7 +51,7 @@ sudo apt-get update # TODO: remove this
 sudo apt-get install -y libtool autoconf automake uuid-dev build-essential g++ make
 
 # required by bcrypt that require cffi
-sudo apt-get install -y libffi-dev
+sudo apt-get install -y python-dev libffi-dev
 
 # protocol buffers (compiler)
 wget https://protobuf.googlecode.com/files/protobuf-2.5.0.tar.gz
@@ -110,7 +110,7 @@ sudo apt-get install -y python-pip
 wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
 sudo python get-pip.py
 
-sudo apt-get install -y python-dev
+#sudo apt-get install -y python-dev
 
 cd ~
 
