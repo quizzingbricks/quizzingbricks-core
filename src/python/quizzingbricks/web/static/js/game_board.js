@@ -28,6 +28,8 @@ var selected_token=TOKEN.RED;
     });
   }*/
 
+
+
 function test_userId(token){ 
     alert(token.userId)
     //get_token_by_id(token.userId);
@@ -93,6 +95,16 @@ function updateStatus(players){
             $("#status_id_"+element.userId).text("State: Answered Question ");
             $("#score_id_"+element.userId).text("Score: "+element.score);
         }
+        if(element.state == 4 ){    //loss
+            $("#status_id_"+element.userId).text("State: Lost Game ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 5 ){    //win
+            $("#status_id_"+element.userId).text("State: Won Game");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+
+
         if(element.state == 1 && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
             console.log("showing question_button");
             $('#question_button').show();
@@ -121,6 +133,16 @@ function updateStatus_single(player){
             $("#status_id_"+element.userId).text("State: Answered Question ");
             $("#score_id_"+element.userId).text("Score: "+element.score);
         }
+
+        if(element.state == 4 ){    //loss
+            $("#status_id_"+element.userId).text("State: You Lost ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+        if(element.state == 5 ){    //win
+            $("#status_id_"+element.userId).text("State: You Won ");
+            $("#score_id_"+element.userId).text("Score: "+element.score);
+        }
+
         if((element.state == 1) && element.userId == TOKEN.RED.userId){  //if out state is  1 (Placed Tile) we should show the get Question div again
             console.log("showing question_button");
             $('#question_button').show();
