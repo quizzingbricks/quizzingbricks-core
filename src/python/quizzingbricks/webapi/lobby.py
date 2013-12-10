@@ -117,7 +117,7 @@ def accept_invite(lobby_id):
         if isinstance(response, RpcError):
             errors = {
                 2: ({"message": "There exists no such lobby", "code": 226}, 404),
-                30: ({"message": "You are not permitted to that lobby", "code": 42}, 400),
+                30: ({"message": "You are not permitted to that lobby", "code": 227}, 400),
                 31: ({"message": "The lobby is full", "code": 225}, 400),
             }
             error, status_code = errors.get(response.error_code)
@@ -137,7 +137,7 @@ def deny_invite(lobby_id):
         if isinstance(response, RpcError):
             errors = {
                 2: ({"message": "There exists no such lobby", "code": 226}, 404),
-                30: ({"message": "You are not permitted to that lobby", "code": 42}, 400),
+                30: ({"message": "You are not permitted to that lobby", "code": 227}, 400),
                 31: ({"message": "The lobby is full", "code": 225}, 400),
             }
             error, status_code = errors.get(response.error_code)
@@ -165,9 +165,14 @@ def lobby_invitation(lobby_id):
             timeout=5000
         )
 
-        # TODO: return RpcError in the service
-        #if isinstance(response, RpcError):
-        #    pass
+        if isinstance(response, RpcError):
+            errors = {
+                2: ({"message": "There exists no such lobby", "code": 226}, 404),
+                30: ({"message": "You are not permitted to that lobby", "code": 42}, 400),
+                #31: ({"message": "The lobby is full", "code": 225}, 400),
+            }
+            error, status_code = errors.get(response.error_code)
+            return api_error(**error), status_code
 
         if not isinstance(response, InviteLobbyResponse):
             return api_error("Internal service error")
