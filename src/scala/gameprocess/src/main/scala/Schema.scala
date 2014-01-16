@@ -3,11 +3,13 @@ import scala.slick.driver.PostgresDriver.simple._
 /**
  * This table contains the board of each game. The board is in CSV form.
  */
-object GamesTable extends Table[(Int, String)]("games") {
+object GamesTable extends Table[(Int, String, Long, Boolean)]("games") {
     def gameId = column[Int]("gameid", O.PrimaryKey, O.AutoInc)
     def board = column[String]("board")
-    def autoInc = board returning gameId
-    def * = gameId ~ board
+    def lastAction = column[Long]("lastaction")
+    def finished = column[Boolean]("finished")
+    def autoInc = board ~ lastAction ~ finished returning gameId
+    def * = gameId ~ board ~ lastAction ~ finished
 }
 
 /**
