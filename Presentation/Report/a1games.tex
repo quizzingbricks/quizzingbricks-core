@@ -1,0 +1,90 @@
+\subsubsection{/api/games/}
+\tab	Sent\\
+\tab\tab	\textbf{Get} token=$<$"tok\_id"$>$\\
+\tab	Response\\
+\tab\tab	\{"games":$[$\{"id": $<$int$>$, "size": $<$int$>$, "state": $<$int$>$\}, ...$]$\}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"Service is not available","code":"500"\}\}\\
+
+\subsubsection{/api/games/$<$g\_id$>$/\label{statehere}}
+\tab	Sent\\
+\tab\tab	\textbf{Get} token=$<$"tok\_id"$>$\\
+\tab	Response\\
+\tab\tab	\{"gameId" : $<$int$>$, \\
+\tab\tab	"players": $[$     \{     \\
+\tab\tab\tab	"userId" : $<$int$>$,\\
+\tab\tab\tab	"email" : $<$string$>$,\\
+\tab\tab\tab	"state\footnote{0 can place\\\tab1 can get question\\\tab2 is answering\\\tab3 waiting\\\tab4 Lost\\\tab5 Won}" : $<$int$>$,\\
+\tab\tab\tab	"x" : $<$int$>$,\\
+\tab\tab\tab	"y" : $<$int$>$,\\
+\tab\tab\tab	"score" : $<$int$>$,\\
+\tab\tab\tab	"answeredCorrectly" : $<$bool$>$\\
+\tab\tab\tab	\}, \{...\},...\\
+\tab\tab	$]$,\\
+\tab\tab	"board" : $[$$<$int$>$, ..$]$\}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"Game service not available","code":"500"\}\}\\
+
+
+\subsubsection{/api/games/$<$g\_id$>$/play/move}
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$", x="$<$x\_coord$>$", y="$<$y\_coord$>$"\\
+\tab	Response \\
+\tab\tab	200 ok\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"Some of the required parameters x and y are missing","code":"004"\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Game service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+
+\subsubsection{/api/games/$<$g\_id$>$/play/question}
+\tab	Sent\\
+\tab\tab	\textbf{POST} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	\{"question":"$<$String$>$" "alternatives":$[$"$<$a1$>$","$<$a2$>$",..$]$ \}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Game service not available","code":"500"\}\}\\
+
+\subsubsection{/api/games/$<$g\_id$>$/play/answer}
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$", answer="$<$Int$>$" \\
+\tab	Response\\
+\tab\tab	\{ "isCorrect" : $<$bool$>$ \}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"Missing required parameter answer","code":"400"\}\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Game service not available","code":"500"\}\}\\
+
+
+\subsubsection{/api/games/$<$g\_id$>$/events} 
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$", answer="$<$Int$>$" \\
+\tab	Response\\
+\tab\tab	\{     "type" : "player\_change" , \\
+\tab\tab	"payload": \{ \\
+\tab\tab\tab	"player": \{\\
+\tab\tab\tab\tab	"id" : $<$u\_id$>$, \\
+\tab\tab\tab\tab	"state\footnote{see section \ref{statehere}}": $<$s$>$,\\
+\tab\tab\tab\tab	"score": $<$int$>$\\ 
+\tab\tab\tab\tab	\}\\
+\tab\tab\tab	\}\\
+\tab\tab	\}\\
+    
+\tab\tab	or\\
+
+\tab\tab	\{    "type": "board\_change",\\
+\tab\tab	"payload": \{\\
+\tab\tab\tab	"board": $[$$<$b1$>$,..$]$,\\
+\tab\tab\tab	"players": $[$\{\\
+\tab\tab\tab\tab	"id" : $<$u\_id$>$, \\
+\tab\tab\tab\tab	"state" : $<$s$>$, \\
+\tab\tab\tab\tab	"score": $<$int$>$\\
+\tab\tab\tab	\}, \{...\}, ...$]$\\
+\tab\tab	\}\\
+\tab	Response fail\\
+\tab\tab	\{"type":"unknown","payload":\{"msg\_type":$<$msg\_type$>$\}\}\\
+\tab\tab	\{"type":"type","player\_change":\{"payload":\{"player":\\
+\tab\tab\tab	\{"id":$<$id$>$,"state":$<$state$>$,"score":$<$int$>$\}\}\}\\

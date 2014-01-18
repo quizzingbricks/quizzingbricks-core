@@ -1,0 +1,124 @@
+\subsubsection{/api/games/lobby/}
+\tab	Sent\\
+\tab\tab	 \textbf{Get} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	\{"lobbies": $[$\\
+\tab\tab\tab	\{\\
+\tab\tab\tab	"l\_id": $<$l\_id$>$, \\
+\tab\tab\tab	"owner" : $<$bool$>$, \\
+\tab\tab\tab	"size": $<$size\_int$>$, \\
+\tab\tab\tab	"invited\_count":$<$int$>$, \\
+\tab\tab\tab	"accepted\_count" : $<$int$>$\\
+\tab\tab\tab	\}, ...\\
+\tab\tab	$]$\}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Internal service error","code":"500"\}\}\\
+
+\subsubsection{/api/games/lobby/}
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$" size="$<$size$>$"\\
+\tab	Response\\
+\tab\tab	\{"lobby": \{\\
+\tab\tab\tab	"l\_id" : $<$l\_id$>$,\\
+\tab\tab\tab	"size" : $<$int$>$,\\
+\tab\tab\tab	"owner" : $<$bool$>$,\\
+\tab\tab\tab	"players" : $[$\{\\
+\tab\tab\tab\tab	"u\_id" : $<$u\_id$>$,\\
+\tab\tab\tab\tab	"u\_mail" : $<$string$>$,\\
+\tab\tab\tab\tab	"status" : "accepted"/"waiting"\\
+\tab\tab\tab\tab	\},...$]$\\
+\tab\tab\tab	\}\\
+\tab\tab	\}\\
+\tab    Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"Missing required parameter size","code":"004"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Internal service error","code":"400"\}\}\\
+\tab\tab	\{"errors":\{"message":"Internal server error","code":"500"\}\}\\
+
+\subsubsection{/api/games/lobby/$<$l\_id$>$/}
+\tab	Sent \\
+\tab\tab	\textbf{Get} token="$<$tok\_id$>$"\\
+\tab	Response \\
+\tab\tab	\{"lobby":\\
+\tab\tab\tab	\{"l\_id"="$<$l\_id$>$", \\
+\tab\tab\tab	"size":$<$size\_int$>$, \\
+\tab\tab\tab	"owner":True/False, \\
+\tab\tab\tab	"invited\_count": $<$int$>$,\\
+\tab\tab\tab	"accepted\_count": $<$int$>$, \\
+\tab\tab\tab	"players\footnote{Should be sorted as Owner$>$Accepted$>$Waiting}" : $[$\{\\
+\tab\tab\tab\tab	"u\_id" : $<$u\_id$>$, \\
+\tab\tab\tab\tab	"u\_mail" : $<$string$>$,\\
+\tab\tab\tab\tab	"status": "accepted"/"waiting"\},...\\
+\tab\tab\tab\tab	$]$\}\\
+\tab\tab	\}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"Lobby does not exist","code":"226"\}\\
+\tab\tab	\{"errors":\{"message":"You are not permitted to that lobby","code":"42"\}\\
+\tab\tab	\{"errors":\{"message":"Internal service error","code":"400"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service is not available","code":"500"\}\}    \\
+
+\subsubsection{/api/games/lobby/$<$l\_id$>$/accept/}
+\tab	Sent\\
+\tab\tab	\textbf{POST} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	Plaintext "OK"\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"There exists no such lobby","code":"226"\}\}\\
+\tab\tab	\{"errors":\{"message":"You are not permitted to that lobby","code":"42"\}\}\\
+\tab\tab	\{"errors":\{"message":"The lobby is full","code":"225"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+
+
+
+\subsubsection{/api/games/lobby/$<$l\_id$>$/deny/}
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	Plaintext "OK"\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\}\\
+\tab\tab	\{"errors":\{"message":"The lobby is full","code":"225"\}\}\\
+\tab\tab	\{"errors":\{"message":"There exists no such lobby","code":"226"\}\}\\
+\tab\tab	\{"errors":\{"message":"You are not permitted to that lobby","code":"227"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+
+\subsubsection{/api/games/lobby/$<$l\_id$>$/invite/}
+\tab	Sent \\
+\tab\tab	\textbf{Post\footnote{Header should be \tt{Content-Type = "application/json"}}} token="$<$tok\_id$>$", invite = \{ "invite" : $[$$<$u\_id1$>$, $<$u\_id2$>$, ...$]$\}\\
+\tab	Response\\
+\tab\tab	Plaintext "OK"\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"Required JSON body is missing or bad type, check your content-type","code:"0"\}\}\\
+\tab\tab	\{"errors":\{"message":"Required JSON body is missing or bad type","code":"004"\}\}\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"There exists no such lobby", "code": 226\}\}\\
+\tab\tab	\{"errors":\{"message":"You are not permitted to that lobby","code":"42"\}\\
+\tab\tab	\{"errors":\{"JSON object invite should be an array with only integers","code":"004"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Internal service error","code":"0"\}\}\\
+
+
+\subsubsection{/api/games/lobby/$<$l\_id$>$/start/}
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	Plaintext "OK"\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"There exists no such lobby","code":"226"\}\\
+\tab\tab	\{"errors":\{"message":"You are not permitted to that lobby","code":"42"\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}   \\ 
+
+\subsubsection{/api/games/lobby/$<$l\_id$>$/end}
+\tab	Sent\\
+\tab\tab	\textbf{Post} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	Plaintext "OK"\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"100"\}\\
+\tab\tab	\{"errors":\{"message":"You are not permitted to that lobby","code":"42"\}\\
+\tab\tab	\{"errors":\{"message":"Service not available","code":"500"\}\}\\
