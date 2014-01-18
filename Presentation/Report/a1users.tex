@@ -1,0 +1,32 @@
+
+\subsubsection{/api/users/}        
+\tab   	Sent\\
+\tab\tab	\textbf{Post} email="email@example.com", password="password"\\
+\tab   	Response\\
+\tab\tab 	200 ok\\
+\tab   	Response fail\\
+\tab\tab   	\{"errors":\{"message":"Internal service error", "code": "000"\}\}\\
+\tab\tab   	\{"errors":\{"message":"This mail is already taken","code":"101"\}\}\\
+\tab\tab   	\{"errors":\{"message":"Missing email or password","code":"102"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service not available", "500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Error code not defined","code:"0"\}\}\\
+
+\subsubsection{/api/users/login/}
+\tab    Sent\\
+\tab\tab	\textbf{Post} email="email@example.com", password="password"\\
+\tab	Response\\
+\tab\tab	\{"token":"abcdefghijklmnopqrstuvwxyz1234567890"\}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"Wrong email or password","code":"010"\}\}\\
+\tab\tab	\{"errors":\{"message":"Internal service error","code":"000"\}\}\\
+\tab\tab	\{"errors":\{"message":"E-mail or password is missing, check your data", "1"\}\}\\
+\tab\tab	\{"errors":\{"message":"Service not available", "500"\}\}\\
+\tab\tab	\{"errors":\{"message":"Error code not defined","code:"0"\}\}\\
+
+\subsubsection{/api/users/me/}
+\tab	Sent\\
+\tab\tab	\textbf{Get} token="$<$tok\_id$>$"\\
+\tab	Response\\
+\tab\tab	\{"id":"$<$u\_id$>$", "email":"$<$mail\_address$>$"\}\\
+\tab	Response fail\\
+\tab\tab	\{"errors":\{"message":"The token is invalid, please login again","code":"1"\}\\
