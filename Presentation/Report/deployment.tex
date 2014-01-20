@@ -1,0 +1,58 @@
+The deployment of the system is divided into the Backend and Web/RESTful API and the mobile clients, Android and iOS.
+
+\subsection{Backend and Web/RESTful API}
+In the project the usage of Vagrant as the local development environment and OpenStack in production was used as described in the technologies section but neither of these are required to install and run the system.
+This deployment guide will go through how to install system dependencies and running the systems. This guide expect the operational person to have a machine ready with a 64-bit version of Ubuntu 12.04 or better.
+
+\subsubsection{System environment}
+With a running machine with Ubuntu 12.04 or better the first step is to fetch the latest version of the source code by downloading the tarball for the master branch in the repository quizzingbricks-core from github.com.
+
+In the terminal, execute the following command that fetch the tarball and extracts the content followed by moving into the folder.
+
+\begin{verbatim}
+$ cd ~/quizzingbricks
+$ wget https://github.com/quizzingbricks/quizzingbricks-core/archive/master.tar.gz
+$ tar xzvf master.tar.gz
+$ cd quizzingbricks-core
+\end{verbatim}
+
+With the source code available, the initial step is to install all system dependencies with the provided shell script named \emph{bootstrap-dev.sh}. The installation require root permissions as all following operations in this guide. This will take a moment (expect at least $10-15$ minutes) depending on system to install all system dependencies.
+
+\begin{verbatim}
+$ sudo -i
+$ sudo chmod +x bootstrap-dev.sh
+$ ./bootstrap-dev.sh
+\end{verbatim}
+
+The next step is to install the python packages required for the python applications in the project.
+
+\begin{verbatim}
+$ sudo python setup.py install
+\end{verbatim}
+
+With the dependencies installed, the next step is to do a database migration to create the tables and indices required for the system. This is done via the command $alembic$.
+
+\begin{verbatim}
+$ alembic upgrade head
+\end{verbatim}
+
+With the database ready, the next step is to start each service. The python services are started via the $quizctl.py$-file in the bin-directory and the Scala application is started via Simple build tool (sbt).
+
+The python services or applications provided in the system are $web$, $webapi$, $userservice$, $lobbyservice$, $friendservice$ and $pubsub$.
+To start each application, execute the following command, notice the $\&$ after the command since we place the application in the background.
+
+\begin{verbatim}
+$ python bin/quizctl.py SERVICENAME
+\end{verbatim}
+
+To start the scala application, move into the folder $src/scala/gameprocess/$ and execute the following commando.
+\begin{verbatim}
+$ _JAVA_OPTIONS="-Xms256M -Xmx512M -Xss1M -XX:+CMSClassUnloadingEnabled"
+ sbt "run-main GameProcess"
+\end{verbatim}
+
+Now should all components for the backend and web be running and access the web frontend on port $5000$ and the RESTful API on $8100$. Example http://127.0.0.1:5000 and http://127.0.0.1:8100.
+
+\subsection{iOS}
+
+\subsection{Android}
