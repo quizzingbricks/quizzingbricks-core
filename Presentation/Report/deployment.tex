@@ -42,16 +42,19 @@ The python services or applications provided in the system are $web$, $webapi$, 
 To start each application, execute the following command, notice the $\&$ after the command since we place the application in the background.
 
 \begin{verbatim}
-$ python bin/quizctl.py SERVICENAME
+$ python bin/quizctl.py SERVICENAME &
 \end{verbatim}
 
-To start the scala application, move into the folder $src/scala/gameprocess/$ and execute the following commando.
+To start the scala application, move into the folder $src/scala/gameprocess/$ and execute the following command.
 \begin{verbatim}
 $ _JAVA_OPTIONS="-Xms256M -Xmx512M -Xss1M -XX:+CMSClassUnloadingEnabled"
  sbt "run-main GameProcess"
 \end{verbatim}
 
 Now should all components for the backend and web be running and access the web frontend on port $5000$ and the RESTful API on $8100$. Example \url{http://127.0.0.1:5000} and \url{http://127.0.0.1:8100}.
+
+In a real production environment you will probably use a process/system manager like systemd\footnote{http://freedesktop.org/wiki/Software/systemd/} or supervisord\footnote{http://supervisord.org/}. You can find an example configuration file for supervisord in 
+\url{https://github.com/quizzingbricks/quizzingbricks-core/blob/master/conf/supervisord.conf}
 
 \subsection{iOS}
 To run the iOS application you need Mac OSX 10.8 or later with Xcode 5.0 or later and iOS SDK 7.0 or later.
