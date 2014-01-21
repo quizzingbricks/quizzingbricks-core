@@ -51,8 +51,24 @@ $ _JAVA_OPTIONS="-Xms256M -Xmx512M -Xss1M -XX:+CMSClassUnloadingEnabled"
  sbt "run-main GameProcess"
 \end{verbatim}
 
-Now should all components for the backend and web be running and access the web frontend on port $5000$ and the RESTful API on $8100$. Example http://127.0.0.1:5000 and http://127.0.0.1:8100.
+Now should all components for the backend and web be running and access the web frontend on port $5000$ and the RESTful API on $8100$. Example \url{http://127.0.0.1:5000} and \url{http://127.0.0.1:8100}.
 
 \subsection{iOS}
+To run the iOS application you need Mac OSX 10.8 or later with Xcode 5.0 or later and iOS SDK 7.0 or later.
+
+To clone the repository you need git installed. Use the following command to download and access the project.
+
+\begin{verbatim}
+$ git clone https://github.com/quizzingbricks/quizzingbricks-ios.git
+
+\end{verbatim}
+
+Open up the project in Xcode.
+
+\begin{verbatim}
+$ open quizzingbricks-ios/QuizzingBricks/QuizzingBricks.xcodeproj
+\end{verbatim}
+
+Now you can run the application using the simulator. To test the application on a physical device you need an iOS device with iOS 7.0 registered as a developer device. You then need to associate the App Identifier with a provisioning profile on your developer account. See documentation available on your developer account to see updated instructions on how this is done. When running the application you select your device instead of the simulator as the target.
 
 \subsection{Android}

@@ -1,12 +1,14 @@
+To better explain how different parts of the system would be experienced by the users some use cases were designed. These describes the flows of different tasks in a formal way.
+
 \subsection{Login}
 
-\subsubsection{Description}
-This use case describes how a user logs into the Quizzing Bricks application.
+\textbf{Description}\\
+This use case describes the experience a user should perceive while he/she logs into the Quizzing Bricks application.
 
-\subsubsection{Preconditions}
+\textbf{Preconditions}\\
 The user is registered on the service.
 
-\subsubsection{Basic Flow}
+\textbf{Basic Flow}\\
 This use case begins when a user wants to log into the Quizzing Bricks application.
 \begin{enumerate}
 	\item The system asks for the username as well as the password of the user.
@@ -14,21 +16,20 @@ This use case begins when a user wants to log into the Quizzing Bricks applicati
 	\item The backend service validates the username and password and logs the user into the application.
 \end{enumerate}
 
-\subsubsection{Alternative Flows}
-
-\paragraph{Invalid username or password.} 
+\bigskip\textbf{Alternative Flows}\\[1\baselineskip]
+\textbf{Invalid username or password.}
 If the user would provide an invalid username or password in the basic flow the system would instead provide an error message and the user can choose to restart the use case or cancel.
 
 
 \subsection{Adding Friends}
 
-\subsubsection{Description}
-This use case describes how a user adds a friend to his/her friends in the application.
+\textbf{Description}\\
+This use case explains the steps a user goes through when adding a friend to his/her friends in the application, these friends will be saved on the database and accessible from any device by using the same account.
 
-\subsubsection{Preconditions}
+\textbf{Preconditions}\\
 The user is logged into the system.
 
-\subsubsection{Basic Flow}
+\textbf{Basic Flow}\\
 This use case begins  when a user wants to add a friend after a login has happened in the Quizzing Bricks application.
 \begin{enumerate}
 	\item The user opens the friends section of the application.
@@ -37,41 +38,42 @@ This use case begins  when a user wants to add a friend after a login has happen
 	\item The backend service adds the friend to the users friends.
 \end{enumerate}
 
-\subsubsection{Alternative Flows}
-\paragraph{Unregistered Friend.}
+\bigskip\textbf{Alternative Flows}\\[1\baselineskip]
+\textbf{Unregistered Friend.}
 If the friend entered by the user is not a registered user of the application, the system will respond with an error message, at this point the user can return to friends section and either try again or cancel the attempt.
 
 
 \subsection{Playing}
-\subsubsection{Description}
+\textbf{Description}\\
 The user is playing a round in the game.
+This use case demonstrates a game round the user plays. When a flow here is finished it will reset to point one as long as a new round begins after this one (no one wins the game this round).
 
-\subsubsection{Preconditions}
+\textbf{Preconditions}\\
 The user is a member of an existing game.\\
 The user is logged into the application.\\
 The user has not made a move during the round.\\
 The user has chosen the game as the current screen in the application.
 
-\subsubsection{Basic Flow}
+\textbf{Basic Flow}\\
 This use case begins when the user has chosen an active game and it's the players turn.
 \begin{enumerate}
 	\item The user chooses a square which has not yet been claimed and clicks on it.
 	\item The user chooses to receive the question.
 	\item The user receives a question with a 4 choice answer.
 	\item The user chooses the correct answer.
-	\item When the round is over, the user now owns that square and another round begins.
+	\item When the round is over, the user now owns that square, then either another round begins or if goal conditions are met, the game ends.
 \end{enumerate}
 
-\subsubsection{Alternative Flows}
-\paragraph{Postponing The Question.}
+\bigskip\textbf{Alternative Flows}\\[1\baselineskip]
+\textbf{Postponing The Question.}
 The user chooses to not receive the question now.
 The user is free to use the rest of the application or ending the session.
 If the user chooses not to receive the question within 72 hours, the game is forfeit.
 
-\paragraph{Incorrect Answer.}
+\textbf{Incorrect Answer.}
 The user does not receive a square that round.
 
-\paragraph{Question Battle.}
+\textbf{Question Battle.}
 Two players in the same game chooses the same square during the same round and both players answers correctly.
 \begin{enumerate}
 	\item Both players receives the option to answer another question until such time that one or both players answers incorrectly.
@@ -79,15 +81,15 @@ Two players in the same game chooses the same square during the same round and b
 \end{enumerate}
 
 \subsection{Changing Platform}
-\subsubsection{Description}
-The user ends a session on one device and then starts it on another device.
+\textbf{Description}\\
+The user ends a session on one device and then begins a new session on another device with the same account.
 
-\subsubsection{Precondition}
+\textbf{Precondition}\\
 The user is logged into the application on one device.
 The user has access to two or more devices that has access to the application.
 
-\subsubsection{Basic Flow}
+\textbf{Basic Flow}\\
 \begin{enumerate}
 \item The user logs out of device A.
-\item The user logs into device B and has access to the same things as the user had in device A.
+\item The user logs into device B (with the same account details) and has access to the same things as the user had in device A, including ongoing games.
 \end{enumerate}
