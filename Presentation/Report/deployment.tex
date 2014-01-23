@@ -75,3 +75,10 @@ $ open quizzingbricks-ios/QuizzingBricks/QuizzingBricks.xcodeproj
 Now you can run the application using the simulator. To test the application on a physical device you need an iOS device with iOS 7.0 registered as a developer device. You then need to associate the App Identifier with a provisioning profile on your developer account. See documentation available on your developer account to see updated instructions on how this is done. When running the application you select your device instead of the simulator as the target.
 
 \subsection{Android}
+To install the application on a Android phone you will need Java Development Kit (either version 6 or 7 will do) and Eclipse with the ADT plugins installed (version 22.3.0). Google provides a ADT bundle with a preconfigured Eclipse installation and that is the easiest way to get everything up an running. 
+
+The source code for the Quizzing Bricks Android application can be found on \url{https://github.com/quizzingbricks/quizzingbricks-android/archive/master.zip}.
+
+And once it has been downloaded and unziped, import it to Eclipse by picking "Importing existing project into workspace" option. When the project is imported to Eclipse it time to prepare the phone. To do this plug the phone into the computer and selecting usb-debugging option on the phone. This step is different on every phone and if you are on Windows you might need to install some usb-drivers to get everything to work. Once the phone is plugged in to the computer with usb-debugging turned on you install the application on the phone by clicking "Run the project as a Android application" and selecting the right device.
+
+There is also a command line option where you use the ANT and ADB tools to first compile the APK-file and after that installing the application on the phone. The Eclipse method however is simpler since it handles the application signing automatically. For more information about the command line installation option \url{http://developer.android.com/tools/building/building-cmdline.html} provides a suitable guide.
